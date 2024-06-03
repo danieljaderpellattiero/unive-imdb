@@ -88,13 +88,39 @@ SUBCOMMANDS:
 
 ## Run the database
 
-### On-disk single node
+### On-disk single node (local instance)
 
-Run the database.
+Boot the SurrealDB service.
 
 ```sh
-surreal start --log trace --auth --user ROOT_USER_NAME --pass ROOT_USER_PASSWORD --bind 127.0.0.1:8000 file:unive-imdb.db
+surreal start --log trace --auth --user whoami --pass root --bind 127.0.0.1:8000 file:unive-imdb.db
 ```
+
+Install [Node.js](https://nodejs.org/en) and then TypeScript. (globally)
+
+```sh
+npm install -g typescript
+```
+
+Install the project dependences.
+
+```sh
+npm install
+```
+
+Run Typescript.
+
+```sh
+tsc
+```
+
+Run the **main.js** file.
+
+```sh
+node main.js
+```
+
+_Once the script ends the database is ready and accessible from [Surrealist](https://surrealdb.com/surrealist)._
 
 ### Docker
 

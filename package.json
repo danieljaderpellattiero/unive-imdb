@@ -1,0 +1,20 @@
+{
+  "name": "surrealdb-driver",
+  "version": "1.0.0",
+  "description": "A driver for managing IMDb data using SurrealDB",
+  "type": "module",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Jader Pellattiero, Michele Lotto",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.14.0",
+    "surrealdb.js": "^1.0.0-beta.8"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "chalk": "^5.3.0"
+  }
+}
