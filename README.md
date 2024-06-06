@@ -114,6 +114,8 @@ Run Typescript.
 tsc
 ```
 
+Insert the _.tsv_ files into the _data_ folder.
+
 Run the **main.js** file.
 
 ```sh

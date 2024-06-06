@@ -1,0 +1,15 @@
+DEFINE TABLE IF NOT EXISTS title_basics SCHEMAFULL;
+DEFINE FIELD titleType ON TABLE title_basics TYPE string;
+DEFINE FIELD primaryTitle ON TABLE title_basics TYPE string;
+DEFINE FIELD originalTitle ON TABLE title_basics TYPE string;
+DEFINE FIELD isAdult ON TABLE title_basics TYPE bool;
+DEFINE FIELD startYear ON TABLE title_basics TYPE number;
+DEFINE FIELD endYear ON TABLE title_basics TYPE option<number>;
+DEFINE FIELD runtimeMinutes ON TABLE title_basics TYPE option<number>;
+DEFINE FIELD genres ON TABLE title_basics TYPE option<array<string>>;
+DEFINE FIELD akas ON TABLE title_basics TYPE array<record<title_akas>>;
+DEFINE FIELD episodes ON TABLE title_basics TYPE array<record<title_episode>>;
+DEFINE FIELD ratings ON TABLE title_basics TYPE array<record<title_ratings>>;
+DEFINE FIELD directors ON TABLE title_basics TYPE array<record<name_basics>>;
+DEFINE FIELD writers ON TABLE title_basics TYPE array<record<name_basics>>;
+DEFINE FIELD principals ON TABLE title_basics TYPE array<record<title_principals>>;

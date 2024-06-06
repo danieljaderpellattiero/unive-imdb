@@ -36,6 +36,17 @@ async function main() {
 			process.exit(1);
 		}
 	}
+	try {
+		await db.createTables();
+		log(chalk.green('Tables created successfully.'));
+	} catch (error: any) {
+		if (error.message.includes('already exists')) {
+			log(chalk.green('Tables already created.'));
+		} else {
+			log(chalk.red('Tables creation failed.'));
+			process.exit(1);
+		}
+	}
 	process.exit(0);
 }
 

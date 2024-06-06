@@ -132,3 +132,7 @@ dist
 # typescript compiled output
 *.js
 *.map
+
+# SurrealDB
+unive-imdb.db/
+data/*.tsv
