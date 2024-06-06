@@ -23,10 +23,10 @@ async function main() {
 	}
 	try {
 		log(chalk.yellow.italic('Creating users for namespace <unive> and database <imdb>'));
-		await db.createUser('mlotto', '&15o1=o+0ATU!7slW$oM');
-		log(chalk.green('\t > mlotto | &15o1=o+0ATU!7slW$oM'));
-		await db.createUser('djader', '=r#rip8mo!l$hov!cE2r');
-		log(chalk.green('\t > djader | =r#rip8mo!l$hov!cE2r'));
+		await db.createUser('mlotto', 'j7YoSESu1r6Cha0hUpR');
+		log(chalk.green('\t > mlotto | j7YoSESu1r6Cha0hUpR$'));
+		await db.createUser('djader', 'B0g-spi!8EBr?9ADReTl');
+		log(chalk.green('\t > djader | B0g-spi!8EBr?9ADReTl'));
 		log(chalk.green('Users created successfully.'));
 	} catch (error: any) {
 		if (error.message.includes('already exists')) {
@@ -46,6 +46,18 @@ async function main() {
 			log(chalk.red('Tables creation failed.'));
 			process.exit(1);
 		}
+	}
+	try {
+		await db.insertTitles();
+		log(chalk.green('Titles inserted successfully.'));
+	} catch (error: any) {
+		log(chalk.red('Titles insertion failed.'));
+	}
+	try {
+		await db.insertRatings();
+		log(chalk.green('Ratings inserted successfully.'));
+	} catch (error: any) {
+		log(chalk.red('Ratings insertion failed.'));
 	}
 	process.exit(0);
 }

@@ -1,20 +1,12 @@
 import readline from 'readline';
-import { createReadStream, readFileSync, access, constants } from 'fs';
 import { Surreal, ConnectionOptions, Engine } from 'surrealdb.js';
+import { createReadStream, readFileSync, access, constants } from 'fs';
 
 class SurrealDriver {
 	static #instance: SurrealDriver | null = null;
 	#database: Surreal | null = null;
 	#connection: Engine | undefined = undefined;
-	#imdb: Map<string, string> = new Map([
-		['name.basics.tsv', 'https://datasets.imdbws.com/name.basics.tsv.gz'],
-		['title.akas.tsv', 'https://datasets.imdbws.com/title.akas.tsv.gz'],
-		['title.basics.tsv', 'https://datasets.imdbws.com/title.basics.tsv.gz'],
-		['title.crew.tsv', 'https://datasets.imdbws.com/title.crew.tsv.gz'],
-		['title.episode.tsv', 'https://datasets.imdbws.com/title.episode.tsv.gz'],
-		['title.principals.tsv', 'https://datasets.imdbws.com/title.principals.tsv.gz'],
-		['title.ratings.tsv', 'https://datasets.imdbws.com/title.ratings.tsv.gz'],
-	]);
+	#imdbDatasets: string[] = ['title.basics.tsv', 'title.ratings.tsv'];
 
 	private constructor() {
 		this.#database = new Surreal();
@@ -42,7 +34,7 @@ class SurrealDriver {
 
 	public async createUser(username: string, password: string): Promise<void> {
 		await this.#database!.query(
-			`DEFINE USER IF NOT EXISTS ${username} ON DATABASE PASSWORD "${password}" ROLES EDITOR;`
+			`DEFINE USER IF NOT EXISTS ${username} ON NAMESPACE PASSWORD "${password}" ROLES EDITOR;`
 		);
 	}
 
@@ -54,7 +46,7 @@ class SurrealDriver {
 		const schemas: string[] = [];
 		const schemasQueries: Promise<void>[] = [];
 		const schemasAvailable: Promise<boolean>[] = [];
-		for (const table of this.#imdb.keys()) {
+		for (const table of this.#imdbDatasets) {
 			if (table !== 'title.crew.tsv') {
 				const tableAlias = `${table.slice(0, table.lastIndexOf('.')).replace('.', '_')}.sql`;
 				schemas.push(tableAlias);
@@ -82,6 +74,86 @@ class SurrealDriver {
 		} else {
 			throw new Error();
 		}
+	}
+
+	public async insertTitles(): Promise<void> {
+		const stream = createReadStream('./data/title.basics.tsv');
+		const reader = readline.createInterface({ input: stream, crlfDelay: Infinity });
+		let header: boolean = true;
+		for await (const line of reader) {
+			if (!header) {
+				const entry = this.sanitizeTitles(line);
+				await this.#database!.create('title_basics', {
+					id: entry[0],
+					titleType: entry[1],
+					primaryTitle: entry[2],
+					originalTitle: entry[3],
+					isAdult: entry[4],
+					startYear: entry[5],
+					endYear: entry[6],
+					runtimeMinutes: entry[7],
+					genres: entry[8],
+					akas: [],
+					episodes: [],
+					ratings: [],
+					directors: [],
+					writers: [],
+					principals: [],
+				});
+			} else {
+				header = false;
+			}
+		}
+	}
+
+	private sanitizeTitles(line: string): any[] {
+		return line
+			.split('\t')
+			.map((field: string, index: number) =>
+				field === '\\N'
+					? index === 8
+						? []
+						: undefined
+					: !isNaN(Number(field))
+					? index === 2 || index === 3
+						? field
+						: index === 4
+						? Boolean(parseInt(field))
+						: field.indexOf('.') !== -1
+						? parseFloat(field)
+						: parseInt(field)
+					: index === 8 && typeof field === 'string'
+					? [field]
+					: field
+			);
+	}
+
+	public async insertRatings(): Promise<void> {
+		const stream = createReadStream('./data/title.ratings.tsv');
+		const reader = readline.createInterface({ input: stream, crlfDelay: Infinity });
+		let header: boolean = true;
+		for await (const line of reader) {
+			if (!header) {
+				const entry = this.sanitizeRatings(line);
+				const { tb, id } = (
+					await this.#database!.create('title_ratings', {
+						averageRating: entry[1],
+						numVotes: entry[2],
+					})
+				)[0].id;
+				await this.#database!.query(`UPDATE title_basics:${entry[0]} SET ratings += ${tb}:${id}`);
+			} else {
+				header = false;
+			}
+		}
+	}
+
+	private sanitizeRatings(line: string): any[] {
+		return line
+			.split('\t')
+			.map((field: string) =>
+				!isNaN(Number(field)) ? (field.indexOf('.') !== -1 ? parseFloat(field) : parseInt(field)) : field
+			);
 	}
 
 	public async disconnect(): Promise<void> {

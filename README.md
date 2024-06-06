@@ -96,6 +96,12 @@ Boot the SurrealDB service.
 surreal start --log trace --auth --user whoami --pass root --bind 127.0.0.1:8000 file:unive-imdb.db
 ```
 
+#### Data insertion - method №1
+
+1. Download IMDb data from the [website](https://datasets.imdbws.com/).
+2. Extract the _.tsv_ files and produce the reduced version using the **DatasetChunker**.
+3. Move the reduced version of the _.tsv_ files into the _data_ folder.
+
 Install [Node.js](https://nodejs.org/en) and then TypeScript. (globally)
 
 ```sh
@@ -111,18 +117,22 @@ npm install
 Run Typescript.
 
 ```sh
-tsc
+tsc || tsc -w
 ```
 
-Insert the _.tsv_ files into the _data_ folder.
-
-Run the **main.js** file.
+Run the script.
 
 ```sh
 node main.js
 ```
 
 _Once the script ends the database is ready and accessible from [Surrealist](https://surrealdb.com/surrealist)._
+
+#### Data insertion - method №2
+
+1. Open Surrealist.
+2. Navigate into the **Explorer** section on the left sidebar.
+3. Click on _Import data_ and select the **imdb.surql** file.
 
 ### Docker
 
