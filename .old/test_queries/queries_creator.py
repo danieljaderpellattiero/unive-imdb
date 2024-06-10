@@ -50,10 +50,12 @@ def data_augmentation(movies:list[dict])->list[dict]:
     return movies
 
 def sample_movies(movies:list[dict])->list[dict]:
+    
+    
     weights = [movie.get('numVotes') for movie in movies]
     to_query = choices(movies, weights = weights, k = 10000)
     
-    #print(sum(x['numVotes'] for x in to_query)/len(to_query)) #for weighting testing
+    print(sum(x['numVotes'] for x in to_query)/len(to_query)) #for weighting testing
         
     #ids = [movie.get('id') for movie in to_query]
     
@@ -66,6 +68,6 @@ if __name__ == "__main__":
 
     movies = asyncio.run(main())
     
-    asyncio.run(prova_inserimento(movies))
+    #asyncio.run(prova_inserimento(movies))
     
-    #sample_movies(movies)
+    sample_movies(movies)
