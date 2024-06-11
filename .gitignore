@@ -303,3 +303,4 @@ cython_debug/
 
 *.tsv
 *.csv
+/parquet/*.tsv
