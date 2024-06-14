@@ -9,16 +9,17 @@ import argparse
 
 from tqdm import tqdm
 
-tqdm.pandas(leave=False)
+import gc
 
-def parquet_to_json(target=None):
+def parquet_to_json(target=None, directory=os.getcwd()):
+    tqdm.pandas(leave=False)
     
-    for (_, _, filenames) in walk(os.getcwd()):
+    for (_, _, filenames) in walk(directory):
             
         for filename in (pbar :=tqdm([filename for filename in filenames if filename.endswith('.parquet') and (target is None or target in filename)])):
             
             pbar.set_description(f"Processing '{filename}'")
-            df = pd.read_parquet(filename)
+            df = pd.read_parquet(directory+"/"+filename)
             
             if "name.basics" in filename:
                 df["professions"]=df["professions"].progress_apply(lambda x: ast.literal_eval(x))
@@ -38,7 +39,11 @@ def parquet_to_json(target=None):
             else:
                 df=df.reset_index()
 
-            df.to_json(filename.replace('.parquet', '.json'), orient='records', indent=4)
+            df.to_json(directory+"/"+filename.replace('.parquet', '.json'), orient='records', indent=4)
+            
+            del df
+            gc.collect()
+            
             tqdm.write(f"'{filename}': Done!")
         break
 

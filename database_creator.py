@@ -3,14 +3,17 @@ import argparse
 from tqdm import tqdm
 import subprocess
 
+from data_preparation.parquet.parquet_to_json import parquet_to_json
+import os
+
 
 collectionNames=["name.basics","title.akas","title.basics","title.crew","title.episodes","title.principals"]
-parquet_path = "data_preparation/parquet/"
+parquet_path = "data_preparation/parquet"
 
 def importCollection(coll_name):
    
    #subprocess.call('C:\Windows\System32\powershell.exe Get-Process', shell=True)
-   return subprocess.Popen(f'mongoimport --host="localhost" --port="27017" -d="unive-imb" --collection="{coll_name}" --jsonArray --file="{parquet_path+coll_name}.json" --quiet', shell=True)
+   return subprocess.Popen(f'mongoimport --host="localhost" --port="27017" -d="unive-imb" --collection="{coll_name}" --jsonArray --file="{parquet_path+"/"+coll_name}.json" --quiet', shell=True)
 
 def createIndex(collectionName:str):
       
@@ -28,7 +31,9 @@ def createIndex(collectionName:str):
 def mongoimport(collectionName:str=None):
 
    if collectionName is not None:
-      importCollection(collectionName).wait()
+      with tqdm(total=1) as pbar:
+         importCollection(collectionName).wait()
+         pbar.update(1)
    else:
       processes=[]
       
@@ -90,10 +95,24 @@ if __name__ == "__main__":
    db_port=args.db_port
    db_name=args.db_name
    
+   
    if args.removeAll:
       print("Removing the entire DB")
       mongodrop()
    if args.importAll:
+      
+      response = ""
+      while response not in ["y","n"]:
+         response = input("Do you want also to reload .json files? (y/n) ")
+         
+      if response == "y":
+         print("Reloading .json files:")
+         #print(os.getcwd()+"/"+parquet_path)
+         parquet_to_json(directory=os.getcwd()+"/"+parquet_path)
+         print("Done!\n")
+      elif response == "n":
+         print("Skipping .json files reload.\n")
+         
       print("Importing the entire DB")
       mongodrop()
       mongoimport()
@@ -101,6 +120,21 @@ if __name__ == "__main__":
       print("Removing collection: "+args.removeC)
       mongodrop(args.removeC)
    if args.importC:
+      
+      response = ""
+      while response not in ["y","n"]:
+         response = input("Do you want also to reload .json file? (y/n) ")
+         
+      if response == "y":
+         print("Reloading .json file:")
+         #print(os.getcwd()+"/"+parquet_path)
+         parquet_to_json(target=args.importC, directory=os.getcwd()+"/"+parquet_path)
+         print("Done!\n")
+      elif response == "n":
+         print("Skipping .json file reload.\n")
+         
       print("Importing collection: "+args.importC)
       mongodrop(args.importC)
       mongoimport(args.importC)
+
+   print("Done!")
