@@ -13,7 +13,7 @@ parquet_path = "data_preparation/parquet"
 def importCollection(coll_name):
    
    #subprocess.call('C:\Windows\System32\powershell.exe Get-Process', shell=True)
-   return subprocess.Popen(f'mongoimport --host="localhost" --port="27017" -d="unive-imb" --collection="{coll_name}" --jsonArray --file="{parquet_path+"/"+coll_name}.json" --quiet', shell=True)
+   return subprocess.Popen(f'mongoimport --host="localhost" --port="27017" -d="unive-imdb" --collection="{coll_name}" --jsonArray --file="{parquet_path+"/"+coll_name}.json" --quiet', shell=True)
 
 def createIndex(collectionName:str):
       
@@ -63,7 +63,7 @@ def mongodrop(collectionName:str=None):
       if collectionName is not None:
          db[collectionName].drop()
       else:
-         client.drop_database("unive-imb")
+         client.drop_database("unive-imdb")
    finally:
       client.close()
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
    optional=parser.add_argument_group('Optional arguments')
    optional.add_argument('-db_url', help='URL of the MongoDB server (default localhost)', action='store', type=str, default='localhost', metavar='db_url')
    optional.add_argument('-db_port', help='Port of the MongoDB server (default 27017)', action='store', type=int, default=27017, metavar='db_port')
-   optional.add_argument('-db_name', help='Name of the MongoDB database (default unive-imb)', action='store', type=str, default='unive-imb', metavar='db_name')
+   optional.add_argument('-db_name', help='Name of the MongoDB database (default unive-imdb)', action='store', type=str, default='unive-imdb', metavar='db_name')
    
    action_group=parser.add_argument_group('Action to perform (choose one)')
    action_group=action_group.add_mutually_exclusive_group(required=True)
