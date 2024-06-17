@@ -1,6 +1,6 @@
 # unive-imdb-api
 
-How to run the RESTful API:
+## How to run the API
 
 - Install the dependencies.
 
