@@ -1,4 +1,4 @@
-# IMDb API
+# unive-imdb-api
 
 How to run the RESTful API:
 
