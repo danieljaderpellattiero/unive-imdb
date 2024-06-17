@@ -1,10 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
 const app = express();
 const client = new MongoClient(process.env.DATABASE_URL);
 
+app.use(cors());
 app.get('/search/preview/:title', async (req, res) => {
 	try {
 		await client.connect();
