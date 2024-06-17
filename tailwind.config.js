@@ -2,7 +2,17 @@
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif']
+      },
+      colors: {
+        'imdb-gold': '#F5C518',
+        'imdb-black': '#000000',
+        'imdb-white': "#FFFFFF",
+        'unive-red': '#A50033'
+      }
+    }
   },
   plugins: []
 }

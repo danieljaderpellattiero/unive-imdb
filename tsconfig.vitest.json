@@ -1,10 +1,10 @@
 {
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "extends": "./tsconfig.app.json",
   "exclude": [],
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
-
     "lib": [],
     "types": ["node", "jsdom"]
   }
