@@ -7,6 +7,12 @@ const app = express();
 const client = new MongoClient(process.env.DATABASE_URL);
 
 app.use(cors());
+
+app.listen(process.env.PORT, () => {
+	return console.log(`Express is listening at http://localhost:${process.env.PORT}`);
+});
+
+// Returns the top 4 most voted titles that match the search query.
 app.get('/search/preview/:title', async (req, res) => {
 	try {
 		await client.connect();
@@ -20,9 +26,11 @@ app.get('/search/preview/:title', async (req, res) => {
 				{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
 				{
 					$project: {
-						_id: 0,
+						_id: {
+							$ifNull: [{ $arrayElemAt: ['$ref_episode._id', 0] }, { $arrayElemAt: ['$ref_basic._id', 0] }],
+						},
 						titleId: {
-							$ifNull: [{ $arrayElemAt: ['$ref_episode._id', 0] }, '$_id'],
+							$ifNull: [{ $arrayElemAt: ['$ref_episode.titleId', 0] }, null],
 						},
 						nameEng: {
 							$ifNull: [{ $arrayElemAt: ['$ref_basic.nameEng', 0] }, { $arrayElemAt: ['$ref_episode.nameEng', 0] }],
@@ -32,6 +40,9 @@ app.get('/search/preview/:title', async (req, res) => {
 						},
 						startYear: {
 							$ifNull: [{ $arrayElemAt: ['$ref_basic.startYear', 0] }, { $arrayElemAt: ['$ref_episode.startYear', 0] }],
+						},
+						endYear: {
+							$ifNull: [{ $arrayElemAt: ['$ref_basic.endYear', 0] }, { $arrayElemAt: ['$ref_episode.endYear', 0] }],
 						},
 						season: {
 							$ifNull: [{ $arrayElemAt: ['$ref_episode.season', 0] }, null],
@@ -59,9 +70,10 @@ app.get('/search/preview/:title', async (req, res) => {
 	}
 });
 
+// Returns the titles that match the search query, paginated.
 app.get('/search/:title', async (req, res) => {
 	const page = parseInt(req.query.page as string) || 1;
-	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 10;
+	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	try {
 		await client.connect();
 		const pipeline = await client
@@ -74,9 +86,11 @@ app.get('/search/:title', async (req, res) => {
 				{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
 				{
 					$project: {
-						_id: 0,
+						_id: {
+							$ifNull: [{ $arrayElemAt: ['$ref_episode._id', 0] }, { $arrayElemAt: ['$ref_basic._id', 0] }],
+						},
 						titleId: {
-							$ifNull: [{ $arrayElemAt: ['$ref_episode._id', 0] }, '$_id'],
+							$ifNull: [{ $arrayElemAt: ['$ref_episode.titleId', 0] }, null],
 						},
 						nameEng: {
 							$ifNull: [{ $arrayElemAt: ['$ref_basic.nameEng', 0] }, { $arrayElemAt: ['$ref_episode.nameEng', 0] }],
@@ -86,6 +100,9 @@ app.get('/search/:title', async (req, res) => {
 						},
 						startYear: {
 							$ifNull: [{ $arrayElemAt: ['$ref_basic.startYear', 0] }, { $arrayElemAt: ['$ref_episode.startYear', 0] }],
+						},
+						endYear: {
+							$ifNull: [{ $arrayElemAt: ['$ref_basic.endYear', 0] }, { $arrayElemAt: ['$ref_episode.endYear', 0] }],
 						},
 						season: {
 							$ifNull: [{ $arrayElemAt: ['$ref_episode.season', 0] }, null],
@@ -114,6 +131,44 @@ app.get('/search/:title', async (req, res) => {
 	}
 });
 
+// Returns the list of episodes of a title, paginated.
+app.get('/search/episodes/:title', async (req, res) => {
+	const page = parseInt(req.query.page as string) || 1;
+	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
+	try {
+		await client.connect();
+		const pipeline = await client
+			.db('unive-imdb')
+			.collection('title.episodes')
+			.aggregate([
+				{ $match: { titleId: req.params.title } },
+				{
+					$project: {
+						_id: 1,
+						titleId: 1,
+						nameEng: 1,
+						startYear: 1,
+						endYear: 1,
+						season: 1,
+						episode: 1,
+						votes: 1,
+						rating: 1,
+					},
+				},
+				{ $sort: { season: -1, episode: -1 } },
+				{ $skip: (page - 1) * itemsPerPage },
+				{ $limit: itemsPerPage },
+			])
+			.toArray();
+		res.status(200).send(pipeline);
+	} catch (err: any) {
+		res.status(500).send(err.message);
+	} finally {
+		await client.close();
+	}
+});
+
+// Returns the title details.
 app.get('/title/:id', async (req, res) => {
 	try {
 		await client.connect();
@@ -163,6 +218,7 @@ app.get('/title/:id', async (req, res) => {
 						titleType: 1,
 						nameEng: 1,
 						name: 1,
+						isAdult: 1,
 						startYear: 1,
 						endYear: 1,
 						runtime: 1,
@@ -184,6 +240,7 @@ app.get('/title/:id', async (req, res) => {
 	}
 });
 
+// Returns the episode details.
 app.get('/episode/:id', async (req, res) => {
 	try {
 		await client.connect();
@@ -253,8 +310,4 @@ app.get('/episode/:id', async (req, res) => {
 	} finally {
 		await client.close();
 	}
-});
-
-app.listen(process.env.PORT, () => {
-	return console.log(`Express is listening at http://localhost:${process.env.PORT}`);
 });
