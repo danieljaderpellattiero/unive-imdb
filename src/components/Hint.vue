@@ -27,14 +27,16 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const props = defineProps<{
 	_id: string;
+	titleId: string;
 	title: string;
 	titleType: string;
-	year: number;
+	startYear: number;
+	endYear: number;
 	rating: number;
 	episode: number | null;
 	season: number | null;
@@ -45,7 +47,8 @@ const posterPreview = ref<string>('');
 const isHintHovered = ref<boolean>(false);
 
 onMounted(() => {
-	axios.get(`http://img.omdbapi.com/?apikey=${import.meta.env.VITE_API_OMDB}&i=${props._id}`, { responseType: 'blob' })
+	axios.get(`http://img.omdbapi.com/?apikey=${import.meta.env.VITE_API_OMDB}&i=${props.titleType !== 'episode' ? props._id : props.titleId}`,
+		{ responseType: 'blob' })
 		.then(response => {
 			posterPreview.value = URL.createObjectURL(response.data);
 		})
@@ -53,6 +56,9 @@ onMounted(() => {
 			posterPreview.value = '/public/IMDb_default_poster.png';
 		});
 })
+const year = computed(() => {
+	return (props.startYear === props.endYear) ? props.startYear : `${props.startYear} - ${props.endYear}`;
+});
 </script>
 
 <style scoped>
@@ -61,7 +67,7 @@ img {
 }
 
 .hint-cnt {
-	@apply py-2 w-full h-auto flex flex-row items-center rounded-sm border-b border-neutral-500 bg-neutral-200 cursor-pointer shadow-2xl;
+	@apply py-2 w-full h-auto flex flex-row items-center rounded-none border-b border-neutral-500 bg-neutral-200 cursor-pointer shadow-2xl;
 }
 
 .hint-cnt.dark {

@@ -12,12 +12,13 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/search/:title',
+      path: '/search/:titleOrId',
       name: 'search',
       component: SearchView,
       props: (route) => ({
-        title: route.params.title,
-        page: route.query.page
+        titleOrId: route.params.titleOrId,
+        page: Number(route.query.page) || 1,
+        findEpisodes: route.query.findEpisodes === 'true'
       })
     },
     {

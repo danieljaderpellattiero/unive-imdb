@@ -20,6 +20,10 @@ npx tailwindcss -i ./src/assets/source.css -o ./src/assets/stylesheet.css --watc
 npm run dev
 ```
 
+## Disclaimer
+
+**To properly visualise the website make sure to use a display with a viewport width of at least 1536px; a responsive design has not been implemented (yet) due to time constraints.**
+
 ---
 
 This template should help get you started developing with Vue 3 in Vite.

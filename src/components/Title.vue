@@ -22,6 +22,14 @@
 				<p v-if="isEpisode" class="title-episode-info">{{ episodeInfo }}</p>
 				<p class="title-runtime">{{ runtime }}</p>
 			</div>
+			<div v-if="titleInfo.titleType === 'tvSeries'" class="title-info-panel">
+				<p class="title-episode-list">Related episodes</p>
+				<RouterLink
+					:to="{ name: 'search', params: { titleOrId: titleInfo.titleId }, query: { page: 1, findEpisodes: 'true' } }"
+					class="title-episode-list-link">
+					<span class="material-symbols-sharp title-episodes-list-icon">open_in_new</span>
+				</RouterLink>
+			</div>
 			<div class="title-info-panel">
 				<p class="title-genres">{{ genres }}</p>
 				<span v-if="isAdult" class="material-symbols-sharp title-explicit-icon">explicit</span>
@@ -52,14 +60,16 @@
 <script setup lang="ts">
 import axios from 'axios';
 import type Title from '../types/Title';
-import { ref, onMounted, watch, computed } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 
 const props = defineProps<{
 	id: string;
 	isEpisode: boolean;
 }>();
 const titleInfo = ref<Title>({
+	_id: '',
 	titleId: '',
+	titleType: '',
 	name: '',
 	nameEng: '',
 	genres: [],
@@ -135,18 +145,22 @@ const directors = computed(() => {
 	return `${titleInfo.value.directors.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
 });
 const writers = computed(() => {
-	const limit = 8;
+	const limit = 5;
 	const remaining = titleInfo.value.writers.length - limit;
 	return `${titleInfo.value.writers.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
 });
 const principals = computed(() => {
-	const limit = 10;
+	const limit = 5;
 	const remaining = titleInfo.value.principals.length - limit;
 	return `${titleInfo.value.principals.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
 });
 </script>
 
 <style scoped>
+img {
+	@apply select-none;
+}
+
 .title-cnt {
 	@apply flex flex-row items-center justify-start border rounded-md border-neutral-300 w-6/12 h-auto shadow-2xl;
 }
@@ -160,7 +174,7 @@ const principals = computed(() => {
 }
 
 .title-info-panel {
-	@apply w-full h-auto flex flex-row items-center;
+	@apply w-full h-auto flex flex-row items-center justify-start;
 }
 
 .title-info-panel-separator {
@@ -200,11 +214,23 @@ const principals = computed(() => {
 }
 
 .title-episode-info {
-	@apply mr-1 font-montserrat font-normal text-base text-neutral-500 tracking-normal outline-none select-none;
+	@apply mr-4 font-montserrat font-normal text-base text-neutral-500 tracking-normal outline-none select-none;
 }
 
 .title-runtime {
 	@apply font-montserrat font-normal text-base text-neutral-500 tracking-normal outline-none select-none;
+}
+
+.title-episode-list {
+	@apply font-montserrat font-normal text-base text-neutral-500 tracking-normal outline-none select-none;
+}
+
+.title-episode-list-link {
+	@apply flex flex-row items-center justify-center;
+}
+
+.title-episodes-list-icon {
+	@apply ml-1 font-normal text-center text-unive-red select-none;
 }
 
 .title-genres {

@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { ref, watch, onMounted } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Title from '@/components/Title.vue';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
@@ -31,7 +31,7 @@ onMounted(() => {
 	id.value = route.params.id as string;
 	isEpisode.value = route.query.isEpisode === 'true';
 });
-watch(() => route, (newRoute) => {
+watch(route, (newRoute) => {
 	id.value = newRoute.params.id as string;
 	isEpisode.value = newRoute.query.isEpisode === 'true';
 }, { immediate: true, deep: true });
@@ -49,16 +49,12 @@ main {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-img {
-	@apply select-none;
-}
-
 .mask {
-	@apply w-full h-full absolute bg-neutral-950 opacity-0 z-1 duration-200;
+	@apply w-full h-full absolute bg-neutral-950 opacity-0 duration-200 -z-1;
 }
 
 .mask.active {
-	@apply opacity-80;
+	@apply opacity-80 z-1;
 }
 
 .searchbar {

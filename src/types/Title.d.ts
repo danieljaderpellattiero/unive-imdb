@@ -1,5 +1,7 @@
 type Title = {
-  titleId?: string
+  _id: string
+  titleId: string
+  titleType: string
   name: string
   nameEng: string
   genres: string[]
@@ -11,8 +13,8 @@ type Title = {
   runtime: number
   rating: number
   votes: number
-  directors: string[],
-  writers: string[],
+  directors: string[]
+  writers: string[]
   principals: string[]
 }
 

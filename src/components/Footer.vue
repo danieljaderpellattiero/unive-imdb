@@ -22,6 +22,6 @@ footer.dark {
 }
 
 .footer-cnt {
-	@apply absolute bottom-0 mb-1 w-screen h-auto flex flex-row justify-center items-center z-1;
+	@apply mb-1 w-screen h-auto flex flex-row justify-center items-center z-1;
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
 	<div class="searchbar-cnt">
 		<div v-if="includeTrademark" class="imdb-trademark">
-			<RouterLink :to="{ name: 'home' }">
+			<RouterLink :to="{ name: 'home' }" class="imdb-trademark-link">
 				<img src="@/assets/imdb/imdb_logo.svg" alt="imdb_logo" />
 			</RouterLink>
 		</div>
 		<div ref="searchbarWrapper" class="searchbar-wrapper">
 			<span ref="searchbarLensIcon" class="material-symbols-sharp searchbar-lens-icon">search</span>
 			<input v-model="userInput" ref="searchbarInput" class="searchbar-input" type="text" inputmode="text"
-				:placeholder="placeholder" @input="handleInput" @focus="onFocus" @blur="onBlur" @click="searchMode()" @keyup.enter="textSearch" />
+				:placeholder="placeholder" @input="handleInput" @focus="onFocus" @blur="onBlur" @click="searchMode()"
+				@keyup.enter="textSearch" />
 			<button class="searchbar-btn" @mouseenter="clearBtnHovered = true" @mouseleave="clearBtnHovered = false"
 				@click="clearSearch()">
 				<span ref="searchbarCloseIcon" class="material-symbols-sharp searchbar-close-icon"
@@ -19,10 +20,10 @@
 	</div>
 	<div ref="searchbarResults" class="searchbar-results-cnt">
 		<div v-if="showResults" class="search-results">
-			<Hint v-for="hint in searchHints" :key="hint.titleId" :_id="hint.titleId" :title="hint.nameEng"
-				:titleType="hint.titleType" :year="hint.startYear" :rating="hint.rating" :episode="hint.episode"
-				:season="hint.season" :darkMode="includeTrademark ? true : false" @mouseenter="selectingResult = true"
-				@mouseleave="selectingResult = false" @hintSelected="clearSearch(true)" />
+			<Hint v-for="hint in searchHints" :key="hint._id" :_id="hint._id" :titleId="hint.titleId" :title="hint.nameEng"
+				:titleType="hint.titleType" :startYear="hint.startYear" :endYear="hint.endYear" :rating="hint.rating"
+				:episode="hint.episode" :season="hint.season" :darkMode="includeTrademark ? true : false"
+				@mouseenter="selectingResult = true" @mouseleave="selectingResult = false" @hintSelected="clearSearch(true)" />
 		</div>
 	</div>
 </template>
@@ -30,7 +31,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 import Hint from '@/components/Hint.vue';
 
 const props = defineProps<{
@@ -101,7 +102,8 @@ const clearSearch = (selection: boolean = false) => {
 };
 const textSearch = () => {
 	if (userInput.value) {
-		router.push({ name: 'search', params: { title: userInput.value}, query: { page: 1}});
+		onBlur();
+		router.push({ name: 'search', params: { titleOrId: userInput.value }, query: { page: 1, findEpisodes: 'false' } });
 	}
 };
 const typeText = async (text: string, delay: number) => {
@@ -186,6 +188,10 @@ img {
 	@apply w-14 h-auto;
 }
 
+.imdb-trademark-link {
+	@apply flex flex-row items-center justify-center;
+}
+
 .searchbar-wrapper {
 	@apply w-full h-full flex flex-row items-center border rounded-full border-neutral-500 hover:border-neutral-950 duration-200;
 }
@@ -207,7 +213,7 @@ img {
 }
 
 .searchbar-input {
-	@apply w-full rounded-r-full bg-transparent font-montserrat font-light text-base text-start text-neutral-950 tracking-wider outline-none duration-200 select-none;
+	@apply w-full bg-transparent font-montserrat font-light text-base text-start text-neutral-950 tracking-wider outline-none duration-200 select-none;
 }
 
 .searchbar-input.dark {
