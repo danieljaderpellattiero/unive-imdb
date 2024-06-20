@@ -1,0 +1,19 @@
+type Title = {
+  titleId?: string
+  name: string
+  nameEng: string
+  genres: string[]
+  isAdult: number
+  startYear: number
+  endYear: number
+  episode?: number
+  season?: number
+  runtime: number
+  rating: number
+  votes: number
+  directors: string[],
+  writers: string[],
+  principals: string[]
+}
+
+export default Title

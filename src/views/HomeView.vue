@@ -1,10 +1,12 @@
 <template>
 	<main>
-		<div class="trademarks-wrapper">
+		<div class="trademarks">
 			<Trademarks></Trademarks>
 		</div>
-		<Searchbar></Searchbar>
-		<Footer></Footer>
+		<div class="searchbar">
+			<Searchbar :include-trademark="false"></Searchbar>
+		</div>
+		<Footer :dark-mode="false"></Footer>
 	</main>
 </template>
 
@@ -16,13 +18,17 @@ import Trademarks from '@/components/Trademarks.vue';
 
 <style scoped>
 main {
-	@apply w-screen h-screen flex flex-col items-center justify-center bg-neutral-200;
+	@apply w-screen h-screen flex flex-col items-center justify-start bg-neutral-200;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.trademarks-wrapper {
-	@apply absolute w-screen flex flex-row justify-center -translate-y-3/4;
+.trademarks {
+	@apply w-full h-2/6 flex flex-row items-end justify-center;
+}
+
+.searchbar {
+	@apply w-full h-auto flex grow flex-col items-center justify-start;
 }
 </style>

@@ -1,40 +1,45 @@
 <template>
 	<main>
-		<div ref="mask" class="mask"></div>
+		<div ref="mask" class="bg-mask"></div>
 		<Header></Header>
 		<div class="searchbar">
 			<Searchbar :include-trademark="true" @search-mode-on="searchMode" @search-mode-off="searchMode(false)">
 			</Searchbar>
 		</div>
-		<div class="content">
-			<Title :id="id" :is-episode="isEpisode"></Title>
-		</div>
-		<Footer :dark-mode="darkMode"></Footer>
+		<Footer :dark-mode=darkMode></Footer>
 	</main>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { ref, watch, onMounted } from 'vue';
-import Title from '@/components/Title.vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import Searchbar from '@/components/Searchbar.vue';
 
-const route = useRoute();
-const id = ref<string>('');
+const props = defineProps<{
+	title: string;
+	page: number;
+}>();
 const darkMode = ref<boolean>(false);
-const isEpisode = ref<boolean>(false);
+const searchResults = ref<any[]>([]);
 const mask = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-	id.value = route.params.id as string;
-	isEpisode.value = route.query.isEpisode === 'true';
+	axios.get(`http://localhost:3000/search/${props.title}`, {
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*'
+		},
+		params: {
+			page: props.page
+		}
+	}).then(response => {
+		searchResults.value = response.data;
+	}).catch(error => {
+		console.error(error);
+	});
 });
-watch(() => route, (newRoute) => {
-	id.value = newRoute.params.id as string;
-	isEpisode.value = newRoute.query.isEpisode === 'true';
-}, { immediate: true, deep: true });
 const searchMode = (isOn: boolean = true) => {
 	mask.value!.classList.toggle('active', isOn);
 	darkMode.value = isOn;
@@ -49,23 +54,15 @@ main {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-img {
-	@apply select-none;
-}
-
-.mask {
+.bg-mask {
 	@apply w-full h-full absolute bg-neutral-950 opacity-0 z-1 duration-200;
 }
 
-.mask.active {
+.bg-mask.active {
 	@apply opacity-80;
 }
 
 .searchbar {
 	@apply w-full h-1/6 flex flex-col items-center justify-end;
-}
-
-.content {
-	@apply pt-40 w-full h-auto flex grow flex-col items-center justify-start;
 }
 </style>

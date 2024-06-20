@@ -3,9 +3,6 @@
 		<div class="unive-trademark">
 			<img src="@/assets/unive/unive_symbol.svg" alt="unive_logo" />
 		</div>
-		<div class="imdb-trademark">
-			<img src="@/assets/imdb/imdb_logo.svg" alt="imdb_logo" />
-		</div>
 	</div>
 </template>
 
@@ -17,14 +14,10 @@ img {
 }
 
 .header-cnt {
-	@apply mt-1 w-full h-auto flex flex-row items-center justify-center;
-}
-
-.imdb-trademark {
-	@apply w-16 h-auto pl-2 border-l rounded-none border-neutral-500;
+	@apply absolute top-0 mt-2 mr-4 w-full h-auto flex flex-row items-center justify-end z-1;
 }
 
 .unive-trademark {
-	@apply w-16 h-auto pr-2;
+	@apply w-12 h-auto;
 }
 </style>

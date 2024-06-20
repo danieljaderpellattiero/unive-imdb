@@ -9,8 +9,11 @@ export default {
       colors: {
         'imdb-gold': '#F5C518',
         'imdb-black': '#000000',
-        'imdb-white': "#FFFFFF",
+        'imdb-white': '#FFFFFF',
         'unive-red': '#A50033'
+      },
+      zIndex: {
+        '1': '1'
       }
     }
   },

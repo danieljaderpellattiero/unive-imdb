@@ -1,20 +1,27 @@
 <template>
 	<div class="footer-cnt">
-		<footer>
-			© 2024 Michele Lotto & Daniel Jader Pellattiero
+		<footer :class="{ 'dark': darkMode }">
+			&copy; 2024 Michele Lotto & Daniel Jader Pellattiero
 		</footer>
 	</div>
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+	darkMode: boolean;
+}>();
 </script>
 
 <style scoped>
 footer {
-	@apply font-montserrat font-light text-sm text-center text-neutral-500 uppercase tracking-widest select-none;
+	@apply font-montserrat font-light text-sm text-center text-neutral-500 uppercase tracking-widest duration-200 select-none;
+}
+
+footer.dark {
+	@apply text-neutral-200;
 }
 
 .footer-cnt {
-	@apply absolute bottom-0 mb-1 w-screen flex flex-row justify-center items-center;
+	@apply absolute bottom-0 mb-1 w-screen h-auto flex flex-row justify-center items-center z-1;
 }
 </style>

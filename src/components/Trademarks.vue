@@ -1,5 +1,5 @@
 <template>
-	<div class="trademark-cnt">
+	<div class="trademarks-cnt">
 		<div class="unive-trademark">
 			<img src="@/assets/unive/unive_logo.svg" alt="unive_logo" />
 		</div>
@@ -16,7 +16,7 @@ img {
 	@apply select-none;
 }
 
-.trademark-cnt {
+.trademarks-cnt {
 	@apply w-4/12 h-auto flex flex-row items-center justify-evenly;
 }
 
