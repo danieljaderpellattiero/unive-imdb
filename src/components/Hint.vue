@@ -32,7 +32,7 @@ import { RouterLink } from 'vue-router';
 
 const props = defineProps<{
 	_id: string;
-	titleId: string;
+	titleId: string | null;
 	title: string;
 	titleType: string;
 	startYear: number;

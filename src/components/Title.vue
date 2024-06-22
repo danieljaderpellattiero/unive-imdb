@@ -87,9 +87,6 @@ const titleInfo = ref<Title>({
 });
 const poster = ref<string>('');
 
-onMounted(() => {
-	fetchTitleData(props.id, props.isEpisode);
-})
 const fetchTitleData = async (id: string, isEpisode: boolean) => {
 	axios.get(`http://localhost:3000/${isEpisode ? 'episode' : 'title'}/${id}`, {
 		headers: {
