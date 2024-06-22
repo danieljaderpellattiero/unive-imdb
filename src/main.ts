@@ -39,7 +39,7 @@ app.get('/search/preview/:title', async (req, res) => {
 		.db('unive-imdb')
 		.collection('title.akas')
 		.aggregate([
-			{ $match: { nameLower: { $regex: new RegExp(`${req.params.title}`) } } },
+			{ $match: { $text: { $search: req.params.title } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -92,7 +92,7 @@ app.get('/search/:title', async (req, res) => {
 		.db('unive-imdb')
 		.collection('title.akas')
 		.aggregate([
-			{ $match: { nameLower: { $regex: new RegExp(`${req.params.title}`) } } },
+			{ $match: { $text: { $search: req.params.title } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
