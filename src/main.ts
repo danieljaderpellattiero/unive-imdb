@@ -2,12 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import responseTime from 'response-time';
 const cors = require('cors');
+const compression = require('compression');
 const { MongoClient } = require('mongodb');
 
 const app = express();
 const client = new MongoClient(process.env.DATABASE_URL);
 
 app.use(cors());
+app.use(compression());
 app.use(responseTime());
 
 app.listen(process.env.PORT, () => {
