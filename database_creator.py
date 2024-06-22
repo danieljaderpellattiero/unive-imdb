@@ -13,7 +13,7 @@ parquet_path = "data_preparation/parquet"
 def importCollection(coll_name):
    
    #subprocess.call('C:\Windows\System32\powershell.exe Get-Process', shell=True)
-   return subprocess.Popen(f'mongoimport --host="localhost" --port="27017" -d="unive-imdb" --collection="{coll_name}" --jsonArray --file="{parquet_path+"/"+coll_name}.json" --quiet', shell=True)
+   return subprocess.Popen(f'mongoimport --host="{db_url}" --port="{db_port}" -d="{db_name}" --collection="{coll_name}" --jsonArray --file="{parquet_path+"/"+coll_name}.json" --quiet', shell=True)
 
 def createIndex(collectionName:str):
       
@@ -63,7 +63,7 @@ def mongodrop(collectionName:str=None):
       if collectionName is not None:
          db[collectionName].drop()
       else:
-         client.drop_database("unive-imdb")
+         client.drop_database(db_name)
    finally:
       client.close()
 
