@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import responseTime from 'response-time';
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
@@ -7,6 +8,7 @@ const app = express();
 const client = new MongoClient(process.env.DATABASE_URL);
 
 app.use(cors());
+app.use(responseTime());
 
 app.listen(process.env.PORT, () => {
 	return console.log(`Express is listening at http://localhost:${process.env.PORT}`);
