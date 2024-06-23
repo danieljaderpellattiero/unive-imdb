@@ -33,13 +33,13 @@ app.listen(process.env.PORT, async () => {
 	return console.log(`Express is listening at http://localhost:${process.env.PORT}`);
 });
 
-// Returns the top 4 most voted titles that match the search query.
+// Returns the top 4 most voted titles that match the search query prefix.
 app.get('/search/preview/:title', async (req, res) => {
 	const pipeline = await connection
 		.db('unive-imdb')
 		.collection('title.akas')
 		.aggregate([
-			{ $match: { $text: { $search: req.params.title } } },
+			{ $match: { nameLower: { $regex: new RegExp(`^${req.params.title}`) } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -84,7 +84,7 @@ app.get('/search/preview/:title', async (req, res) => {
 	res.status(200).send(pipeline);
 });
 
-// Returns the titles that match the search query, paginated.
+// Returns the titles that match the search query prefix, paginated.
 app.get('/search/:title', async (req, res) => {
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
@@ -92,7 +92,7 @@ app.get('/search/:title', async (req, res) => {
 		.db('unive-imdb')
 		.collection('title.akas')
 		.aggregate([
-			{ $match: { $text: { $search: req.params.title } } },
+			{ $match: { nameLower: { $regex: new RegExp(`^${req.params.title}`) } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
