@@ -1,4 +1,4 @@
-from pymongo import MongoClient, TEXT
+from pymongo import MongoClient
 import argparse
 from tqdm import tqdm
 import subprocess
@@ -22,7 +22,7 @@ def createIndex(collectionName:str):
       
       try:
          if collectionName == "title.akas":
-            db[collectionName].create_index([("nameLower", TEXT)])
+            db[collectionName].create_index([("nameLower", 1)])
          if collectionName == "title.principals":
             db[collectionName].create_index([("titleId", 1)])
       finally:
