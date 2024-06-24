@@ -25,6 +25,8 @@ def createIndex(collectionName:str):
             db[collectionName].create_index([("nameLower", 1)])
          if collectionName == "title.principals":
             db[collectionName].create_index([("titleId", 1)])
+         if collectionName == "title.episodes":
+            db[collectionName].create_index([("titleId", 1)])
       finally:
          client.close()
 
