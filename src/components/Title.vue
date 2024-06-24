@@ -22,10 +22,10 @@
 				<p v-if="isEpisode" class="title-episode-info">{{ episodeInfo }}</p>
 				<p class="title-runtime">{{ runtime }}</p>
 			</div>
-			<div v-if="titleInfo.titleType === 'tvSeries'" class="title-info-panel">
+			<div v-if="info.titleType === 'tvSeries'" class="title-info-panel">
 				<p class="title-episode-list">Related episodes</p>
 				<RouterLink
-					:to="{ name: 'search', params: { titleOrId: titleInfo.titleId }, query: { page: 1, findEpisodes: 'true' } }"
+					:to="{ name: 'search', params: { titleOrId: info.titleId }, query: { page: 1, findEpisodes: 'true' } }"
 					class="title-episode-list-link">
 					<span class="material-symbols-sharp title-episodes-list-icon">open_in_new</span>
 				</RouterLink>
@@ -60,13 +60,13 @@
 <script setup lang="ts">
 import axios from 'axios';
 import type Title from '../types/Title';
-import { onMounted, ref, watch, computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps<{
 	id: string;
 	isEpisode: boolean;
 }>();
-const titleInfo = ref<Title>({
+const info = ref<Title>({
 	_id: '',
 	titleId: '',
 	titleType: '',
@@ -81,75 +81,72 @@ const titleInfo = ref<Title>({
 	runtime: -1,
 	rating: -1,
 	votes: -1,
-	directors: [],
 	writers: [],
+	directors: [],
 	principals: [],
 });
 const poster = ref<string>('');
 
-const fetchTitleData = async (id: string, isEpisode: boolean) => {
-	axios.get(`http://localhost:3000/${isEpisode ? 'episode' : 'title'}/${id}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
-		}
-	}).then(response => {
-		titleInfo.value = response.data[0];
-		axios.get(`http://img.omdbapi.com/?apikey=${import.meta.env.VITE_API_OMDB}&i=${isEpisode ? titleInfo.value.titleId : id}`, { responseType: 'blob' })
-			.then(response => {
-				poster.value = URL.createObjectURL(response.data);
-			})
-			.catch(() => {
-				poster.value = '/public/IMDb_default_poster.png';
-			});
-	}).catch(error => {
-		console.error(error);
-	});
+const fetchInfo = async (id: string, isEpisode: boolean) => {
+	axios.get(`http://localhost:3000/${isEpisode ? 'episode' : 'title'}/${id}`)
+		.then(response => {
+			info.value = response.data[0];
+			axios.get(`http://img.omdbapi.com/?apikey=${import.meta.env.VITE_API_OMDB}&i=${isEpisode ? info.value.titleId : id}`,
+				{ responseType: 'blob' })
+				.then(response => {
+					poster.value = URL.createObjectURL(response.data);
+				})
+				.catch(() => {
+					poster.value = '@/assets/IMDb_default_poster.png';
+				});
+		}).catch(error => {
+			console.error(error);
+		});
 }
 watch(props, (newProps) => {
-	fetchTitleData(newProps.id, newProps.isEpisode);
+	fetchInfo(newProps.id, newProps.isEpisode);
 }, { immediate: true, deep: true });
 const nameEng = computed(() => {
-	return titleInfo.value.nameEng ? titleInfo.value.nameEng : 'unknown';
+	return info.value.nameEng ? info.value.nameEng : 'unknown';
 });
 const name = computed(() => {
-	return titleInfo.value.name ? titleInfo.value.name : 'unknown';
+	return info.value.name ? info.value.name : 'unknown';
 });
 const rating = computed(() => {
-	return Number.isInteger(titleInfo.value.rating) ? `${titleInfo.value.rating}.0` : `${titleInfo.value.rating}`;
+	return Number.isInteger(info.value.rating) ? `${info.value.rating}.0` : `${info.value.rating}`;
 });
 const votes = computed(() => {
-	return titleInfo.value.votes ? titleInfo.value.votes : '-1';
+	return info.value.votes ? info.value.votes : '-1';
 });
 const year = computed(() => {
-	return (titleInfo.value.startYear === titleInfo.value.endYear) ? titleInfo.value.startYear : `${titleInfo.value.startYear} - ${titleInfo.value.endYear}`;
+	return (info.value.startYear === info.value.endYear) ? info.value.startYear : `${info.value.startYear} - ${info.value.endYear}`;
 });
 const episodeInfo = computed(() => {
-	return `S${titleInfo.value.season}, E${titleInfo.value.episode}`;
+	return `S${info.value.season}, E${info.value.episode}`;
 });
 const runtime = computed(() => {
-	return `${Math.floor(titleInfo.value.runtime / 60)}h ${titleInfo.value.runtime % 60}m`;
+	return `${Math.floor(info.value.runtime / 60)}h ${info.value.runtime % 60}m`;
 });
 const genres = computed(() => {
-	return titleInfo.value.genres.join(', ');
+	return info.value.genres.join(', ');
 });
 const isAdult = computed(() => {
-	return titleInfo.value.isAdult === 1;
-});
-const directors = computed(() => {
-	const limit = 5;
-	const remaining = titleInfo.value.directors.length - limit;
-	return `${titleInfo.value.directors.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
+	return info.value.isAdult === 1;
 });
 const writers = computed(() => {
 	const limit = 5;
-	const remaining = titleInfo.value.writers.length - limit;
-	return `${titleInfo.value.writers.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
+	const remaining = info.value.writers.length - limit;
+	return `${info.value.writers.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
+});
+const directors = computed(() => {
+	const limit = 5;
+	const remaining = info.value.directors.length - limit;
+	return `${info.value.directors.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
 });
 const principals = computed(() => {
 	const limit = 5;
-	const remaining = titleInfo.value.principals.length - limit;
-	return `${titleInfo.value.principals.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
+	const remaining = info.value.principals.length - limit;
+	return `${info.value.principals.slice(0, limit).join(', ')}${remaining > 0 ? ` and ${remaining} more` : ''}`;
 });
 </script>
 

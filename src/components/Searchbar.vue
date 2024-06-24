@@ -1,29 +1,29 @@
 <template>
 	<div class="searchbar-cnt">
-		<div v-if="includeTrademark" class="imdb-trademark">
+		<div v-if="trademarks" class="imdb-trademark">
 			<RouterLink :to="{ name: 'home' }" class="imdb-trademark-link">
-				<img src="@/assets/imdb/imdb_logo.svg" alt="imdb_logo" />
+				<img src="@/assets/IMDb_logo.svg" alt="imdb_logo" />
 			</RouterLink>
 		</div>
-		<div ref="searchbarWrapper" class="searchbar-wrapper">
-			<span ref="searchbarLensIcon" class="material-symbols-sharp searchbar-lens-icon">search</span>
-			<input v-model="userInput" ref="searchbarInput" class="searchbar-input" type="text" inputmode="text"
-				:placeholder="placeholder" @input="handleInput" @focus="onFocus" @blur="onBlur" @click="searchMode()"
-				@keyup.enter="textSearch" />
-			<button class="searchbar-btn" @mouseenter="clearBtnHovered = true" @mouseleave="clearBtnHovered = false"
+		<div ref="sBarWrapper" class="searchbar-wrapper">
+			<span ref="sBarLensIcon" class="material-symbols-sharp searchbar-lens-icon">search</span>
+			<input v-model="input" ref="sBarInput" class="searchbar-input" type="text" inputmode="text"
+				:placeholder="sBarPHolder" @input="searchHandler" @focus="onFocus" @blur="onBlur" @click="searchMode()"
+				@keyup.enter="fullSearch" />
+			<button class="searchbar-btn" @mouseenter="isClearHovered = true" @mouseleave="isClearHovered = false"
 				@click="clearSearch()">
-				<span ref="searchbarCloseIcon" class="material-symbols-sharp searchbar-close-icon"
-					:class="{ 'focus': clearBtnHovered && !darkMode }">close
+				<span ref="sBarCloseIcon" class="material-symbols-sharp searchbar-close-icon"
+					:class="{ 'focus': isClearHovered && !dark }">close
 				</span>
 			</button>
 		</div>
 	</div>
-	<div ref="searchbarResults" class="searchbar-results-cnt">
-		<div v-if="showResults" class="search-results">
-			<Hint v-for="hint in searchHints" :key="hint._id" :_id="hint._id" :titleId="hint.titleId" :title="hint.nameEng"
+	<div ref="sBarHints" class="searchbar-results-cnt">
+		<div v-if="hintsVisible" class="search-results">
+			<Hint v-for="hint in hints" :key="hint._id" :_id="hint._id" :titleId="hint.titleId" :title="hint.nameEng"
 				:titleType="hint.titleType" :startYear="hint.startYear" :endYear="hint.endYear" :rating="hint.rating"
-				:episode="hint.episode" :season="hint.season" :darkMode="includeTrademark ? true : false"
-				@mouseenter="selectingResult = true" @mouseleave="selectingResult = false" @hintSelected="clearSearch(true)" />
+				:episode="hint.episode" :season="hint.season" :dark="trademarks ? true : false"
+				@mouseenter="isHintSelected = true" @mouseleave="isHintSelected = false" @selection="clearSearch(true)" />
 		</div>
 	</div>
 </template>
@@ -35,108 +35,69 @@ import { onMounted, ref, onUnmounted } from 'vue';
 import Hint from '@/components/Hint.vue';
 
 const props = defineProps<{
-	includeTrademark: boolean;
+	trademarks: boolean;
 }>();
-const emit = defineEmits(['searchModeOn', 'searchModeOff']);
+const emit = defineEmits(['searchOn', 'searchOff']);
 const router = useRouter();
-const userInput = ref<string>('');
-const searchHints = ref<any[]>([]);
-const darkMode = ref<boolean>(false);
-const showResults = ref<boolean>(false);
-const clearBtnHovered = ref<boolean>(false);
-const selectingResult = ref<boolean>(false);
-const placeholder = ref<string>('Search for a ');
-const searchbarTimeoutId = ref<number | null>(null);
-const searchbarResults = ref<HTMLDivElement | null>(null);
-const searchbarInput = ref<HTMLInputElement | null>(null);
-const searchbarWrapper = ref<HTMLDivElement | null>(null);
-const searchbarLensIcon = ref<HTMLSpanElement | null>(null);
-const searchbarCloseIcon = ref<HTMLSpanElement | null>(null);
-const contentTypes = ref<string[]>(['tvSerie', 'video', 'short', 'tvMovie', 'videoGame', 'tvShort', 'tvSpecial', 'movie', 'tvMiniSerie', 'tvEpisode']);
-let contentIndex = ref<number>(0);
-let isUserTyping = ref<boolean>(false);
+const hints = ref<any[]>([]);
+const input = ref<string>('');
+const dark = ref<boolean>(false);
+const hintsVisible = ref<boolean>(false);
+const isClearHovered = ref<boolean>(false);
+const isHintSelected = ref<boolean>(false);
+const sBarPHolder = ref<string>('Search for a ');
+const sBarHints = ref<HTMLDivElement | null>(null);
+const sBarInput = ref<HTMLInputElement | null>(null);
+const sBarWrapper = ref<HTMLDivElement | null>(null);
+const sBarTimeoutId = ref<number | null>(null);
+const sBarLensIcon = ref<HTMLSpanElement | null>(null);
+const sBarCloseIcon = ref<HTMLSpanElement | null>(null);
+const sBarPHolderItems = ref<string[]>(['tvSerie', 'video', 'short', 'tvMovie', 'videoGame', 'tvShort', 'tvSpecial', 'movie', 'tvMiniSerie', 'tvEpisode']);
+let itemIndex = ref<number>(0);
+let isTyping = ref<boolean>(false);
 let typingInterval = ref<number | null>(null);
 
 onMounted(() => {
-	typingInterval.value = setInterval(animatePlaceholder, 1000);
+	typingInterval.value = window.setInterval(pHolderAnimation, 1000);
 });
 onUnmounted(() => {
 	if (typingInterval.value) {
-		clearInterval(typingInterval.value);
+		window.clearInterval(typingInterval.value);
 		typingInterval.value = null;
 	}
 });
-const handleInput = () => {
-	if (searchbarTimeoutId.value) {
-		clearTimeout(searchbarTimeoutId.value);
+const searchHandler = () => {
+	if (sBarTimeoutId.value) {
+		window.clearTimeout(sBarTimeoutId.value);
 	}
-	searchbarTimeoutId.value = setTimeout(search, 500);
+	sBarTimeoutId.value = window.setTimeout(quickSearch, 500);
 };
-const search = async () => {
-	if (userInput.value && userInput.value !== '') {
-		axios.get(`http://localhost:3000/search/preview/${userInput.value.toLowerCase()}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
-			}
-		}).then(response => {
-			searchHints.value = response.data;
-		}).catch(error => {
-			console.error(error);
-		});
+const quickSearch = async () => {
+	if (input.value && input.value !== '') {
+		axios.get(`http://localhost:3000/search/preview/${input.value.toLowerCase()}`)
+			.then(response => {
+				hints.value = response.data;
+			}).catch(error => {
+				console.error(error);
+			});
 	} else {
-		searchHints.value = [];
-		placeholder.value = 'Search for a ';
+		hints.value = [];
+		sBarPHolder.value = 'Search for a ';
 	}
 };
 const clearSearch = (selection: boolean = false) => {
-	if (userInput.value) {
-		userInput.value = '';
-		searchHints.value = [];
-		placeholder.value = 'Search for a ';
-		restartPlaceholderAnimation();
+	if (input.value) {
+		input.value = '';
+		hints.value = [];
+		sBarPHolder.value = 'Search for a ';
+		restartPHolderAnimation();
 	}
 	if (selection) {
-		showResults.value = false;
+		hintsVisible.value = false;
 	}
-};
-const textSearch = () => {
-	if (userInput.value) {
-		onBlur();
-		router.push({ name: 'search', params: { titleOrId: userInput.value }, query: { page: 1, findEpisodes: 'false' } });
-	}
-};
-const typeText = async (text: string, delay: number) => {
-	for (const char of text) {
-		if (!typingInterval.value) break;
-		placeholder.value += char;
-		await new Promise(resolve => setTimeout(resolve, delay));
-	}
-};
-const deleteText = async (delay: number) => {
-	while (placeholder.value.length > 'Search for a '.length) {
-		placeholder.value = placeholder.value.slice(0, -1);
-		await new Promise(resolve => setTimeout(resolve, delay));
-	}
-};
-const animatePlaceholder = async () => {
-	if (!isUserTyping.value && searchbarInput.value && !searchbarInput.value.matches(':focus')) {
-		isUserTyping.value = true;
-		const text = contentTypes.value[contentIndex.value];
-		await typeText(text, 150);
-		await typeText('...', 500);
-		await new Promise(resolve => setTimeout(resolve, 2000));
-		await deleteText(100);
-		contentIndex.value = (contentIndex.value + 1) % contentTypes.value.length;
-		isUserTyping.value = false;
-	}
-};
-const restartPlaceholderAnimation = () => {
-	placeholder.value = 'Search for a ';
-	typingInterval.value = setInterval(animatePlaceholder, 1000);
 };
 const onFocus = () => {
-	placeholder.value = '';
+	sBarPHolder.value = '';
 	if (typingInterval.value) {
 		clearInterval(typingInterval.value);
 		typingInterval.value = null;
@@ -144,34 +105,69 @@ const onFocus = () => {
 };
 const onBlur = () => {
 	searchMode(false, true);
-	searchbarWrapper.value!.classList.remove('focus');
-	if (searchbarInput.value && !userInput.value) {
-		restartPlaceholderAnimation();
+	sBarWrapper.value!.classList.remove('focus');
+	if (sBarInput.value && !input.value) {
+		restartPHolderAnimation();
 	}
 };
 const searchMode = (rootCaller: boolean = true, onBlur: boolean = false) => {
 	let changeUI = false;
-	showResults.value = !onBlur ? true : selectingResult.value ? true : false;
-	searchbarWrapper.value!.classList.add('focus');
+	hintsVisible.value = !onBlur ? true : isHintSelected.value ? true : false;
+	sBarWrapper.value!.classList.add('focus');
 	if (rootCaller) {
-		if (!darkMode.value && props.includeTrademark) {
+		if (!dark.value && props.trademarks) {
 			changeUI = true;
-			emit('searchModeOn');
-			darkMode.value = true;
+			emit('searchOn');
+			dark.value = true;
 		}
 	} else {
-		if (darkMode.value) {
+		if (dark.value) {
 			changeUI = true;
-			emit('searchModeOff');
-			darkMode.value = false;
+			emit('searchOff');
+			dark.value = false;
 		}
 	}
 	if (changeUI) {
-		searchbarWrapper.value!.classList.toggle('dark', darkMode.value);
-		searchbarInput.value!.classList.toggle('dark', darkMode.value);
-		searchbarLensIcon.value!.classList.toggle('dark', darkMode.value);
-		searchbarCloseIcon.value!.classList.toggle('dark', darkMode.value);
+		sBarWrapper.value!.classList.toggle('dark', dark.value);
+		sBarInput.value!.classList.toggle('dark', dark.value);
+		sBarLensIcon.value!.classList.toggle('dark', dark.value);
+		sBarCloseIcon.value!.classList.toggle('dark', dark.value);
 	}
+};
+const fullSearch = () => {
+	if (input.value) {
+		onBlur();
+		router.push({ name: 'search', params: { titleOrId: input.value }, query: { page: 1, findEpisodes: 'false' } });
+	}
+};
+const pHolderAnimation = async () => {
+	if (!isTyping.value && sBarInput.value && !sBarInput.value.matches(':focus')) {
+		isTyping.value = true;
+		const text = sBarPHolderItems.value[itemIndex.value];
+		await animateType(text, 150);
+		await animateType('...', 500);
+		await new Promise(resolve => setTimeout(resolve, 2000));
+		await animateDelete(100);
+		itemIndex.value = (itemIndex.value + 1) % sBarPHolderItems.value.length;
+		isTyping.value = false;
+	}
+};
+const animateType = async (text: string, delay: number) => {
+	for (const char of text) {
+		if (!typingInterval.value) break;
+		sBarPHolder.value += char;
+		await new Promise(resolve => setTimeout(resolve, delay));
+	}
+};
+const animateDelete = async (delay: number) => {
+	while (sBarPHolder.value.length > 'Search for a '.length) {
+		sBarPHolder.value = sBarPHolder.value.slice(0, -1);
+		await new Promise(resolve => setTimeout(resolve, delay));
+	}
+};
+const restartPHolderAnimation = () => {
+	sBarPHolder.value = 'Search for a ';
+	typingInterval.value = window.setInterval(pHolderAnimation, 1000);
 };
 </script>
 
@@ -220,7 +216,7 @@ img {
 	@apply text-neutral-200;
 }
 
-.searchbar-input::placeholder {
+.searchbar-input::sBarPHolder {
 	@apply text-base font-light text-neutral-500 tracking-wider select-none;
 }
 

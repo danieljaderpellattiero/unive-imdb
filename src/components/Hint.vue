@@ -1,24 +1,24 @@
 <template>
 	<RouterLink :to="{ name: 'title', params: { id: _id }, query: { isEpisode: (episode && season) ? 'true' : 'false' } }"
-		@mouseenter="isHintHovered = true" @mouseleave="isHintHovered = false" @click="emit('hintSelected')"
-		class="hint-cnt" :class="{ 'dark': darkMode }">
+		@mouseenter="isHintHovered = true" @mouseleave="isHintHovered = false" @click="emit('selection')" class="hint-cnt"
+		:class="{ 'dark': dark }">
 		<div class="hint-poster">
 			<img :src="posterPreview" alt="poster_preview" />
 		</div>
 		<div class="hint-info-cnt">
 			<div class="hint-info-panel">
 				<p class="hint-title"
-					:class="{ 'dark': darkMode, 'focus': isHintHovered && !darkMode, 'focus-dark': isHintHovered && darkMode }">
+					:class="{ 'dark': dark, 'focus': isHintHovered && !dark, 'focus-dark': isHintHovered && dark }">
 					{{ title }}</p>
-				<p class="hint-year" :class="{ 'dark': darkMode }">{{ year }}</p>
+				<p class="hint-year" :class="{ 'dark': dark }">{{ year }}</p>
 				<div class="hint-rating">
 					<span class="material-symbols-sharp hint-rating-icon">star</span>
-					<p class="hint-rating-points" :class="{ 'dark': darkMode }">
+					<p class="hint-rating-points" :class="{ 'dark': dark }">
 						{{ Number.isInteger(rating) ? `${rating}.0` : rating }}/10</p>
 				</div>
 			</div>
 			<div class="hint-info-panel">
-				<p class="hint-title-type" :class="{ 'dark': darkMode }">{{ titleType }}</p>
+				<p class="hint-title-type" :class="{ 'dark': dark }">{{ titleType }}</p>
 				<p v-if="season && episode" class="hint-episode-info">S{{ season }}, E{{ episode }}</p>
 			</div>
 		</div>
@@ -27,8 +27,9 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { onMounted, ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
+import { onMounted, ref, computed } from 'vue';
+import defaultPoster from '@/assets/IMDb_default_poster.png';
 
 const props = defineProps<{
 	_id: string;
@@ -40,9 +41,9 @@ const props = defineProps<{
 	rating: number;
 	episode: number | null;
 	season: number | null;
-	darkMode: boolean;
+	dark: boolean;
 }>();
-const emit = defineEmits(['hintSelected']);
+const emit = defineEmits(['selection']);
 const posterPreview = ref<string>('');
 const isHintHovered = ref<boolean>(false);
 
@@ -53,7 +54,7 @@ onMounted(() => {
 			posterPreview.value = URL.createObjectURL(response.data);
 		})
 		.catch(() => {
-			posterPreview.value = '/public/IMDb_default_poster.png';
+			posterPreview.value = defaultPoster;
 		});
 })
 const year = computed(() => {

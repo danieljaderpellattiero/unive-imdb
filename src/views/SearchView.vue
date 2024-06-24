@@ -3,13 +3,13 @@
 		<div ref="mask" class="mask"></div>
 		<Header></Header>
 		<div class="searchbar">
-			<Searchbar :include-trademark="true" @search-mode-on="searchMode" @search-mode-off="searchMode(false)">
+			<Searchbar :trademarks="true" @search-on="searchMode" @search-off="searchMode(false)">
 			</Searchbar>
 		</div>
 		<div class="search-results">
-			<Hint v-for="hint in searchHints" :key="hint._id" :_id="hint._id" :titleId="hint.titleId" :title="hint.nameEng"
+			<Hint v-for="hint in hints" :key="hint._id" :_id="hint._id" :titleId="hint.titleId" :title="hint.nameEng"
 				:titleType="hint.titleType" :start-year="hint.startYear" :end-year="hint.endYear" :rating="hint.rating"
-				:episode="hint.episode" :season="hint.season" :darkMode="false" />
+				:episode="hint.episode" :season="hint.season" :dark="false" />
 		</div>
 		<div class="nav-cnt">
 			<div class="nav">
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		<Footer :dark-mode=darkMode></Footer>
+		<Footer :dark=dark></Footer>
 	</main>
 </template>
 
@@ -39,40 +39,30 @@ import Searchbar from '@/components/Searchbar.vue';
 const route = useRoute();
 const router = useRouter();
 const page = ref<number>(1);
+const hints = ref<any[]>([]);
+const dark = ref<boolean>(false);
 const titleOrId = ref<string>('');
-const searchHints = ref<any[]>([]);
-const darkMode = ref<boolean>(false);
 const findEpisodes = ref<boolean>(false);
 const mask = ref<HTMLElement | null>(null);
 
-const fetchData = async (titleOrId: string, page: number, findEpisodes: boolean) => {
-	axios.get(`http://localhost:3000/search/${findEpisodes ? 'episodes/' : ''}${titleOrId.toLowerCase()}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*'
-		},
-		params: {
-			page: page
-		}
-	}).then(response => {
-		searchHints.value = response.data;
-	}).catch(error => {
-		console.error(error);
-	});
+const fetch = async (titleOrId: string, page: number, findEpisodes: boolean) => {
+	axios.get(`http://localhost:3000/search/${findEpisodes ? 'episodes/' : ''}${titleOrId.toLowerCase()}`,
+		{
+			params: {
+				page: page
+			}
+		}).then(response => {
+			hints.value = response.data;
+		}).catch(error => {
+			console.error(error);
+		});
 };
 watch(route, (newRoute) => {
 	page.value = Number(newRoute.query.page);
 	titleOrId.value = newRoute.params.titleOrId as string;
 	findEpisodes.value = newRoute.query.findEpisodes === 'true';
-	fetchData(titleOrId.value, page.value, findEpisodes.value);
+	fetch(titleOrId.value, page.value, findEpisodes.value);
 }, { immediate: true, deep: true });
-const navInfo = computed(() => {
-	return `#${page.value}`;
-});
-const searchMode = (isOn: boolean = true) => {
-	mask.value!.classList.toggle('active', isOn);
-	darkMode.value = isOn;
-};
 const navigate = (forward: boolean = true) => {
 	if (forward || page.value > 1) {
 		router.push({
@@ -87,6 +77,13 @@ const navigate = (forward: boolean = true) => {
 		});
 	}
 };
+const searchMode = (isOn: boolean = true) => {
+	mask.value!.classList.toggle('active', isOn);
+	dark.value = isOn;
+};
+const navInfo = computed(() => {
+	return `#${page.value}`;
+});
 </script>
 
 <style scoped>

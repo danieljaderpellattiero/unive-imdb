@@ -1,15 +1,15 @@
 <template>
 	<div class="footer-cnt">
-		<footer :class="{ 'dark': darkMode }">
+		<footer :class="{ 'dark': dark }">
 			&copy; 2024 Michele Lotto & Daniel Jader Pellattiero
 		</footer>
 	</div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-	darkMode: boolean;
-}>();
+defineProps({
+	dark: Boolean,
+});
 </script>
 
 <style scoped>

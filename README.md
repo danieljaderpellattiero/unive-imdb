@@ -1,31 +1,5 @@
 # unive-imdb-website
 
-## How to run the website (dev)
-
-- Install the dependencies.
-
-```bash
-npm i
-```
-
-- Run [TailwindCSS](https://tailwindcss.com/) realtime compilation.
-
-```sh
-npx tailwindcss -i ./src/assets/source.css -o ./src/assets/stylesheet.css --watch
-```
-
-- Run the compiler in hot-reload mode.
-
-```bash
-npm run dev
-```
-
-## Disclaimer
-
-**To properly visualise the website make sure to use a display with a viewport width of at least 1536px; a responsive design has not been implemented (yet) due to time constraints.**
-
----
-
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup

@@ -4,9 +4,9 @@
 			<Trademarks></Trademarks>
 		</div>
 		<div class="searchbar">
-			<Searchbar :include-trademark="false"></Searchbar>
+			<Searchbar :trademarks="false"></Searchbar>
 		</div>
-		<Footer :dark-mode="false"></Footer>
+		<Footer :dark="false"></Footer>
 	</main>
 </template>
 

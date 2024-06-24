@@ -1,7 +1,7 @@
 <template>
 	<div class="header-cnt">
 		<div class="unive-trademark">
-			<img src="@/assets/unive/unive_symbol.svg" alt="unive_logo" />
+			<img src="@/assets/unive_emblem.svg" alt="unive_emblem" />
 		</div>
 	</div>
 </template>

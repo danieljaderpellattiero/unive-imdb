@@ -1,10 +1,10 @@
 <template>
 	<div class="trademarks-cnt">
 		<div class="unive-trademark">
-			<img src="@/assets/unive/unive_logo.svg" alt="unive_logo" />
+			<img src="@/assets/unive_logo.svg" alt="unive_logo" />
 		</div>
 		<div class="imdb-trademark">
-			<img src="@/assets/imdb/imdb_logo.svg" alt="imdb_logo" />
+			<img src="@/assets/IMDb_logo.svg" alt="IMDb_logo" />
 		</div>
 	</div>
 </template>

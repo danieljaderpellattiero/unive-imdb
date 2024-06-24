@@ -3,13 +3,13 @@
 		<div ref="mask" class="mask"></div>
 		<Header></Header>
 		<div class="searchbar">
-			<Searchbar :include-trademark="true" @search-mode-on="searchMode" @search-mode-off="searchMode(false)">
+			<Searchbar :trademarks="true" @search-on="searchMode" @search-off="searchMode(false)">
 			</Searchbar>
 		</div>
 		<div class="content">
 			<Title :id="id" :is-episode="isEpisode"></Title>
 		</div>
-		<Footer :dark-mode="darkMode"></Footer>
+		<Footer :dark="dark"></Footer>
 	</main>
 </template>
 
@@ -23,7 +23,7 @@ import Searchbar from '@/components/Searchbar.vue';
 
 const route = useRoute();
 const id = ref<string>('');
-const darkMode = ref<boolean>(false);
+const dark = ref<boolean>(false);
 const isEpisode = ref<boolean>(false);
 const mask = ref<HTMLElement | null>(null);
 
@@ -37,7 +37,7 @@ watch(route, (newRoute) => {
 }, { immediate: true, deep: true });
 const searchMode = (isOn: boolean = true) => {
 	mask.value!.classList.toggle('active', isOn);
-	darkMode.value = isOn;
+	dark.value = isOn;
 };
 </script>
 

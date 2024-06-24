@@ -13,8 +13,8 @@ type Title = {
   runtime: number
   rating: number
   votes: number
-  directors: string[]
   writers: string[]
+  directors: string[]
   principals: string[]
 }
 
