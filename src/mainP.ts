@@ -10,7 +10,7 @@ const fileTransport = pino.transport({
 	target: 'pino/file',
 	options: {
 		mkdir: true,
-		destination: 'logs/api.log',
+		destination: 'logs/serviceTimes.log',
 	},
 });
 const logger = pinoHttp(
@@ -35,6 +35,7 @@ const logger = pinoHttp(
 	fileTransport
 );
 let connection: any;
+let db: any;
 
 const app = express();
 
@@ -45,6 +46,8 @@ app.use(logger);
 app.listen(process.env.PORT, async () => {
 	try {
 		connection = await client.connect();
+		db = connection.db('unive-imdb');
+		await db.command({ profile: 2 });
 	} catch (err: any) {
 		process.exit(1);
 	}
@@ -52,7 +55,7 @@ app.listen(process.env.PORT, async () => {
 
 // Returns the top 4 most voted titles that match the search query prefix.
 app.get('/search/preview/:title', async (req, res) => {
-	const startTime = Date.now();
+	const apiServiceTime1S = Date.now();
 	const pipeline = [
 		{ $match: { nameLower: { $regex: new RegExp(`^${req.params.title}`) } } },
 		{ $group: { _id: '$titleId' } },
@@ -96,13 +99,20 @@ app.get('/search/preview/:title', async (req, res) => {
 		{ $limit: 4 },
 	];
 	try {
-		const collection = connection.db('unive-imdb').collection('title.akas');
+		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		const apiRuntime = Date.now() - startTime;
-		const dbRuntime = (await cursor.explain('executionStats')).stages[0].$cursor.executionStats.executionTimeMillis;
-		req.log.info({ apiRuntime, dbRuntime });
-		res.status(200).send({ result });
+		res.status(200).send(result);
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		req.log.info({
+			apiServiceTime: apiServiceTime1E,
+			dbServiceTime,
+			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
+		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
@@ -111,7 +121,7 @@ app.get('/search/preview/:title', async (req, res) => {
 
 // Returns the titles that match the search query prefix, paginated.
 app.get('/search/:title', async (req, res) => {
-	const startTime = Date.now();
+	const apiServiceTime1S = Date.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -158,13 +168,20 @@ app.get('/search/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		const collection = connection.db('unive-imdb').collection('title.akas');
+		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		const apiRuntime = Date.now() - startTime;
-		const dbRuntime = (await cursor.explain('executionStats')).stages[0].$cursor.executionStats.executionTimeMillis;
-		req.log.info({ apiRuntime, dbRuntime });
-		res.status(200).send({ result });
+		res.status(200).send(result);
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		req.log.info({
+			apiServiceTime: apiServiceTime1E,
+			dbServiceTime,
+			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
+		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
@@ -173,7 +190,7 @@ app.get('/search/:title', async (req, res) => {
 
 // Returns the list of episodes of a title, paginated.
 app.get('/search/episodes/:title', async (req, res) => {
-	const startTime = Date.now();
+	const apiServiceTime1S = Date.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -196,13 +213,20 @@ app.get('/search/episodes/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		const collection = connection.db('unive-imdb').collection('title.episodes');
+		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		const apiRuntime = Date.now() - startTime;
-		const dbRuntime = (await cursor.explain('executionStats')).stages[0].$cursor.executionStats.executionTimeMillis;
-		req.log.info({ apiRuntime, dbRuntime });
-		res.status(200).send({ result });
+		res.status(200).send(result);
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		req.log.info({
+			apiServiceTime: apiServiceTime1E,
+			dbServiceTime,
+			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
+		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
@@ -211,7 +235,7 @@ app.get('/search/episodes/:title', async (req, res) => {
 
 // Returns the title details.
 app.get('/title/:id', async (req, res) => {
-	const startTime = Date.now();
+	const apiServiceTime1S = Date.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -265,13 +289,20 @@ app.get('/title/:id', async (req, res) => {
 		},
 	];
 	try {
-		const collection = connection.db('unive-imdb').collection('title.basics');
+		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		const apiRuntime = Date.now() - startTime;
-		const dbRuntime = (await cursor.explain('executionStats')).stages[0].$cursor.executionStats.executionTimeMillis;
-		req.log.info({ apiRuntime, dbRuntime });
-		res.status(200).send({ result });
+		res.status(200).send(result);
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		req.log.info({
+			apiServiceTime: apiServiceTime1E,
+			dbServiceTime,
+			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
+		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
@@ -280,7 +311,7 @@ app.get('/title/:id', async (req, res) => {
 
 // Returns the episode details.
 app.get('/episode/:id', async (req, res) => {
-	const startTime = Date.now();
+	const apiServiceTime1S = Date.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.crew', localField: '_id', foreignField: '_id', as: 'ref_crew' } },
@@ -334,15 +365,42 @@ app.get('/episode/:id', async (req, res) => {
 		},
 	];
 	try {
-		const collection = connection.db('unive-imdb').collection('title.episodes');
+		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		const apiRuntime = Date.now() - startTime;
-		const dbRuntime = (await cursor.explain('executionStats')).stages[0].$cursor.executionStats.executionTimeMillis;
-		req.log.info({ apiRuntime, dbRuntime });
-		res.status(200).send({ result });
+		res.status(200).send(result);
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		req.log.info({
+			apiServiceTime: apiServiceTime1E,
+			dbServiceTime,
+			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
+		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
 	}
 });
+
+process.on('SIGINT', async () => {
+	await gracefulShutdown();
+});
+
+process.on('SIGTERM', async () => {
+	await gracefulShutdown();
+});
+
+process.on('SIGQUIT', async () => {
+	await gracefulShutdown();
+});
+
+const gracefulShutdown = async () => {
+	console.log('Shutting down...');
+	await db.command({ profile: 0 });
+	await db.collection('system.profile').drop();
+	await client.close();
+	process.exit(0);
+};

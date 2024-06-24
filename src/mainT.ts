@@ -68,7 +68,7 @@ app.get('/search/preview/:title', async (req, res) => {
 				{ $limit: 4 },
 			])
 			.toArray();
-		res.status(200).send({ pipeline });
+		res.status(200).send(pipeline);
 	} catch (error: any) {
 		res.status(500).send({ error: error.message });
 	}
