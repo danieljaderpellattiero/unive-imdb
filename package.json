@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "RESTful API for unive-imdb",
   "scripts": {
-    "test": "nodemon ./dist/mainT.js",
-    "profile": "nodemon ./dist/mainP.js"
+    "test": "node ./dist/mainT.js",
+    "profile": "node ./dist/mainP.js",
+    "dev-test": "nodemon ./dist/mainT.js",
+    "dev-profile": "nodemon ./dist/mainP.js"
   },
   "author": "Daniel Jader Pellattiero and Michele Lotto",
   "license": "ISC",

@@ -10,7 +10,7 @@ const fileTransport = pino.transport({
 	target: 'pino/file',
 	options: {
 		mkdir: true,
-		destination: 'logs/serviceTimes.log',
+		destination: `logs/${process.argv[2]}.log`,
 	},
 });
 const logger = pinoHttp(
@@ -45,9 +45,14 @@ app.use(logger);
 // Starts the server and connect to the database.
 app.listen(process.env.PORT, async () => {
 	try {
-		connection = await client.connect();
-		db = connection.db('unive-imdb');
-		await db.command({ profile: 2 });
+		if(process.argv[2]) {
+			connection = await client.connect();
+			db = connection.db('unive-imdb');
+			await db.command({ profile: 2 });
+		} else {
+			console.log('Please provide a name for the log file.')
+			process.exit(1);
+		}
 	} catch (err: any) {
 		process.exit(1);
 	}
