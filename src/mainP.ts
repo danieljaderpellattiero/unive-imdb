@@ -45,12 +45,12 @@ app.use(logger);
 // Starts the server and connect to the database.
 app.listen(process.env.PORT, async () => {
 	try {
-		if(process.argv[2]) {
+		if (process.argv[2]) {
 			connection = await client.connect();
 			db = connection.db('unive-imdb');
 			await db.command({ profile: 2 });
 		} else {
-			console.log('Please provide a name for the log file.')
+			console.log('Please provide a name for the log file.');
 			process.exit(1);
 		}
 	} catch (err: any) {
@@ -106,17 +106,16 @@ app.get('/search/preview/:title', async (req, res) => {
 	try {
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
-		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		res.status(200).send(result);
-		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const apiServiceTime2S = Date.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		res.status(200).send(result);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime: apiServiceTime1E,
+			apiServiceTime: apiServiceTime1E - dbServiceTime - apiServiceTime2E,
 			dbServiceTime,
-			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -175,17 +174,16 @@ app.get('/search/:title', async (req, res) => {
 	try {
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
-		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		res.status(200).send(result);
-		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const apiServiceTime2S = Date.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		res.status(200).send(result);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime: apiServiceTime1E,
+			apiServiceTime: apiServiceTime1E - dbServiceTime - apiServiceTime2E,
 			dbServiceTime,
-			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -220,17 +218,16 @@ app.get('/search/episodes/:title', async (req, res) => {
 	try {
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
-		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		res.status(200).send(result);
-		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const apiServiceTime2S = Date.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		res.status(200).send(result);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime: apiServiceTime1E,
+			apiServiceTime: apiServiceTime1E - dbServiceTime - apiServiceTime2E,
 			dbServiceTime,
-			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -296,17 +293,16 @@ app.get('/title/:id', async (req, res) => {
 	try {
 		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
-		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		res.status(200).send(result);
-		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const apiServiceTime2S = Date.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		res.status(200).send(result);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime: apiServiceTime1E,
+			apiServiceTime: apiServiceTime1E - dbServiceTime - apiServiceTime2E,
 			dbServiceTime,
-			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -372,17 +368,16 @@ app.get('/episode/:id', async (req, res) => {
 	try {
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
-		const apiServiceTime2S = Date.now();
 		const result = await cursor.toArray();
-		res.status(200).send(result);
-		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		const apiServiceTime2S = Date.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
+		const apiServiceTime2E = Date.now() - apiServiceTime2S;
+		res.status(200).send(result);
+		const apiServiceTime1E = Date.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime: apiServiceTime1E,
+			apiServiceTime: apiServiceTime1E - dbServiceTime - apiServiceTime2E,
 			dbServiceTime,
-			apiExtraServiceTime: apiServiceTime2E - dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
