@@ -16,7 +16,7 @@ def avg_response_time(logName:str): #'response_times_B1_B2_D1.log'
             db.append(data["dbServiceTime"])
         
         ST_Api=(sum(api)/len(api)) / 1000
-        ST_Db = ((sum(db)/len(db)) / 1000)
+        ST_Db = (sum(db)/len(db)) / 1000
         
         #print("Before query: ", ST_Api1)
         #print("After query: ", ST_Api2)
