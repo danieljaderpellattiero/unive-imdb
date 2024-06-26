@@ -14,14 +14,14 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="API_URL" elementType="Argument">
             <stringProp name="Argument.name">API_URL</stringProp>
-            <stringProp name="Argument.value">192.168.1.2</stringProp>
+            <stringProp name="Argument.value">192.168.1.25</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
-        <intProp name="ThreadGroup.num_threads">1</intProp>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <intProp name="ThreadGroup.num_threads">500</intProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <longProp name="ThreadGroup.duration">0</longProp>
         <longProp name="ThreadGroup.delay">0</longProp>
@@ -33,8 +33,8 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="csvQueryParams">
-          <stringProp name="filename">D:/Download/test/load_test/search-with-click/query.csv</stringProp>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="csvQueryParams" enabled="true">
+          <stringProp name="filename">/home/michele/Documents/unive-imdb/unive-imdb-test/load_test/search-with-click/query.csv</stringProp>
           <stringProp name="fileEncoding"></stringProp>
           <stringProp name="variableNames">titleName, titleId</stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
@@ -45,7 +45,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="prob" elementType="Argument">
               <stringProp name="Argument.name">prob</stringProp>
@@ -55,7 +55,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
+        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -66,7 +66,7 @@ vars.put(&quot;prob&quot;, Integer.toString((new Random()).nextInt(10) + 1));</s
           <stringProp name="scriptLanguage">java</stringProp>
         </JSR223PreProcessor>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title" enabled="true">
           <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
           <stringProp name="HTTPSampler.port">3000</stringProp>
           <stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
@@ -83,7 +83,7 @@ vars.put(&quot;prob&quot;, Integer.toString((new Random()).nextInt(10) + 1));</s
           <stringProp name="WhileController.condition">${__javaScript(${prob} == 9)}</stringProp>
         </WhileController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title" enabled="true">
             <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
@@ -114,7 +114,7 @@ vars.put(&quot;prob&quot;, Integer.toString((new Random()).nextInt(10) + 1));</s
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId" enabled="true">
             <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
             <stringProp name="HTTPSampler.port">3000</stringProp>
             <stringProp name="HTTPSampler.path">title/${titleId}/</stringProp>
