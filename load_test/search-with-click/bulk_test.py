@@ -6,7 +6,7 @@ from tqdm import tqdm
 def test(name:str):
     jmx_name=f'{name}.jmx'
 
-    for n_users in tqdm(range(10, 510, 10)):
+    for n_users in tqdm(range(50, 550, 50)):
         
         with open(jmx_name) as f:
             Bs_data = BeautifulSoup(f.read(), "xml")
