@@ -1,0 +1,138 @@
+% Preamble
+\documentclass[12pt, twoside]{report}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[a4paper, top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{comment}
+
+% Graphics path
+\graphicspath{{images/}}
+
+\begin{document}
+	\pagenumbering{roman}
+
+	% Title Page
+	\begin{titlepage}
+
+		\renewcommand{\thesection}{\arabic{section}}
+		\newcommand{\HRule}{\rule{\linewidth}{0.2mm}}
+		
+		\center
+		
+		%----------------------------------------------------------------------------------------
+		%	HEADING SECTIONS
+		%----------------------------------------------------------------------------------------
+		
+		\textsc{\Large Ca' Foscari University of Venice }\\[1.0cm]
+		\includegraphics[scale=1]{ unive-emblem.png }\\[1cm]
+		\textsc{\Large Department of Environmental Sciences, Informatics and Statistics }\\[0.5cm]
+		\textsc{\large MCS Computer Science and Information Technology CM-90 }\\[0.5cm]
+		\textsc{\large [CM0481] Software Performance and Scalability }\\[0.5cm]
+		
+		%----------------------------------------------------------------------------------------
+		%	TITLE SECTION
+		%----------------------------------------------------------------------------------------
+		
+		\HRule \\[0.8cm]
+		{ \Huge \bfseries IMDb: Performance and Scalability Analysis }\\[0.5cm]
+		\HRule \\[0.8cm]
+		
+		%----------------------------------------------------------------------------------------
+		%	AUTHOR SECTION
+		%----------------------------------------------------------------------------------------
+		
+		\Large \emph{Authors:}\\
+		Michele \textsc{Lotto} - {\large 875922}\\
+		Daniel Jader \textsc{Pellattiero} - {\large 903837}\\[3.5cm]
+		
+		%----------------------------------------------------------------------------------------
+		%	DATE SECTION
+		%----------------------------------------------------------------------------------------
+		
+		{\large Rev. 26/06/2024  }\\
+		
+		\vfill
+		
+	\end{titlepage}
+
+	% Table of Contents, List of Figures, List of Tables
+	\tableofcontents
+	\listoftables
+	\addcontentsline{toc}{chapter}{List of Tables}
+	\listoffigures
+	\addcontentsline{toc}{chapter}{List of Figures}
+
+	% Abstract
+	\chapter*{Abstract}
+	\addcontentsline{toc}{chapter}{Abstract}
+	% Descrizione consegna del progetto
+	% \input{chapters/abstract}
+
+	% Body of the paper
+	\chapter{Introduction}
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+	% Introduction chapter
+	% \input{chapters/introduction}
+
+	% Other chapters
+	% \chapter{Chapter Title}
+	% \input{chapters/chapter01}
+
+	% Conclusion chapter
+	% \chapter{Conclusion}
+	% \input{chapters/conclusion}
+
+	% Bibliography
+	% \bibliographystyle{IEEEtran}
+	% \bibliography{IEEEexample}
+
+	\begin{comment}
+	Introduzione:
+		- Descrizione alto livello del sistema.
+	Capitolo 1: Implementazione del sistema
+		- Database.
+			- Data analysis. (sanitization, rimozione film senza rating, guarda lo script)
+			- Schema. (scorporamento degli episodi dai titoli, guarda schema PDF)
+			- Indici + bulk loading e automatization.
+		- API.
+			- Endpoints.
+		- Frontend.
+	Capitolo 2: Test case identification.
+		- Spiegazione a parole + grafo.
+	Capitolo 3: Theoretical queueing network
+		- Queueing network components.
+		- Diagramma traffic equations.
+		- Traffic equations. (with solutions)
+	Capitolo 4: Theoretical queueing network analysis
+		- Service times measurements.
+		- Bottleneck identification.
+		- Mean Value Analysis.
+			- Throughput over # users. (+ graphic)
+			- Response time over # users. (+ graphic)
+		- Asymptitic bounds and optimal number of users.
+			- Bounds calculation.
+			- Throughput over # users with bounds. (+ graphic)
+			- Response time over # users with bounds. (+ graphic)
+			- Optimal number of users.
+	Capitolo 5: Experimental network analysis
+		- Illustrazione load test JMeter.
+		- Spiegazione configurazione del load test.
+		- Grafici throughput e response time arricchiti.
+	Capitolo 6: Results comparison
+		- Confronto analisi teorica e sperimentale.
+	Capitolo 7: Conclusioni
+		- Proposta di architettura scalabile.
+			- MongoDB caching.
+			- MongoDB Sharding e replica.
+			- Analisi prestazioni sistema proposto con MVA.
+	\end{comment}
+
+\end{document}
