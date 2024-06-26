@@ -8,14 +8,34 @@
 npm i
 ```
 
-- Run the Typescript compiler in _watch mode._
+- Compile the Typescript files.
 
 ```bash
-tsc -w # Make sure to have Typescript installed globally.
+tsc # Make sure to have Typescript installed globally.
 ```
 
 - Run the Express server via _npm command._
 
+### Profiling mode (dev)
+
 ```bash
-npm run start
+npm run dev-profile [filename]
+```
+
+### Profiling mode (prod)
+
+```bash
+npm run profile [filename]
+```
+
+### Testing mode (dev)
+
+```bash
+npm run dev-test
+```
+
+### Testing mode (prod)
+
+```bash
+npm run test
 ```
