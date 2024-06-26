@@ -7,6 +7,10 @@ const client = new MongoClient(process.env.DATABASE_URL);
 let connection: any;
 let db: any;
 
+const regexSanitizer = (str: string) => {
+	return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+};
+
 const app = express();
 
 app.use(cors());
@@ -25,7 +29,7 @@ app.listen(process.env.PORT, async () => {
 app.get('/search/preview/:title', async (req, res) => {
 	try {
 		const pipeline = [
-			{ $match: { nameLower: { $regex: new RegExp(`^${req.params.title}`) } } },
+			{ $match: { nameLower: { $regex: new RegExp(`^${regexSanitizer(req.params.title)}`) } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -82,7 +86,7 @@ app.get('/search/:title', async (req, res) => {
 		const page = parseInt(req.query.page as string) || 1;
 		const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 		const pipeline = [
-			{ $match: { nameLower: { $regex: new RegExp(`^${req.params.title}`) } } },
+			{ $match: { nameLower: { $regex: new RegExp(`^${regexSanitizer(req.params.title)}`) } } },
 			{ $group: { _id: '$titleId' } },
 			{ $lookup: { from: 'title.basics', localField: '_id', foreignField: '_id', as: 'ref_basic' } },
 			{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
