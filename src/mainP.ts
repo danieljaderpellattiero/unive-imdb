@@ -46,14 +46,15 @@ const regexSanitizer = (str: string) => {
 };
 
 const calculateExecutionTime = () => {
-	performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-	performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-	performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 	const measures = performance.getEntriesByType('measure');
+	const apiServiceTime = measures.find((measure: PerformanceEntry) => measure.name === 'apiService')!.duration;
+	const dbServiceTimeCCache = measures.find(
+		(measure: PerformanceEntry) => measure.name === 'dbServiceCCache'
+	)!.duration;
+	const dbServiceTimeQuery = measures.find((measure: PerformanceEntry) => measure.name === 'dbServiceQuery')!.duration;
 	return {
-		apiServiceTime: measures.find((measure: PerformanceEntry) => measure.name === 'apiService')!.duration,
-		dbServiceTimeCCache: measures.find((measure: PerformanceEntry) => measure.name === 'dbServiceCCache')!.duration,
-		dbServiceTimeQuery: measures.find((measure: PerformanceEntry) => measure.name === 'dbServiceQuery')!.duration,
+		apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
+		dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
 	};
 };
 
@@ -121,6 +122,7 @@ app.get('/search/preview/:title', async (req, res) => {
 		performance.mark('dbServiceCCacheStart');
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
 		performance.mark('dbServiceCCacheEnd');
+		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
 
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
@@ -128,18 +130,23 @@ app.get('/search/preview/:title', async (req, res) => {
 		performance.mark('dbServiceQueryStart');
 		const result = await cursor.toArray();
 		performance.mark('dbServiceQueryEnd');
+		performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 
 		res.status(200).send(result);
 		performance.mark('apiServiceEnd');
+		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
 
-		const { apiServiceTime, dbServiceTimeCCache, dbServiceTimeQuery } = calculateExecutionTime();
+		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
-			dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
+			apiServiceTime: apiServiceTime - dbServiceTime,
+			dbServiceTime: dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
+	} finally {
+		performance.clearMarks();
+		performance.clearMeasures();
 	}
 });
 
@@ -195,6 +202,7 @@ app.get('/search/:title', async (req, res) => {
 		performance.mark('dbServiceCCacheStart');
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
 		performance.mark('dbServiceCCacheEnd');
+		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
 
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
@@ -202,18 +210,23 @@ app.get('/search/:title', async (req, res) => {
 		performance.mark('dbServiceQueryStart');
 		const result = await cursor.toArray();
 		performance.mark('dbServiceQueryEnd');
+		performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 
 		res.status(200).send(result);
 		performance.mark('apiServiceEnd');
+		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
 
-		const { apiServiceTime, dbServiceTimeCCache, dbServiceTimeQuery } = calculateExecutionTime();
+		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
-			dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
+			apiServiceTime: apiServiceTime - dbServiceTime,
+			dbServiceTime: dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
+	} finally {
+		performance.clearMarks();
+		performance.clearMeasures();
 	}
 });
 
@@ -245,6 +258,7 @@ app.get('/search/episodes/:title', async (req, res) => {
 		performance.mark('dbServiceCCacheStart');
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
 		performance.mark('dbServiceCCacheEnd');
+		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
 
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
@@ -252,18 +266,23 @@ app.get('/search/episodes/:title', async (req, res) => {
 		performance.mark('dbServiceQueryStart');
 		const result = await cursor.toArray();
 		performance.mark('dbServiceQueryEnd');
+		performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 
 		res.status(200).send(result);
 		performance.mark('apiServiceEnd');
+		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
 
-		const { apiServiceTime, dbServiceTimeCCache, dbServiceTimeQuery } = calculateExecutionTime();
+		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
-			dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
+			apiServiceTime: apiServiceTime - dbServiceTime,
+			dbServiceTime: dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
+	} finally {
+		performance.clearMarks();
+		performance.clearMeasures();
 	}
 });
 
@@ -326,6 +345,7 @@ app.get('/title/:id', async (req, res) => {
 		performance.mark('dbServiceCCacheStart');
 		await db.command({ planCacheClear: 'unive-imdb.title.basics' });
 		performance.mark('dbServiceCCacheEnd');
+		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
 
 		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
@@ -333,18 +353,23 @@ app.get('/title/:id', async (req, res) => {
 		performance.mark('dbServiceQueryStart');
 		const result = await cursor.toArray();
 		performance.mark('dbServiceQueryEnd');
+		performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 
 		res.status(200).send(result);
 		performance.mark('apiServiceEnd');
+		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
 
-		const { apiServiceTime, dbServiceTimeCCache, dbServiceTimeQuery } = calculateExecutionTime();
+		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
-			dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
+			apiServiceTime: apiServiceTime - dbServiceTime,
+			dbServiceTime: dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
+	} finally {
+		performance.clearMarks();
+		performance.clearMeasures();
 	}
 });
 
@@ -407,6 +432,7 @@ app.get('/episode/:id', async (req, res) => {
 		performance.mark('dbServiceCCacheStart');
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
 		performance.mark('dbServiceCCacheEnd');
+		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
 
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
@@ -414,18 +440,23 @@ app.get('/episode/:id', async (req, res) => {
 		performance.mark('dbServiceQueryStart');
 		const result = await cursor.toArray();
 		performance.mark('dbServiceQueryEnd');
+		performance.measure('dbServiceQuery', 'dbServiceQueryStart', 'dbServiceQueryEnd');
 
 		res.status(200).send(result);
 		performance.mark('apiServiceEnd');
+		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
 
-		const { apiServiceTime, dbServiceTimeCCache, dbServiceTimeQuery } = calculateExecutionTime();
+		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceTimeQuery,
-			dbServiceTime: dbServiceTimeQuery + dbServiceTimeCCache,
+			apiServiceTime: apiServiceTime - dbServiceTime,
+			dbServiceTime: dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
+	} finally {
+		performance.clearMarks();
+		performance.clearMeasures();
 	}
 });
 
