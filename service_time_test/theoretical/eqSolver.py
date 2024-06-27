@@ -143,7 +143,7 @@ def plot_boundaries():
     
     down=lower_bound(service_demands, max_n_users=500, thinking_time=1, bottleneck=bottleneck)
     
-    up=upper_bound(service_demands, max_n_users=1000, thinking_time=1, bottleneck=bottleneck)
+    up=upper_bound(service_demands, max_n_users=500, thinking_time=1, bottleneck=bottleneck)
     
     axs[0].plot([x[0] for x in up[1]], [min(up[0],x[1]) for x in up[1]],label="upper bound")
     axs[0].set_title("Upper Bound")
@@ -151,6 +151,9 @@ def plot_boundaries():
     axs[1].plot([x[0] for x in down[1]], [max(down[0], x[1]) for x in down[1]],label="lower bound")
     axs[1].set_ylim(0,0.3)
     axs[1].set_title("Lower Bound")
+    
+    print("up", [min(up[0],x[1]) for x in up[1]][50])
+    #print("down", [max(down[0], x[1]) for x in down[1]])
     
     plt.show()
 
