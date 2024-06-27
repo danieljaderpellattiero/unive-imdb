@@ -138,8 +138,8 @@ app.get('/search/preview/:title', async (req, res) => {
 
 		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTime,
-			dbServiceTime: dbServiceTime,
+			apiServiceTime,
+			dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -218,8 +218,8 @@ app.get('/search/:title', async (req, res) => {
 
 		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTime,
-			dbServiceTime: dbServiceTime,
+			apiServiceTime,
+			dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -274,8 +274,8 @@ app.get('/search/episodes/:title', async (req, res) => {
 
 		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTime,
-			dbServiceTime: dbServiceTime,
+			apiServiceTime,
+			dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -361,8 +361,8 @@ app.get('/title/:id', async (req, res) => {
 
 		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTime,
-			dbServiceTime: dbServiceTime,
+			apiServiceTime,
+			dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
@@ -448,8 +448,8 @@ app.get('/episode/:id', async (req, res) => {
 
 		const { apiServiceTime, dbServiceTime } = calculateExecutionTime();
 		req.log.info({
-			apiServiceTime: apiServiceTime - dbServiceTime,
-			dbServiceTime: dbServiceTime,
+			apiServiceTime,
+			dbServiceTime,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
