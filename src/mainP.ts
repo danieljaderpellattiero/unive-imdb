@@ -7,11 +7,8 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
 const client = new MongoClient(process.env.DATABASE_URL);
-const performanceObserver = new PerformanceObserver((items) => {
-	items.getEntries().forEach((entry) => {
-		console.log(`${entry.name}: ${entry.duration}ms`);
-	});
-});
+const performanceObserver = new PerformanceObserver(() => {});
+
 performanceObserver.observe({ entryTypes: ['measure'] });
 const fileTransport = pino.transport({
 	target: 'pino/file',
