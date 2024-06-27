@@ -10,8 +10,8 @@ for n_users in users:
     with open(f"results_{n_users}/statistics.json", "r") as f:
         results = json.load(f)
         
-        X.append(results["Total"]["throughput"])
-        R.append(results["Total"]["meanResTime"]/1000)
+        X.append(results["Transaction Controller"]["throughput"])
+        R.append(results["Transaction Controller"]["meanResTime"]/1000)
 
 print(X)
 print(R)
