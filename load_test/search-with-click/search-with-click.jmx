@@ -1,166 +1,173 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
-  <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="search preview with click">
-      <stringProp name="TestPlan.comments">This test plan was created by the BlazeMeter converter v.${project.version}. Please contact support@blazemeter.com for further support.</stringProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments">
-        <collectionProp name="Arguments.arguments"/>
-      </elementProp>
-    </TestPlan>
-    <hashTree>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
-        <collectionProp name="Arguments.arguments">
-          <elementProp name="API_URL" elementType="Argument">
-            <stringProp name="Argument.name">API_URL</stringProp>
-            <stringProp name="Argument.value">192.168.1.25</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-        </collectionProp>
-      </Arguments>
-      <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
-        <intProp name="ThreadGroup.ramp_time">0</intProp>
-        <longProp name="ThreadGroup.duration">600</longProp>
-        <longProp name="ThreadGroup.delay">0</longProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-        <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
-          <intProp name="LoopController.loops">-1</intProp>
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-        </elementProp>
-      </ThreadGroup>
-      <hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller"/>
-        <hashTree>
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="csvQueryParams">
-            <stringProp name="filename">/home/michele/Documents/unive-imdb/unive-imdb-test/query.csv</stringProp>
-            <stringProp name="fileEncoding"></stringProp>
-            <stringProp name="variableNames">titleName, titleId</stringProp>
-            <boolProp name="ignoreFirstLine">false</boolProp>
-            <stringProp name="delimiter">,</stringProp>
-            <boolProp name="quotedData">false</boolProp>
-            <boolProp name="recycle">true</boolProp>
-            <boolProp name="stopThread">false</boolProp>
-            <stringProp name="shareMode">shareMode.all</stringProp>
-          </CSVDataSet>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
-            <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
-            <stringProp name="HTTPSampler.port">3000</stringProp>
-            <stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="page" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${page}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">page</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
-              <stringProp name="cacheKey">true</stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="script">import java.util.Random;
+<?xml version="1.0" encoding="utf-8"?>
+<jmeterTestPlan jmeter="5.6.3" properties="5.0" version="1.2">
+<hashTree>
+<TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="search preview with click">
+<stringProp name="TestPlan.comments">This test plan was created by the BlazeMeter converter v.${project.version}. Please contact support@blazemeter.com for further support.</stringProp>
+<elementProp elementType="Arguments" guiclass="ArgumentsPanel" name="TestPlan.user_defined_variables" testclass="Arguments">
+<collectionProp name="Arguments.arguments"/>
+</elementProp>
+<boolProp name="TestPlan.functional_mode">false</boolProp>
+<boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+</TestPlan>
+<hashTree>
+<Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+<collectionProp name="Arguments.arguments">
+<elementProp elementType="Argument" name="API_URL">
+<stringProp name="Argument.name">API_URL</stringProp>
+<stringProp name="Argument.value">192.168.1.25</stringProp>
+<stringProp name="Argument.metadata">=</stringProp>
+</elementProp>
+</collectionProp>
+</Arguments>
+<hashTree/>
+<ThreadGroup enabled="true" guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+<intProp name="ThreadGroup.num_threads">500</intProp>
+<intProp name="ThreadGroup.ramp_time">0</intProp>
+<longProp name="ThreadGroup.duration">600</longProp>
+<longProp name="ThreadGroup.delay">0</longProp>
+<boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+<boolProp name="ThreadGroup.scheduler">true</boolProp>
+<stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+<elementProp elementType="LoopController" guiclass="LoopControlPanel" name="ThreadGroup.main_controller" testclass="LoopController">
+<intProp name="LoopController.loops">-1</intProp>
+<boolProp name="LoopController.continue_forever">false</boolProp>
+</elementProp>
+</ThreadGroup>
+<hashTree>
+<TransactionController enabled="true" guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller">
+<boolProp name="TransactionController.includeTimers">false</boolProp>
+</TransactionController>
+<hashTree>
+<GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="submitted phase"/>
+<hashTree>
+<CSVDataSet enabled="true" guiclass="TestBeanGUI" testclass="CSVDataSet" testname="csvQueryParams">
+<stringProp name="filename">/home/michele/Documents/unive-imdb/unive-imdb-test/query.csv</stringProp>
+<stringProp name="fileEncoding"/>
+<stringProp name="variableNames">titleName, titleId</stringProp>
+<boolProp name="ignoreFirstLine">false</boolProp>
+<stringProp name="delimiter">,</stringProp>
+<boolProp name="quotedData">false</boolProp>
+<boolProp name="recycle">true</boolProp>
+<boolProp name="stopThread">false</boolProp>
+<stringProp name="shareMode">shareMode.all</stringProp>
+</CSVDataSet>
+<hashTree/>
+<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
+<stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+<stringProp name="HTTPSampler.port">3000</stringProp>
+<stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
+<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+<stringProp name="HTTPSampler.method">GET</stringProp>
+<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+<boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+<elementProp elementType="Arguments" guiclass="HTTPArgumentsPanel" name="HTTPsampler.Arguments" testclass="Arguments" testname="User Defined Variables">
+<collectionProp name="Arguments.arguments">
+<elementProp elementType="HTTPArgument" name="page">
+<boolProp name="HTTPArgument.always_encode">false</boolProp>
+<stringProp name="Argument.value">${page}</stringProp>
+<stringProp name="Argument.metadata">=</stringProp>
+<boolProp name="HTTPArgument.use_equals">true</boolProp>
+<stringProp name="Argument.name">page</stringProp>
+</elementProp>
+</collectionProp>
+</elementProp>
+</HTTPSamplerProxy>
+<hashTree>
+<JSR223PreProcessor enabled="true" guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
+<stringProp name="cacheKey">true</stringProp>
+<stringProp name="filename"/>
+<stringProp name="parameters"/>
+<stringProp name="script">import java.util.Random;
 import java.lang.Integer;
 
-vars.put(&quot;page&quot;,&quot;1&quot;);
-vars.put(&quot;prob&quot;, Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
-              <stringProp name="scriptLanguage">java</stringProp>
-            </JSR223PreProcessor>
-            <hashTree/>
-          </hashTree>
-          <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="D1_B1_D1">
-            <stringProp name="WhileController.condition">${__javaScript(${prob} == 9)}</stringProp>
-          </WhileController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
-              <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
-              <stringProp name="HTTPSampler.port">3000</stringProp>
-              <stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="page" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${page}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">page</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
-                <stringProp name="scriptLanguage">java</stringProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="script">import java.lang.Integer;
+vars.put("page","1");
+vars.put("prob", Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
+<stringProp name="scriptLanguage">java</stringProp>
+</JSR223PreProcessor>
+<hashTree/>
+</hashTree>
+<WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="D1_B1_D1">
+<stringProp name="WhileController.condition">${__javaScript(${prob} == 9)}</stringProp>
+</WhileController>
+<hashTree>
+<HTTPSamplerProxy enabled="true" guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
+<stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+<stringProp name="HTTPSampler.port">3000</stringProp>
+<stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
+<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+<stringProp name="HTTPSampler.method">GET</stringProp>
+<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+<boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+<elementProp elementType="Arguments" guiclass="HTTPArgumentsPanel" name="HTTPsampler.Arguments" testclass="Arguments" testname="User Defined Variables">
+<collectionProp name="Arguments.arguments">
+<elementProp elementType="HTTPArgument" name="page">
+<boolProp name="HTTPArgument.always_encode">false</boolProp>
+<stringProp name="Argument.value">${page}</stringProp>
+<stringProp name="Argument.metadata">=</stringProp>
+<boolProp name="HTTPArgument.use_equals">true</boolProp>
+<stringProp name="Argument.name">page</stringProp>
+</elementProp>
+</collectionProp>
+</elementProp>
+</HTTPSamplerProxy>
+<hashTree>
+<JSR223PreProcessor enabled="true" guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
+<stringProp name="scriptLanguage">java</stringProp>
+<stringProp name="parameters"/>
+<stringProp name="filename"/>
+<stringProp name="cacheKey">true</stringProp>
+<stringProp name="script">import java.lang.Integer;
 
-vars.put(&quot;page&quot;, Integer.toString(Integer.parseInt(vars.get(&quot;page&quot;)) + 1));</stringProp>
-              </JSR223PreProcessor>
-              <hashTree/>
-              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
-                <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="script">import java.util.Random;
+vars.put("page", Integer.toString(Integer.parseInt(vars.get("page")) + 1));</stringProp>
+</JSR223PreProcessor>
+<hashTree/>
+<JSR223PostProcessor enabled="true" guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor">
+<stringProp name="cacheKey">true</stringProp>
+<stringProp name="filename"/>
+<stringProp name="parameters"/>
+<stringProp name="script">import java.util.Random;
 import java.lang.Integer;
 
-vars.put(&quot;prob&quot;, Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
-                <stringProp name="scriptLanguage">java</stringProp>
-              </JSR223PostProcessor>
-              <hashTree/>
-            </hashTree>
-          </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="D1_B2_D2">
-            <stringProp name="IfController.condition">${__javaScript(${prob} &gt;= 1 &amp;&amp; ${prob} &lt;= 8)}</stringProp>
-            <boolProp name="IfController.evaluateAll">false</boolProp>
-            <boolProp name="IfController.useExpression">true</boolProp>
-          </IfController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId">
-              <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
-              <stringProp name="HTTPSampler.port">3000</stringProp>
-              <stringProp name="HTTPSampler.path">title/${titleId}/</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-            </HTTPSamplerProxy>
-            <hashTree/>
-          </hashTree>
-        </hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time">
-          <intProp name="ActionProcessor.action">1</intProp>
-          <intProp name="ActionProcessor.target">0</intProp>
-          <stringProp name="ActionProcessor.duration">0</stringProp>
-        </TestAction>
-        <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
-            <stringProp name="ConstantTimer.delay">1000</stringProp>
-          </ConstantTimer>
-          <hashTree/>
-        </hashTree>
-      </hashTree>
-    </hashTree>
-  </hashTree>
+vars.put("prob", Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
+<stringProp name="scriptLanguage">java</stringProp>
+</JSR223PostProcessor>
+<hashTree/>
+</hashTree>
+</hashTree>
+<IfController enabled="true" guiclass="IfControllerPanel" testclass="IfController" testname="D1_B2_D2">
+<stringProp name="IfController.condition">${__javaScript(${prob} &gt;= 1 &amp;&amp; ${prob} &lt;= 8)}</stringProp>
+<boolProp name="IfController.evaluateAll">false</boolProp>
+<boolProp name="IfController.useExpression">true</boolProp>
+</IfController>
+<hashTree>
+<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId">
+<stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+<stringProp name="HTTPSampler.port">3000</stringProp>
+<stringProp name="HTTPSampler.path">title/${titleId}/</stringProp>
+<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+<stringProp name="HTTPSampler.method">GET</stringProp>
+<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+<boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+<elementProp elementType="Arguments" guiclass="HTTPArgumentsPanel" name="HTTPsampler.Arguments" testclass="Arguments" testname="User Defined Variables">
+<collectionProp name="Arguments.arguments"/>
+</elementProp>
+</HTTPSamplerProxy>
+<hashTree/>
+</hashTree>
+</hashTree>
+<TestAction guiclass="TestActionGui" testclass="TestAction" testname="thinking phase">
+<intProp name="ActionProcessor.action">1</intProp>
+<intProp name="ActionProcessor.target">0</intProp>
+<stringProp name="ActionProcessor.duration">0</stringProp>
+</TestAction>
+<hashTree>
+<ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
+<stringProp name="ConstantTimer.delay">1000</stringProp>
+</ConstantTimer>
+<hashTree/>
+</hashTree>
+</hashTree>
+</hashTree>
+</hashTree>
+</hashTree>
 </jmeterTestPlan>
