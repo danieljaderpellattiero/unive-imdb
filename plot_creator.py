@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from matplotlib.markers import MarkerStyle
+from matplotlib.text import TextPath
 
 import sympy as sp
 from sympy.solvers import solve
@@ -76,6 +78,8 @@ def lower_bound(service_demands:dict, max_n_users:int, thinking_time:float, bott
     
     down=(D,[(n,(n*Db)-thinking_time) for n in users])
     
+    print("lower bound:", f"R>=max({D}, N*{Db}-{thinking_time})")
+    
     return down 
     
 def upper_bound(service_demands:dict, max_n_users:int, thinking_time:float, bottleneck:str):
@@ -88,6 +92,8 @@ def upper_bound(service_demands:dict, max_n_users:int, thinking_time:float, bott
     users=range(1,max_n_users,1)
     
     up=(1/Db,[(n,n/(D+thinking_time)) for n in users])
+    
+    print("upper bound:", f"X<=min(N/({D}+{thinking_time}), 1/{Db})")
     
     return up
 
@@ -201,6 +207,8 @@ def MVA_data_reader(jmva_file:str):
 
 def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     
+    marker='*'
+    
     lb, ub, n_optimal = bounds_getter_printer()
     
     fig, ax= plt.subplots(figsize=(8, 6))
@@ -208,12 +216,12 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     ax.plot(users, X, label="Throughput")
     ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
     
-    stem=ax.stem(n_optimal, ub[0], label="optimal number of users")
-    stem[1].set_linestyles("dashed")
-    stem[2].set_linestyle("dashed")
-    stem[0].set_color("darkgray")
-    stem[1].set_color("darkgray")
-    stem[2].set_color("darkgray")
+    stem=ax.scatter(n_optimal, ub[0], label="optimal number of users", marker=marker)
+    #stem[1].set_linestyles("dashed")
+    #stem[2].set_linestyle("dashed")
+    #stem[0].set_color("darkgray")
+    #stem[1].set_color("darkgray")
+    #stem[2].set_color("darkgray")
     
     ax.legend()
     ax.grid()
@@ -224,12 +232,12 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     ax.plot(users, R, label="Expected Response Time")
     ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
     
-    stem=ax.stem(n_optimal, lb[0], label="optimal number of users")
-    stem[1].set_linestyles("dashed")
-    stem[2].set_linestyle("dashed")
-    stem[0].set_color("darkgray")
-    stem[1].set_color("darkgray")
-    stem[2].set_color("darkgray")
+    stem=ax.scatter(n_optimal, lb[0], label="optimal number of users", marker=marker)
+    #stem[1].set_linestyles("dashed")
+    #stem[2].set_linestyle("dashed")
+    #stem[0].set_color("darkgray")
+    #stem[1].set_color("darkgray")
+    #stem[2].set_color("darkgray")
     
     ax.legend()
     ax.grid()
@@ -250,6 +258,6 @@ def MVA_plots_with_theoretical_bounds():
     plots(users, X, R, "Theoretical throughput (MVA) vs Number of users \n with theoretical bounds", "Theoretical expected response time (MVA) vs Number of users \n with theoretical bounds")
 
 if __name__ == "__main__":
-    #MVA_plots_with_theoretical_bounds()
-    load_test_plots_with_theoretical_bounds()
+    MVA_plots_with_theoretical_bounds()
+    #load_test_plots_with_theoretical_bounds()
 
