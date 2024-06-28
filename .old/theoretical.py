@@ -32,7 +32,7 @@ def trafficEqSolver():
     new["B2"]=relative_visit_ratios[0][B2]
     new["D1"]=relative_visit_ratios[0][D1]
     new["D2"]=relative_visit_ratios[0][D2]
-    new["T1"]=relative_visit_ratios[0][T1]
+    #new["T1"]=relative_visit_ratios[0][T1]
     
     return new
     
@@ -49,30 +49,13 @@ def serviceDemands(service_times:dict, relative_visit_ratios:dict):
     
     #service_demands["T1"]=relative_visit_ratios[T1]*1000
     
-    bottleneck=max(service_demands, key= lambda x: service_demands[x])
-    
     print("service demands:", service_demands)
+    
+    bottleneck=max(service_demands, key= lambda x: service_demands[x])
     
     print("bottleneck:", bottleneck)
     
     return service_demands, bottleneck
-
-def utilizations(service_demands:dict, n_users:int):
-    
-    utilizations={}
-    X1=1*n_users
-    
-    utilizations["B1"]=service_demands["B1"]*X1
-    utilizations["D1"]=service_demands["D1"]*X1
-    
-    utilizations["B2"]=service_demands["B2"]*X1
-    utilizations["D2"]=service_demands["D2"]*X1
-    
-    #utilizations["T1"]=service_demands["T1"]*X1
-    
-    print("utilizations:", utilizations)
-    
-    return utilizations
 
 def NOpt(service_demands:dict, thinking_time:float, bottleneck:str):
     
@@ -93,8 +76,6 @@ def lower_bound(service_demands:dict, max_n_users:int, thinking_time:float, bott
     
     down=(D,[(n,(n*Db)-thinking_time) for n in users])
     
-    #print(down)
-    
     return down 
     
 def upper_bound(service_demands:dict, max_n_users:int, thinking_time:float, bottleneck:str):
@@ -108,11 +89,9 @@ def upper_bound(service_demands:dict, max_n_users:int, thinking_time:float, bott
     
     up=(1/Db,[(n,n/(D+thinking_time)) for n in users])
     
-    #print(up)
-    
     return up
 
-def plot_boundaries():
+def plot_boundaries(service_demands:dict, bottleneck:str):
     
     fig, axs = plt.subplots(
         nrows=2, ncols=1,
@@ -130,20 +109,20 @@ def plot_boundaries():
     #axs[1].set_ylim(0,0.3)
     axs[1].set_title("Lower Bound")
     
-    print("up", [min(up[0],x[1]) for x in up[1]][50])
+    #print("up", [min(up[0],x[1]) for x in up[1]][50])
     #print("down", [max(down[0], x[1]) for x in down[1]])
     
     plt.show()
 
 if __name__ == "__main__":
     
-    relative_visit_ratios=trafficEqSolver()
+    #relative_visit_ratios=trafficEqSolver()
     
-    service_times=service_times_reader(n_cores=8)
+    #service_times=service_times_reader(n_cores=8)
     
-    service_demands, bottleneck=serviceDemands(relative_visit_ratios, service_times)
+    #service_demands, bottleneck=serviceDemands(relative_visit_ratios, service_times)
     
-    n_optimal = NOpt(service_demands, thinking_time=1, bottleneck=bottleneck)
+    #n_optimal = NOpt(service_demands, thinking_time=1, bottleneck=bottleneck)
     
     #lower_bound(service_demands, max_n_users=500, thinking_time=1, bottleneck=bottleneck)
     
@@ -152,3 +131,5 @@ if __name__ == "__main__":
     #utilizations=utilizations(service_demands, n_users=100)
     
     plot_boundaries()
+    
+    #trafficEqSolver()
