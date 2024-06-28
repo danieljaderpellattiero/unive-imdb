@@ -206,14 +206,32 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     fig, ax= plt.subplots(figsize=(8, 6))
     
     ax.plot(users, X, label="Throughput")
-    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound")
+    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
+    
+    stem=ax.stem(n_optimal, ub[0], label="optimal number of users")
+    stem[1].set_linestyles("dashed")
+    stem[2].set_linestyle("dashed")
+    stem[0].set_color("darkgray")
+    stem[1].set_color("darkgray")
+    stem[2].set_color("darkgray")
+    
+    ax.legend()
     ax.grid()
     ax.set_title(Throughput_title)
     
     fig, ax= plt.subplots(figsize=(8, 6))
     
     ax.plot(users, R, label="Expected Response Time")
-    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound")
+    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
+    
+    stem=ax.stem(n_optimal, lb[0], label="optimal number of users")
+    stem[1].set_linestyles("dashed")
+    stem[2].set_linestyle("dashed")
+    stem[0].set_color("darkgray")
+    stem[1].set_color("darkgray")
+    stem[2].set_color("darkgray")
+    
+    ax.legend()
     ax.grid()
     ax.set_title(ResponseTime_title)
     
@@ -223,13 +241,13 @@ def load_test_plots_with_theoretical_bounds():
     
     users, X, R = load_test_reader()
     
-    plots(users, X, R, "Empirical throughput vs Number of users", "Empirical expected response time vs Number of users")
+    plots(users, X, R, "Empirical throughput vs Number of users \n with theoretical bounds", "Empirical expected response time vs Number of users \n with theoretical bounds")
 
 def MVA_plots_with_theoretical_bounds():
 
     users, X, R = MVA_data_reader("theoretical/MVA.jmva")
     
-    plots(users, X, R, "Theoretical throughput (MVA) vs Number of users", "Theoretical expected response time (MVA) vs Number of users")
+    plots(users, X, R, "Theoretical throughput (MVA) vs Number of users \n with theoretical bounds", "Theoretical expected response time (MVA) vs Number of users \n with theoretical bounds")
 
 if __name__ == "__main__":
     #MVA_plots_with_theoretical_bounds()
