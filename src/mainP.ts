@@ -51,7 +51,9 @@ const calculateExecutionTime = (dbServiceQuery: number) => {
 	const dbServiceTimeCCache = measures.find(
 		(measure: PerformanceEntry) => measure.name === 'dbServiceCCache'
 	)!.duration;
-	const dbAskServiceQuery = measures.find((measure: PerformanceEntry) => measure.name === 'dbAskServiceQuery')!.duration;
+	const dbAskServiceQuery = measures.find(
+		(measure: PerformanceEntry) => measure.name === 'dbAskServiceQuery'
+	)!.duration;
 	return {
 		apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceQuery - dbAskServiceQuery,
 		dbServiceTime: dbServiceTimeCCache + dbServiceQuery,
@@ -128,10 +130,11 @@ app.get('/search/preview/:title', async (req, res) => {
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		
+
 		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
-		.millis;
+		const dbServiceTimeRetrieved = (
+			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
+		)[0].millis;
 		performance.mark('dbAskServiceQueryEnd');
 		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
 
@@ -210,10 +213,11 @@ app.get('/search/:title', async (req, res) => {
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		
+
 		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
-		.millis;
+		const dbServiceTimeRetrieved = (
+			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
+		)[0].millis;
 		performance.mark('dbAskServiceQueryEnd');
 		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
 
@@ -268,10 +272,11 @@ app.get('/search/episodes/:title', async (req, res) => {
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		
+
 		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
-		.millis;
+		const dbServiceTimeRetrieved = (
+			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
+		)[0].millis;
 		performance.mark('dbAskServiceQueryEnd');
 		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
 
@@ -357,10 +362,11 @@ app.get('/title/:id', async (req, res) => {
 		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		
+
 		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
-		.millis;
+		const dbServiceTimeRetrieved = (
+			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
+		)[0].millis;
 		performance.mark('dbAskServiceQueryEnd');
 		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
 
@@ -446,10 +452,11 @@ app.get('/episode/:id', async (req, res) => {
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		
+
 		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
-		.millis;
+		const dbServiceTimeRetrieved = (
+			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
+		)[0].millis;
 		performance.mark('dbAskServiceQueryEnd');
 		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
 
