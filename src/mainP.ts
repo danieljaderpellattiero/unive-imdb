@@ -2,7 +2,7 @@ import 'dotenv/config';
 import pino from 'pino';
 import express from 'express';
 import pinoHttp from 'pino-http';
-import { performance, PerformanceObserver } from 'perf_hooks';
+import { performance } from 'perf_hooks';
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
@@ -45,21 +45,6 @@ const regexSanitizer = (str: string) => {
 	return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 };
 
-const calculateExecutionTime = (dbServiceQuery: number) => {
-	const measures = performance.getEntriesByType('measure');
-	const apiServiceTime = measures.find((measure: PerformanceEntry) => measure.name === 'apiService')!.duration;
-	const dbServiceTimeCCache = measures.find(
-		(measure: PerformanceEntry) => measure.name === 'dbServiceCCache'
-	)!.duration;
-	const dbAskServiceQuery = measures.find(
-		(measure: PerformanceEntry) => measure.name === 'dbAskServiceQuery'
-	)!.duration;
-	return {
-		apiServiceTime: apiServiceTime - dbServiceTimeCCache - dbServiceQuery - dbAskServiceQuery,
-		dbServiceTime: dbServiceTimeCCache + dbServiceQuery,
-	};
-};
-
 const app = express();
 
 app.use(cors());
@@ -78,7 +63,7 @@ app.listen(process.env.PORT, async () => {
 
 // Returns the top 4 most voted titles that match the search query prefix.
 app.get('/search/preview/:title', async (req, res) => {
-	performance.mark('apiServiceStart');
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { nameLower: { $regex: new RegExp(`^${regexSanitizer(req.params.title)}`) } } },
 		{ $group: { _id: '$titleId' } },
@@ -122,43 +107,31 @@ app.get('/search/preview/:title', async (req, res) => {
 		{ $limit: 4 },
 	];
 	try {
-		performance.mark('dbServiceCCacheStart');
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
-		performance.mark('dbServiceCCacheEnd');
-		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-
-		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (
-			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
-		)[0].millis;
-		performance.mark('dbAskServiceQueryEnd');
-		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
-
+		const dbServiceTime2S = performance.now();
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		performance.mark('apiServiceEnd');
-		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-
-		const { apiServiceTime, dbServiceTime } = calculateExecutionTime(dbServiceTimeRetrieved);
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime,
-			dbServiceTime,
+			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
+			dbServiceTime: dbServiceTime + dbServiceTime1E,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
-	} finally {
-		performance.clearMarks();
-		performance.clearMeasures();
 	}
 });
 
 // Returns the titles that match the search query prefix, paginated.
 app.get('/search/:title', async (req, res) => {
-	performance.mark('apiServiceStart');
+	const apiServiceTime1S = performance.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -205,43 +178,31 @@ app.get('/search/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		performance.mark('dbServiceCCacheStart');
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
-		performance.mark('dbServiceCCacheEnd');
-		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-
-		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (
-			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
-		)[0].millis;
-		performance.mark('dbAskServiceQueryEnd');
-		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
-
+		const dbServiceTime2S = performance.now();
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		performance.mark('apiServiceEnd');
-		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-
-		const { apiServiceTime, dbServiceTime } = calculateExecutionTime(dbServiceTimeRetrieved);
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime,
-			dbServiceTime,
+			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
+			dbServiceTime: dbServiceTime + dbServiceTime1E,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
-	} finally {
-		performance.clearMarks();
-		performance.clearMeasures();
 	}
 });
 
 // Returns the list of episodes of a title, paginated.
 app.get('/search/episodes/:title', async (req, res) => {
-	performance.mark('apiServiceStart');
+	const apiServiceTime1S = performance.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -264,43 +225,31 @@ app.get('/search/episodes/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		performance.mark('dbServiceCCacheStart');
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
-		performance.mark('dbServiceCCacheEnd');
-		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-
-		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (
-			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
-		)[0].millis;
-		performance.mark('dbAskServiceQueryEnd');
-		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
-
+		const dbServiceTime2S = performance.now();
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		performance.mark('apiServiceEnd');
-		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-
-		const { apiServiceTime, dbServiceTime } = calculateExecutionTime(dbServiceTimeRetrieved);
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime,
-			dbServiceTime,
+			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
+			dbServiceTime: dbServiceTime + dbServiceTime1E,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
-	} finally {
-		performance.clearMarks();
-		performance.clearMeasures();
 	}
 });
 
 // Returns the title details.
 app.get('/title/:id', async (req, res) => {
-	performance.mark('apiServiceStart');
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -354,43 +303,31 @@ app.get('/title/:id', async (req, res) => {
 		},
 	];
 	try {
-		performance.mark('dbServiceCCacheStart');
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.basics' });
-		performance.mark('dbServiceCCacheEnd');
-		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-
-		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (
-			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
-		)[0].millis;
-		performance.mark('dbAskServiceQueryEnd');
-		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
-
+		const dbServiceTime2S = performance.now();
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		performance.mark('apiServiceEnd');
-		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-
-		const { apiServiceTime, dbServiceTime } = calculateExecutionTime(dbServiceTimeRetrieved);
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime,
-			dbServiceTime,
+			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
+			dbServiceTime: dbServiceTime + dbServiceTime1E,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
-	} finally {
-		performance.clearMarks();
-		performance.clearMeasures();
 	}
 });
 
 // Returns the episode details.
 app.get('/episode/:id', async (req, res) => {
-	performance.mark('apiServiceStart');
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.crew', localField: '_id', foreignField: '_id', as: 'ref_crew' } },
@@ -444,37 +381,25 @@ app.get('/episode/:id', async (req, res) => {
 		},
 	];
 	try {
-		performance.mark('dbServiceCCacheStart');
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
-		performance.mark('dbServiceCCacheEnd');
-		performance.measure('dbServiceCCache', 'dbServiceCCacheStart', 'dbServiceCCacheEnd');
-
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-
-		performance.mark('dbAskServiceQueryStart');
-		const dbServiceTimeRetrieved = (
-			await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray()
-		)[0].millis;
-		performance.mark('dbAskServiceQueryEnd');
-		performance.measure('dbAskServiceQuery', 'dbAskServiceQueryStart', 'dbAskServiceQueryEnd');
-
+		const dbServiceTime2S = performance.now();
+		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
+			.millis;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		performance.mark('apiServiceEnd');
-		performance.measure('apiService', 'apiServiceStart', 'apiServiceEnd');
-
-		const { apiServiceTime, dbServiceTime } = calculateExecutionTime(dbServiceTimeRetrieved);
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
-			apiServiceTime,
-			dbServiceTime,
+			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
+			dbServiceTime: dbServiceTime + dbServiceTime1E,
 		});
 	} catch (error: any) {
 		req.log.error({ error: error.message });
 		res.status(500).send({ error: error.message });
-	} finally {
-		performance.clearMarks();
-		performance.clearMeasures();
 	}
 });
 
