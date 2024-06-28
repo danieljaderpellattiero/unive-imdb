@@ -1,3 +1,6 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces MongoDB thread pool in idle state}}{9}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces MongoDB thread pool under load conditions}}{10}{figure.3.2}%
