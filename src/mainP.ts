@@ -2,6 +2,7 @@ import 'dotenv/config';
 import pino from 'pino';
 import express from 'express';
 import pinoHttp from 'pino-http';
+import { performance } from 'perf_hooks';
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
@@ -59,7 +60,7 @@ app.listen(process.env.PORT, async () => {
 
 // Returns the top 4 most voted titles that match the search query prefix.
 app.get('/search/preview/:title', async (req, res) => {
-	const apiServiceTime1S = Date.now();
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { nameLower: { $regex: new RegExp(`^${regexSanitizer(req.params.title)}`) } } },
 		{ $group: { _id: '$titleId' } },
@@ -103,18 +104,18 @@ app.get('/search/preview/:title', async (req, res) => {
 		{ $limit: 4 },
 	];
 	try {
-		const dbServiceTime1S = Date.now();
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
-		const dbServiceTime1E = Date.now() - dbServiceTime1S;
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		const dbServiceTime2S = Date.now();
+		const dbServiceTime2S = performance.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
-		const dbServiceTime2E = Date.now() - dbServiceTime2S;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
 			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
 			dbServiceTime: dbServiceTime + dbServiceTime1E,
@@ -127,7 +128,7 @@ app.get('/search/preview/:title', async (req, res) => {
 
 // Returns the titles that match the search query prefix, paginated.
 app.get('/search/:title', async (req, res) => {
-	const apiServiceTime1S = Date.now();
+	const apiServiceTime1S = performance.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -174,18 +175,18 @@ app.get('/search/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		const dbServiceTime1S = Date.now();
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.akas' });
-		const dbServiceTime1E = Date.now() - dbServiceTime1S;
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.akas');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		const dbServiceTime2S = Date.now();
+		const dbServiceTime2S = performance.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
-		const dbServiceTime2E = Date.now() - dbServiceTime2S;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
 			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
 			dbServiceTime: dbServiceTime + dbServiceTime1E,
@@ -198,7 +199,7 @@ app.get('/search/:title', async (req, res) => {
 
 // Returns the list of episodes of a title, paginated.
 app.get('/search/episodes/:title', async (req, res) => {
-	const apiServiceTime1S = Date.now();
+	const apiServiceTime1S = performance.now();
 	const page = parseInt(req.query.page as string) || 1;
 	const itemsPerPage = parseInt(req.query.itemsPerPage as string) || 8;
 	const pipeline = [
@@ -221,18 +222,18 @@ app.get('/search/episodes/:title', async (req, res) => {
 		{ $limit: itemsPerPage },
 	];
 	try {
-		const dbServiceTime1S = Date.now();
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
-		const dbServiceTime1E = Date.now() - dbServiceTime1S;
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		const dbServiceTime2S = Date.now();
+		const dbServiceTime2S = performance.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
-		const dbServiceTime2E = Date.now() - dbServiceTime2S;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
 			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
 			dbServiceTime: dbServiceTime + dbServiceTime1E,
@@ -245,7 +246,7 @@ app.get('/search/episodes/:title', async (req, res) => {
 
 // Returns the title details.
 app.get('/title/:id', async (req, res) => {
-	const apiServiceTime1S = Date.now();
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.episodes', localField: '_id', foreignField: '_id', as: 'ref_episode' } },
@@ -299,18 +300,18 @@ app.get('/title/:id', async (req, res) => {
 		},
 	];
 	try {
-		const dbServiceTime1S = Date.now();
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.basics' });
-		const dbServiceTime1E = Date.now() - dbServiceTime1S;
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.basics');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		const dbServiceTime2S = Date.now();
+		const dbServiceTime2S = performance.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
-		const dbServiceTime2E = Date.now() - dbServiceTime2S;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
 			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
 			dbServiceTime: dbServiceTime + dbServiceTime1E,
@@ -323,7 +324,7 @@ app.get('/title/:id', async (req, res) => {
 
 // Returns the episode details.
 app.get('/episode/:id', async (req, res) => {
-	const apiServiceTime1S = Date.now();
+	const apiServiceTime1S = performance.now();
 	const pipeline = [
 		{ $match: { _id: req.params.id } },
 		{ $lookup: { from: 'title.crew', localField: '_id', foreignField: '_id', as: 'ref_crew' } },
@@ -377,18 +378,18 @@ app.get('/episode/:id', async (req, res) => {
 		},
 	];
 	try {
-		const dbServiceTime1S = Date.now();
+		const dbServiceTime1S = performance.now();
 		await db.command({ planCacheClear: 'unive-imdb.title.episodes' });
-		const dbServiceTime1E = Date.now() - dbServiceTime1S;
+		const dbServiceTime1E = performance.now() - dbServiceTime1S;
 		const collection = db.collection('title.episodes');
 		const cursor = collection.aggregate(pipeline);
 		const result = await cursor.toArray();
-		const dbServiceTime2S = Date.now();
+		const dbServiceTime2S = performance.now();
 		const dbServiceTime = (await db.collection('system.profile').find({}).sort({ ts: -1 }).limit(1).toArray())[0]
 			.millis;
-		const dbServiceTime2E = Date.now() - dbServiceTime2S;
+		const dbServiceTime2E = performance.now() - dbServiceTime2S;
 		res.status(200).send(result);
-		const apiServiceTime1E = Date.now() - apiServiceTime1S;
+		const apiServiceTime1E = performance.now() - apiServiceTime1S;
 		req.log.info({
 			apiServiceTime: apiServiceTime1E - dbServiceTime1E - dbServiceTime - dbServiceTime2E,
 			dbServiceTime: dbServiceTime + dbServiceTime1E,
