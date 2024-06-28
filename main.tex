@@ -1,3 +1,5 @@
+% Template from https://www.overleaf.com/latex/templates/international-university-hcmiu-vnu-pre-thesis-and-thesis-latex-template/hkwcgswxgfth
+
 % Preamble
 \documentclass[12pt, twoside]{report}
 
@@ -9,7 +11,9 @@
 \usepackage[english]{babel}
 \usepackage[a4paper, top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
 \usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref}
 \usepackage{comment}
+\usepackage{float}
 
 % Graphics path
 \graphicspath{{images/}}
@@ -24,37 +28,21 @@
 		\newcommand{\HRule}{\rule{\linewidth}{0.2mm}}
 		
 		\center
-		
-		%----------------------------------------------------------------------------------------
-		%	HEADING SECTIONS
-		%----------------------------------------------------------------------------------------
-		
+
 		\textsc{\Large Ca' Foscari University of Venice }\\[1.0cm]
-		\includegraphics[scale=1]{ unive-emblem.png }\\[1cm]
+		\includegraphics[scale=0.85]{ unive-emblem.png }\\[1cm]
 		\textsc{\Large Department of Environmental Sciences, Informatics and Statistics }\\[0.5cm]
 		\textsc{\large MCS Computer Science and Information Technology CM-90 }\\[0.5cm]
 		\textsc{\large [CM0481] Software Performance and Scalability }\\[0.5cm]
-		
-		%----------------------------------------------------------------------------------------
-		%	TITLE SECTION
-		%----------------------------------------------------------------------------------------
 		
 		\HRule \\[0.8cm]
 		{ \Huge \bfseries IMDb: Performance and Scalability Analysis }\\[0.5cm]
 		\HRule \\[0.8cm]
 		
-		%----------------------------------------------------------------------------------------
-		%	AUTHOR SECTION
-		%----------------------------------------------------------------------------------------
-		
 		\Large \emph{Authors:}\\
-		Michele \textsc{Lotto} - {\large 875922}\\
-		Daniel Jader \textsc{Pellattiero} - {\large 903837}\\[3.5cm]
-		
-		%----------------------------------------------------------------------------------------
-		%	DATE SECTION
-		%----------------------------------------------------------------------------------------
-		
+		Michele \textsc{Lotto} - {\normalsize 875922}\\
+		Daniel Jader \textsc{Pellattiero} - {\normalsize 903837}\\[3.5cm]
+
 		{\large Rev. 26/06/2024  }\\
 		
 		\vfill
@@ -71,16 +59,15 @@
 	% Abstract
 	\chapter*{Abstract}
 	\addcontentsline{toc}{chapter}{Abstract}
-	% Descrizione consegna del progetto
-	% \input{chapters/abstract}
+	\input{chapters/abstract}
 
 	% Body of the paper
-	\chapter{Introduction}
+	\chapter{System implementation}
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
 
 	% Introduction chapter
-	% \input{chapters/introduction}
+	\input{chapters/001}
 
 	% Other chapters
 	% \chapter{Chapter Title}
@@ -95,16 +82,6 @@
 	% \bibliography{IEEEexample}
 
 	\begin{comment}
-	Introduzione:
-		- Descrizione alto livello del sistema.
-	Capitolo 1: Implementazione del sistema
-		- Database.
-			- Data analysis. (sanitization, rimozione film senza rating, guarda lo script)
-			- Schema. (scorporamento degli episodi dai titoli, guarda schema PDF)
-			- Indici + bulk loading e automatization.
-		- API.
-			- Endpoints.
-		- Frontend.
 	Capitolo 2: Test case identification.
 		- Spiegazione a parole + grafo.
 	Capitolo 3: Theoretical queueing network

@@ -1,0 +1,223 @@
+% Chapter introduction
+
+The project entails the development of a three-tiered web application, comprising a database, a RESTful API and a website.
+The following sections will present an analysis of each of these components, with a focus on the technologies and design choices implemented.
+
+\section{Database -- MongoDB}
+
+MongoDB is a popular NoSQL document-oriented database that is designed to store and manage large volumes of structured and unstructured data.
+
+The database was selected as the optimal choice for managing the IMDb Non-Commercial Datasets\footnote[1]{https://developer.imdb.com/non-commercial-datasets/} due to its adoption of a schemaless data modelling, which enables the management of any non-normalised records or fields within the data.
+Furthermore, the usage of JSON format for storing the records allows for enhanced efficiency in interactions with the backend.
+
+\subsection{Data analysis}
+
+Each dataset, comprising a UTF-8-encoded tab-separated values (TSV) file, was subjected to analysis using the Python Pandas library.
+The primary steps of the data analysis process were as follows:
+
+\begin{enumerate}
+	\item The replacement of missing values (denoted by  \verb|`\N'|) with default values of a type consistent with the column domain to which they belong.
+	\item The removal of records that lack some data fields.
+	\item The normalisation of fields containing arrays of elements.
+	\item The potential replacement of table indexes.
+\end{enumerate}
+
+Further modifications were implemented to the tables, however, as these affect the database schema, they will be addressed subsequently.
+
+Once the preliminary phase of preparing the datasets was complete, it was decided that the files should be exported in the JSON format, allowing them to be imported into the database.
+Additionally, the files were exported also in the Parquet format, enabling them to be uploaded to the GitHub repository via the GitHub Large File Storage (LFS) facility\footnote[2]{https://git-lfs.com/}. 
+
+\subsection{Collections' schema}
+
+MongoDB represents objects using BSON (Binary JSON) types, which are binary-encoded serialisations of documents that adhere to the JSON format.
+As each table in MongoDB is translated into the concept of a document collection, the diagrams of the respective collections imported from the datasets obtained post data analysis are presented below.
+Furthermore, supplementary notes on the refactoring of the tables are provided.
+
+\begin{table}[H]
+	\caption{`\textit{title.basics}' collection schema}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ cccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Field & BSON type & Index & Index type \\
+		\hline
+		\_id & String & yes & unique, ascending \\
+		titleType & String & no & - \\
+		name & String & no & - \\
+		nameEng & String & no & - \\
+		isAdult & Boolean & no & - \\
+		genres & Array[String] & no & - \\
+		startYear & 32-bit integer & no & - \\
+		endYear & 32-bit integer & no & - \\
+		runtime & 32-bit integer & no & - \\
+		rating & Double & no & - \\
+		votes & 32-bit integer & no & - \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}  
+
+\textit{N.d.R.}: A collection was created ad hoc for records with the field \textit{`titleType'} equal to \textit{`tvEpisode'}.
+
+\begin{table}[H]
+	\caption{`\textit{title.akas}' collection schema}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ cccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Field & BSON type & Index & Index type \\
+		\hline
+		\_id & ObjectId & yes & unique, ascending \\
+		titleId & String & no & - \\
+		ordering & 32-bit integer & no & - \\
+		region & String & no & - \\
+		name & String & no & - \\
+		nameLower & String & yes & ascending \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+\textit{N.d.R.}: \textit{`language'}, \textit{`types'}, \textit{`attributes'}, \textit{`isOriginalTitle'} fields dropped.
+
+\begin{table}[H]
+	\caption{`\textit{title.crew}' collection schema}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ cccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Field & BSON type & Index & Index type \\
+		\hline
+		\_id & String & yes & unique, ascending \\
+		writers & Array[String] & no & - \\
+		directors & Array[String] & no & - \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+	\caption{`\textit{title.episodes}' collection schema}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ cccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Field & BSON type & Index & Index type \\
+		\hline
+		\_id & String & yes & unique, ascending \\
+		titleId & String & yes & ascending \\
+		name & String & no & - \\
+		nameEng & String & no & - \\
+		season & 32-bit integer & no & - \\
+		episode & 32-bit integer & no & - \\
+		isAdult & Boolean & no & - \\
+		genres & Array[String] & no & - \\
+		startYear & 32-bit integer & no & - \\
+		endYear & 32-bit integer & no & - \\
+		runtime & 32-bit integer & no & - \\
+		rating & Double & no & - \\
+		votes & 32-bit integer & no & - \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+	\caption{`\textit{name.basics}' collection schema}
+	\begin{center}
+		%\def\arraystretch{1.4}
+		\begin{tabular}{ cccc }
+			%\multicolumn{5}{c}{} \\
+			\hline
+			Field & BSON type & Index & Index type \\
+			\hline
+			\_id & String & yes & unique, ascending \\
+			fullName & String & no & - \\
+			birth & 32-bit integer & no & - \\
+			death & 32-bit integer & no & - \\
+			professions & Array[String] & no & - \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\textit{N.d.R.}: \textit{`knownForTitles'} field dropped.
+
+\begin{table}[H]
+	\caption{`\textit{title.principals}' collection schema}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ cccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Field & BSON type & Index & Index type \\
+		\hline
+		\_id & ObjectId & yes & unique, ascending \\
+		titleId & String & yes & ascending \\
+		ordering & 32-bit integer & no & - \\
+		personId & String & no & - \\
+		job & String & no & - \\
+		characters & Array[String] & no & - \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+\textit{N.d.R.}: \textit{`category'} field used to fill empty \textit{`job'} fields; then dropped.
+
+\subsection{Schema indexes and bulk data insert}
+
+As can be seen from the tables above, in addition to the standard unique indexes, it was decided to add additional ones to optimise the queries requested by the backend.
+Given the significant use of wildcard searches based on regular prefix expressions, it was decided to implement ascending indexes on several \textit{`String'} type fields to drastically reduce search times without having to resort to a text index, which would take up much more space due to the tokenisation and stemming of the fields.
+
+In order to perform a bulk insert of the approximately 42.5 million records contained in $\sim1.6$ GB of JSON files, it was decided to write a script in Python that would take advantage of a multithreaded execution of the \verb|mongoimport| command-line tool provided by MongoDB.
+The overall script is responsible for generating the database's collections, populating them and finally creating indexes.
+
+\subsection{Technical details}
+
+The database was configured as a locally managed instance of MongoDB, thus avoiding the utilisation of the cloud version of the service (Atlas).
+The service's local deployment facilitated the monitoring and control of its resources, as well as the measurement of its performance.
+These factors collectively contributed to the generation of more reliable results during the load tests that were conducted.
+
+Technical insights into the environment are presented below.
+
+\begin{itemize}
+	\item MongoDB 7.0.11 (Community Server service)
+	\item MongoDB Compass 1.43.3 (database UI)
+	\item MongoDB Shell 2.2.9 (database CLI)
+\end{itemize}
+
+\section{RESTful API -- Express}
+
+The web application's backend was developed using the Express framework, a Node.js web application framework that was identified as the most widely utilised in the `State of JavaScript 2023' survey\footnote[3]{https://2023.stateofjs.com/en-US/other-tools/\#backend\_frameworks}.
+
+A variety of endpoints were incorporated into the API, enabling a constrained yet still functional utilisation of the web interface.
+The user-accessible API calls are enumerated below, along with a concise description of each.
+
+\begin{enumerate}
+	\item \verb|localhost:3000/search/preview/:title| -- Returns the top 4 most voted titles that match the search query prefix.
+	\item \verb|localhost:3000/search/:title| -- Returns the most voted titles that match the search query prefix; the results are paginated in groups of 8.
+	\item \verb|localhost:3000/search/episodes/:title| -- Returns the episodes of a specific title that matches the \textit{`titleId'} parameter.
+	\item \verb|localhost:3000/title/:id| -- Returns the details of a specific title that matches the \textit{`\_id'} parameter.
+	\item \verb|localhost:3000/episode/:id| -- Returns the details of a specific episode that matches the \textit{`\_id'} parameter.
+\end{enumerate}
+
+The official MongoDB driver for Node.js (Typescript) \verb|mongodb@6.8| is responsible for handling queries from the backend to the database.
+We deliberately decided not to utilise any form of Object-Relational/Document Mapping (e.g. \verb|Mongoose| or \verb|Prisma|) due to the suitability of the JSON record format to the application domain model and potential performance overheads.
+
+Aggregation pipelines are used to facilitate the execution of queries to the database.
+These pipelines allow the definition of queries through the use of a sequential list of stages, thereby simplifying the grouping and sorting of data and providing control over the execution times of the individual stages within the pipeline.
+
+\section{Website -- Vue and Tailwind CSS}
+
+The web interface of the system was realised using Vue.js `The Progressive JavaScript Framework', a well-known framework used for building SPAs (Single Page Applications) renowned for its component-based architecture and reactive data binding system.
+The aesthetic component was addressed through the utilisation of Tailwind CSS, a utility-first CSS framework that can be suitably integrated with Vue.
+A bundle of the website, optimised for deployment on a static hosting service, was created at the end of the development process using Vite\footnote[4]{A modern front-end build tool that facilitates optimized production builds through the utilization of ES hot module replacement (HMR).}.
+This design choice ensures that the frontend is efficiently packaged into static files, which can be served directly to users without requiring server-side processing.
+Consequently, during load testing with JMeter, the focus has been exclusively on the backend API endpoints, as the frontend's static nature does not impose additional load on the server.
+
+Thumbnails of the web interface are available on GitHub\footnote[5]{https://github.com/danieljaderpellattiero/unive-imdb/tree/frontend/thumbnails}.
