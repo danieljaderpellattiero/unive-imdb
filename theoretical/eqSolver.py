@@ -46,10 +46,10 @@ def service_times(n_cores:int):
     response_times_B2_D2=avg_response_time("ST_B2_D2.log") #click
     
     service_times["B1"]=response_times_B1_D1["ST_Api"]
-    service_times["D1"]=response_times_B1_D1["ST_Db"]/(n_cores-1)
+    service_times["D1"]=response_times_B1_D1["ST_Db"]/(n_cores)
     
     service_times["B2"]=response_times_B2_D2["ST_Api"]
-    service_times["D2"]=response_times_B2_D2["ST_Db"]/(n_cores-1)
+    service_times["D2"]=response_times_B2_D2["ST_Db"]/(n_cores)
     
     print("service times:", service_times)
     
