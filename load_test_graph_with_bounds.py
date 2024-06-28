@@ -4,7 +4,6 @@ from load_test.search_with_click.load_test_reader import load_test_reader
 
 import matplotlib.pyplot as plt
 
-
 def load_test_graphs_with_bounds():
     
     relative_visit_ratios=trafficEqSolver()
