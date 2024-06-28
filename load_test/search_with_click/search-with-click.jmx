@@ -20,7 +20,7 @@
 </collectionProp>
 </Arguments>
 <hashTree/>
-<ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+<ThreadGroup enabled="true" guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
 <intProp name="ThreadGroup.num_threads">500</intProp>
 <intProp name="ThreadGroup.ramp_time">0</intProp>
 <longProp name="ThreadGroup.duration">600</longProp>
@@ -34,12 +34,11 @@
 </elementProp>
 </ThreadGroup>
 <hashTree>
-<TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller">
-<boolProp name="TransactionController.parent">true</boolProp>
+<TransactionController enabled="true" guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller">
 <boolProp name="TransactionController.includeTimers">false</boolProp>
 </TransactionController>
 <hashTree>
-<GenericController enabled="true" guiclass="LogicControllerGui" testclass="GenericController" testname="submitted phase"/>
+<GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="submitted phase"/>
 <hashTree>
 <CSVDataSet enabled="true" guiclass="TestBeanGUI" testclass="CSVDataSet" testname="csvQueryParams">
 <stringProp name="filename">/home/michele/Documents/unive-imdb/unive-imdb-test/query.csv</stringProp>
@@ -53,7 +52,7 @@
 <stringProp name="shareMode">shareMode.all</stringProp>
 </CSVDataSet>
 <hashTree/>
-<HTTPSamplerProxy enabled="true" guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
+<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET search/:title">
 <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
 <stringProp name="HTTPSampler.port">3000</stringProp>
 <stringProp name="HTTPSampler.path">search/${titleName}/</stringProp>
@@ -87,7 +86,7 @@ vars.put("prob", Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
 </JSR223PreProcessor>
 <hashTree/>
 </hashTree>
-<WhileController enabled="true" guiclass="WhileControllerGui" testclass="WhileController" testname="D1_B1_D1">
+<WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="D1_B1_D1">
 <stringProp name="WhileController.condition">${__javaScript(${prob} == 9)}</stringProp>
 </WhileController>
 <hashTree>
@@ -141,7 +140,7 @@ vars.put("prob", Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
 <boolProp name="IfController.useExpression">true</boolProp>
 </IfController>
 <hashTree>
-<HTTPSamplerProxy enabled="true" guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId">
+<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET title/:titleId">
 <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
 <stringProp name="HTTPSampler.port">3000</stringProp>
 <stringProp name="HTTPSampler.path">title/${titleId}/</stringProp>
@@ -155,24 +154,14 @@ vars.put("prob", Integer.toString((new Random()).nextInt(10) + 1));</stringProp>
 </HTTPSamplerProxy>
 <hashTree/>
 </hashTree>
-<JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler">
-<stringProp name="cacheKey">true</stringProp>
-<stringProp name="filename"/>
-<stringProp name="parameters"/>
-<stringProp name="script">import java.util.concurrent.TimeUnit;
-
-TimeUnit.SECONDS.sleep(1);</stringProp>
-<stringProp name="scriptLanguage">java</stringProp>
-</JSR223Sampler>
-<hashTree/>
 </hashTree>
-<TestAction enabled="false" guiclass="TestActionGui" testclass="TestAction" testname="thinking phase">
+<TestAction guiclass="TestActionGui" testclass="TestAction" testname="thinking phase">
 <intProp name="ActionProcessor.action">1</intProp>
 <intProp name="ActionProcessor.target">0</intProp>
 <stringProp name="ActionProcessor.duration">0</stringProp>
 </TestAction>
 <hashTree>
-<ConstantTimer enabled="false" guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
+<ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
 <stringProp name="ConstantTimer.delay">1000</stringProp>
 </ConstantTimer>
 <hashTree/>

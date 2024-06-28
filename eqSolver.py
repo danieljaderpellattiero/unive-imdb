@@ -2,7 +2,7 @@ import sympy as sp
 from sympy.solvers import solve
 from sympy import symbols
 
-from avg import avg_response_time
+from service_times import service_times_reader
 
 import numpy as np
 
@@ -35,25 +35,6 @@ def trafficEqSolver():
     new["T1"]=relative_visit_ratios[0][T1]
     
     return new
-
-
-def service_times(n_cores:int):
-    
-    service_times={} 
-    
-    response_times_B1_D1=avg_response_time("ST_B1_D1.log") #search
-    
-    response_times_B2_D2=avg_response_time("ST_B2_D2.log") #click
-    
-    service_times["B1"]=response_times_B1_D1["ST_Api"]
-    service_times["D1"]=response_times_B1_D1["ST_Db"]/(n_cores)
-    
-    service_times["B2"]=response_times_B2_D2["ST_Api"]
-    service_times["D2"]=response_times_B2_D2["ST_Db"]/(n_cores)
-    
-    print("service times:", service_times)
-    
-    return service_times
     
 def serviceDemands(service_times:dict, relative_visit_ratios:dict):
     
@@ -75,9 +56,6 @@ def serviceDemands(service_times:dict, relative_visit_ratios:dict):
     print("bottleneck:", bottleneck)
     
     return service_demands, bottleneck
-
-def total_throughput():
-    pass
 
 def utilizations(service_demands:dict, n_users:int):
     
@@ -161,7 +139,7 @@ if __name__ == "__main__":
     
     relative_visit_ratios=trafficEqSolver()
     
-    service_times=service_times(n_cores=8)
+    service_times=service_times_reader(n_cores=8)
     
     service_demands, bottleneck=serviceDemands(relative_visit_ratios, service_times)
     
@@ -169,7 +147,7 @@ if __name__ == "__main__":
     
     #lower_bound(service_demands, max_n_users=500, thinking_time=1, bottleneck=bottleneck)
     
-    #upper_bound(service_demands, max_n_users=1000, thinking_time=1, bottleneck=bottleneck)
+    #upper_bound(service_demands, max_n_users=500, thinking_time=1, bottleneck=bottleneck)
     
     #utilizations=utilizations(service_demands, n_users=100)
     

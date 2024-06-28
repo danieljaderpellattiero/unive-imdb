@@ -1,9 +1,10 @@
 import json
 
-import sys
-
 def avg_response_time(logName:str): #'response_times_B1_B2_D1.log'
-    with open(logName, 'r') as f:
+    
+    script_path="service_time_test/"
+    
+    with open(script_path+logName, 'r') as f:
         
         api=[]
         db=[]
@@ -28,10 +29,23 @@ def avg_response_time(logName:str): #'response_times_B1_B2_D1.log'
         
         return result
 
+def service_times_reader(n_cores:int):
+    
+    service_times={} 
+    
+    response_times_B1_D1=avg_response_time("ST_B1_D1.log") #search
+    
+    response_times_B2_D2=avg_response_time("ST_B2_D2.log") #click
+    
+    service_times["B1"]=response_times_B1_D1["ST_Api"]
+    service_times["D1"]=response_times_B1_D1["ST_Db"]/(n_cores)
+    
+    service_times["B2"]=response_times_B2_D2["ST_Api"]
+    service_times["D2"]=response_times_B2_D2["ST_Db"]/(n_cores)
+    
+    print("service times:", service_times)
+    
+    return service_times
+
 if __name__ == '__main__':
-    
-    args = sys.argv[1:]
-    
-    print(args)
-    
-    avg_response_time(args[0])
+    service_times_reader(8)
