@@ -225,7 +225,7 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     
     ax.plot(users, X, label="$X$")
     ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="$\min\left(\\frac{N}{{D}+{\overline{Z}}}, \\frac{1}{D_{b}}\\right)$", linestyle='dotted', color='red')
-    stem=ax.scatter(n_optimal, ub[0], label="$N_{opt}$", marker=marker)
+    stem=ax.scatter(n_optimal, ub[0], label="$N_{opt}$", marker=marker, color='slateblue', s=80, zorder=10)
     #stem[1].set_linestyles("dashed")
     #stem[2].set_linestyle("dashed")
     #stem[0].set_color("darkgray")
@@ -243,7 +243,7 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     ax.plot(users, R, label="$\overline{R}$")
     ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="$\max(D, {N \cdot D_{b}}-\overline{Z})$", linestyle='dotted', color='red')
     
-    stem=ax.scatter(n_optimal, lb[0], label="$N_{opt}$", marker=marker)
+    stem=ax.scatter(n_optimal, lb[0], label="$N_{opt}$", marker=marker, color='slateblue', s=80, zorder=10)
     #stem[1].set_linestyles("dashed")
     #stem[2].set_linestyle("dashed")
     #stem[0].set_color("darkgray")
