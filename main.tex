@@ -16,14 +16,34 @@
 \usepackage{tikz-qtree}
 \usepackage{graphicx}
 \usepackage{siunitx}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \usetikzlibrary{arrows,automata,positioning}
+
+\lstset{%
+	captionpos=b,
+	language=Python,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{blue}\bfseries,
+	breaklines=true,
+	breakatwhitespace=true,
+	frame=single,
+	numbers=left,
+	numberstyle=\footnotesize,
+	%backgroundcolor=\color{lightgray},
+	numberstyle=\tiny\color{gray},
+	stringstyle=\color{orange},
+	rulecolor=\color{black},
+	title=\lstname,
+}
 
 \graphicspath{{images/}}
 
 \begin{document}
 
-	\pagenumbering{roman}
+\pagenumbering{roman}
 
 	\begin{titlepage}
 
@@ -57,6 +77,8 @@
 \addcontentsline{toc}{chapter}{List of Tables}
 \listoffigures
 \addcontentsline{toc}{chapter}{List of Figures}
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{List of Listings}
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
@@ -74,15 +96,13 @@
 \chapter{Queueing network model}
 \input{chapters/003.tex}
 
-\chapter{Q.N. theoretical analysis}
+\chapter{Q.N. Theoretical analysis}
 \input{chapters/004.tex}
 
+\chapter{Q.N. Empirical analysis}
+\input{chapters/005.tex}
+
 \begin{comment}
-Capitolo 5: Experimental network analysis
-	- Tabella con configurazione hw delle macchine.
-	- Illustrazione load test JMeter.
-	- Spiegazione configurazione del load test.
-	- Grafici throughput e response time arricchiti.
 Capitolo 6: Conclusioni
 	- Proposta di architettura scalabile.
 		- MongoDB caching.

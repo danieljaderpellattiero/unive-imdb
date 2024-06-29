@@ -2,15 +2,28 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces MongoDB thread pool in idle state}}{10}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces MongoDB thread pool under load conditions}}{10}{figure.3.2}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces MongoDB thread pool in idle state}}{11}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces MongoDB thread pool under load conditions}}{11}{figure.3.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Stations utilisation over the number of users}}{13}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces JMVA setup -- classes of jobs}}{15}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces JMVA setup -- stations}}{15}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces JMVA setup -- service times}}{16}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces JMVA setup -- relative visit ratios}}{16}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces JMVA setup -- reference station}}{17}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces JMVA setup -- emulation settings}}{17}{figure.4.7}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces MVA -- Throughput over the number of users}}{18}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces MVA -- Response time over the number of users}}{19}{figure.4.9}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Stations utilisation over the number of users}}{14}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces JMVA setup -- classes of jobs}}{16}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces JMVA setup -- stations}}{16}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces JMVA setup -- service times}}{17}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces JMVA setup -- relative visit ratios}}{17}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces JMVA setup -- reference station}}{18}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces JMVA setup -- emulation settings}}{18}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces MVA -- Throughput over the number of users}}{19}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces MVA -- Response time over the number of users}}{20}{figure.4.9}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces JMT -- User Defined Variables}}{22}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces JMT -- Thread Group}}{23}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces JMT -- CSV Query Params}}{23}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces JMT -- JSR223 PreProcessor (1)}}{24}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces JMT -- HTTP Request (1)}}{24}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces JMT -- While Controller}}{25}{figure.5.6}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces JMT -- JSR223 PreProcessor (2)}}{25}{figure.5.7}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces JMT -- HTTP Request (2)}}{26}{figure.5.8}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces JMT -- JSR223 PostProcessor}}{26}{figure.5.9}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces JMT -- If Controller}}{27}{figure.5.10}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces JMT -- HTTP Request (3)}}{27}{figure.5.11}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces JMT -- Constant Timer}}{28}{figure.5.12}%

@@ -24,10 +24,32 @@ It should be noted that, although this aspect will be discussed in greater detai
 The above automata has to be interpreted in the following manner:
 
 \begin{itemize}
-	\item The user initiates a title search by name match, regardless of the customer language locale. (\verb|/search/:title|)
+	\item The user initiates a title search by name match, regardless of the customer language locale. (\verb|/search/:title| -- node $S_{0}$)
 	\begin{itemize}
 		\item In $80\%$ of cases, the search continues with a precise request for the title information. (\verb|/title/:id| \textit{or} \verb|/episode/:id| -- node $S_{1}$)
 		\item In $20\%$ of cases, either the user terminates the search process pre-emptively, without finding the title, thus entering a thinking state -- (node $T$) or it continues the search by hitting the same endpoint though the use of pagination. (\verb|/search/:title?page=n| -- node $S_{0}$)
 	\end{itemize}
 	\item Upon receipt of the searched title information, the user is satisfied and returns to a thinking state before repeating a new search.
 \end{itemize}
+
+\clearpage
+
+\section{Computational settings}
+
+The following table provides an overview of the hardware specifications of the computers utilized in the load test.
+
+\begin{table}[H]
+	\caption{Hardware specifications}
+\begin{center}
+	%\def\arraystretch{1.4}
+	\begin{tabular}{ ccccc }
+		%\multicolumn{5}{c}{} \\
+		\hline
+		Machine type & Role & O.S. & CPU & RAM \\
+		\hline
+		Desktop & Benchmark executor & Ubuntu 22.04 & Intel i5-13600K (20) & 64 GB \\
+		Laptop & System under test & Ubuntu 22.04 & Intel i5-8265U (8) & 8 GB \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{table}
