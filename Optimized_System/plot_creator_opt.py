@@ -4,6 +4,8 @@ from sympy import symbols
 
 import ultraimport
 
+import argparse
+
 lower_bound = ultraimport('__dir__/../Current_System/plot_creator.py','lower_bound')
 upper_bound= ultraimport('__dir__/../Current_System/plot_creator.py','upper_bound')
 NOpt= ultraimport('__dir__/../Current_System/plot_creator.py','NOpt')
@@ -131,33 +133,71 @@ def bounds_getter_printer():
     return lb, ub, n_optimal
 
 def theoretical_plots_opt():
-    users, X, R=MVA_data_reader("MVA/MVA.jmva")
+    users, X, R, _=MVA_data_reader("MVA/MVA.jmva")
 
     marker='*'
     lb, ub, n_optimal = bounds_getter_printer()
 
     fig, ax= plt.subplots(figsize=(8, 6))
 
-    ax.plot(users, X, label="Throughput")
-    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
+    ax.plot(users, X, label="$X$")
+    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="$\min\left(\\frac{N}{{D}+{\overline{Z}}}, \\frac{1}{D_{b}}\\right)$", linestyle='dotted', color='red')
 
-    stem=ax.scatter(n_optimal, ub[0], label="optimal number of users", marker=marker)
+    stem=ax.scatter(n_optimal, ub[0], label="$N_{opt}$", marker=marker)
 
-    ax.legend()
+    ax.legend(fontsize=12)
     ax.grid()
     ax.set_title("Empirical throughput (MVA) vs Number of users \n with theoretical bounds")
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$X$")
 
     fig, ax= plt.subplots(figsize=(8, 6))
 
-    ax.plot(users, R, label="Expected Response Time")
-    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
+    ax.plot(users, R, label="$\overline{R}$")
+    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="$\max(D, {N \cdot D_{b}}-\overline{Z})$", linestyle='dotted', color='red')
 
-    stem=ax.scatter(n_optimal, lb[0], label="optimal number of users", marker=marker)
+    stem=ax.scatter(n_optimal, lb[0], label="N_{opt}", marker=marker)
 
-    ax.legend()
+    ax.legend(fontsize=12)
     ax.grid()
     ax.set_title("Empirical expected response time (MVA) vs Number of users \n with theoretical bounds")
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$\overline{R}$")
 
     plt.show()
     
-theoretical_plots_opt()
+def utilization_plot():
+    users, _, _, U = MVA_data_reader("MVA/MVA.jmva")
+    
+    fig, ax= plt.subplots(figsize=(8, 6))
+    
+    stations=U[0].keys()
+    
+    for station in stations:
+        ax.plot(users, [u_station[station] for u_station in U], label="$\\rho_{"+station+"}$")
+    
+    ax.legend(fontsize=12)
+    ax.grid()
+    ax.set_title("Utilization vs Number of users")
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$\\rho$")
+    
+    plt.show()
+    
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Utility script to perform DB operations',formatter_class=argparse.RawTextHelpFormatter)
+    
+    action_group=parser.add_argument_group('Action to perform (choose one)')
+    action_group=action_group.add_mutually_exclusive_group(required=True)
+    
+    action_group.add_argument('--mva_plots', action='store_true', help='Create MVA plots with theoretical bounds')
+    action_group.add_argument('--utilization_plot', action='store_true', help='Create Utilization plot')
+    
+    args = parser.parse_args()
+    
+    if "mva_plots" in args and args.mva_plots:
+        print("\n\nMVA plots:\n")
+        theoretical_plots_opt()
+    if "utilization_plot" in args and args.utilization_plot:
+        print("\nUtilization plot:\n")
+        utilization_plot()

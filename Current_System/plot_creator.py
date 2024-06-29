@@ -10,6 +10,8 @@ import json
 
 from bs4 import BeautifulSoup
 
+import argparse
+
 def trafficEqSolver():
     
     B1,B2,D1,D2,T1 = symbols('B1,B2,D1,D2,T1')
@@ -180,6 +182,7 @@ def MVA_data_reader(jmva_file:str):
     users=[]
     X=[]
     R=[]
+    U=[]
     
     with open(jmva_file) as f:
         Bs_data = BeautifulSoup(f.read(), "xml")
@@ -191,19 +194,26 @@ def MVA_data_reader(jmva_file:str):
             
             throughput=float(iteration.find("stationresults",{'station':"T1"}).find("measure",{'measureType':"Throughput"}).get("meanValue"))
             
-            rt=-1
+            rt=0
+            U_stations={}
             for station in iteration.findAll("stationresults"):
+                
+                station_name = station.get("station")
+                
+                if station_name == "T1":
+                    continue
                 
                 rt_station = float(station.find("measure",{'measureType':"Residence time"}).get("meanValue"))
                 rt = rt + rt_station
                 
-            #print(f"n_users: {n_users}, throughput: {throughput}, response time: {rt}")
+                U_stations[station_name]=float(station.find("measure",{'measureType':"Utilization"}).get("meanValue"))
             
             X.append(throughput)
             R.append(rt)
             users.append(n_users)
+            U.append(U_stations)
             
-    return users, X, R
+    return users, X, R, U
 
 def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     
@@ -213,35 +223,56 @@ def plots(users, X, R, Throughput_title:str, ResponseTime_title:str):
     
     fig, ax= plt.subplots(figsize=(8, 6))
     
-    ax.plot(users, X, label="Throughput")
-    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
-    
-    stem=ax.scatter(n_optimal, ub[0], label="optimal number of users", marker=marker)
+    ax.plot(users, X, label="$X$")
+    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="$\min\left(\\frac{N}{{D}+{\overline{Z}}}, \\frac{1}{D_{b}}\\right)$", linestyle='dotted', color='red')
+    stem=ax.scatter(n_optimal, ub[0], label="$N_{opt}$", marker=marker)
     #stem[1].set_linestyles("dashed")
     #stem[2].set_linestyle("dashed")
     #stem[0].set_color("darkgray")
     #stem[1].set_color("darkgray")
     #stem[2].set_color("darkgray")
     
-    ax.legend()
+    ax.legend(fontsize=12)
     ax.grid()
     ax.set_title(Throughput_title)
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$X$")
     
     fig, ax= plt.subplots(figsize=(8, 6))
     
-    ax.plot(users, R, label="Expected Response Time")
-    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
+    ax.plot(users, R, label="$\overline{R}$")
+    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="$\max(D, {N \cdot D_{b}}-\overline{Z})$", linestyle='dotted', color='red')
     
-    stem=ax.scatter(n_optimal, lb[0], label="optimal number of users", marker=marker)
+    stem=ax.scatter(n_optimal, lb[0], label="$N_{opt}$", marker=marker)
     #stem[1].set_linestyles("dashed")
     #stem[2].set_linestyle("dashed")
     #stem[0].set_color("darkgray")
     #stem[1].set_color("darkgray")
     #stem[2].set_color("darkgray")
     
-    ax.legend()
+    ax.legend(fontsize=12)
     ax.grid()
     ax.set_title(ResponseTime_title)
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$\overline{R}$")
+    
+    plt.show()
+
+def utilization_plot():
+    users, _, _, U = MVA_data_reader("MVA/MVA.jmva")
+    
+    fig, ax= plt.subplots(figsize=(8, 6))
+    
+    stations=U[0].keys()
+    
+    for station in stations:
+        ax.plot(users, [u_station[station] for u_station in U], label="$\\rho_{"+station+"}$")
+    
+    ax.legend(fontsize=12)
+    ax.grid()
+    ax.set_title("Utilization vs Number of users")
+    ax.set_xlabel("$N$")
+    ax.set_ylabel("$\\rho$")
     
     plt.show()
 
@@ -253,11 +284,30 @@ def load_test_plots_with_theoretical_bounds():
 
 def MVA_plots_with_theoretical_bounds():
 
-    users, X, R = MVA_data_reader("MVA/MVA.jmva")
+    users, X, R, _ = MVA_data_reader("MVA/MVA.jmva")
     
     plots(users, X, R, "Theoretical throughput (MVA) vs Number of users \n with theoretical bounds", "Theoretical expected response time (MVA) vs Number of users \n with theoretical bounds")
 
 if __name__ == "__main__":
-    MVA_plots_with_theoretical_bounds()
-    #load_test_plots_with_theoretical_bounds()
+    
+    parser = argparse.ArgumentParser(description='Utility script to perform DB operations',formatter_class=argparse.RawTextHelpFormatter)
+    
+    action_group=parser.add_argument_group('Action to perform (choose one)')
+    action_group=action_group.add_mutually_exclusive_group(required=True)
+    
+    action_group.add_argument('--mva_plots', action='store_true', help='Create MVA plots with theoretical bounds')
+    action_group.add_argument('--load_test_plots', action='store_true', help='Create Load Test plots with theoretical bounds')
+    action_group.add_argument('--utilization_plot', action='store_true', help='Create Utilization plot')
+    
+    args = parser.parse_args()
+    
+    if "mva_plots" in args and args.mva_plots:
+        print("\n\nMVA plots:\n")
+        MVA_plots_with_theoretical_bounds()
+    if "load_test_plots" in args and args.load_test_plots:
+        print("\nLoad test plots:\n")
+        load_test_plots_with_theoretical_bounds()
+    if "utilization_plot" in args and args.utilization_plot:
+        print("\nUtilization plot:\n")
+        utilization_plot()
 
