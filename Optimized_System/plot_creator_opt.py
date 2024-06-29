@@ -10,6 +10,8 @@ NOpt= ultraimport('__dir__/../Current_System/plot_creator.py','NOpt')
 
 MVA_data_reader=ultraimport('__dir__/../Current_System/plot_creator.py','MVA_data_reader')
 
+import matplotlib.pyplot as plt
+
 def trafficEqSolverOpt1():
     
     B1,B2,DA1,DA2,DA2,DB1,DB2,T1 = symbols('B1,B2,DA1,DA2,DA2,DB1,DB2,T1')
@@ -123,38 +125,39 @@ def bounds_getter_printer():
     service_demands, bottleneck=serviceDemands(service_times, relative_visit_ratios)
     
     n_optimal = NOpt(service_demands, thinking_time=1, bottleneck=bottleneck)
-    lb = lower_bound(service_demands, max_n_users=1000, thinking_time=1, bottleneck=bottleneck)
-    ub = upper_bound(service_demands, max_n_users=1000, thinking_time=1, bottleneck=bottleneck)
+    lb = lower_bound(service_demands, max_n_users=800, thinking_time=1, bottleneck=bottleneck)
+    ub = upper_bound(service_demands, max_n_users=800, thinking_time=1, bottleneck=bottleneck)
     
     return lb, ub, n_optimal
 
-import matplotlib.pyplot as plt
+def theoretical_plots_opt():
+    users, X, R=MVA_data_reader("MVA/MVA.jmva")
 
-users, X, R=MVA_data_reader("MVA/MVA.jmva")
+    marker='*'
+    lb, ub, n_optimal = bounds_getter_printer()
 
-marker='*'
-lb, ub, n_optimal = bounds_getter_printer()
+    fig, ax= plt.subplots(figsize=(8, 6))
 
-fig, ax= plt.subplots(figsize=(8, 6))
+    ax.plot(users, X, label="Throughput")
+    ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
 
-ax.plot(users, X, label="Throughput")
-ax.plot([x[0] for x in ub[1]], [min(ub[0],x[1]) for x in ub[1]],label="upper bound", linestyle='dotted', color='red')
+    stem=ax.scatter(n_optimal, ub[0], label="optimal number of users", marker=marker)
 
-stem=ax.scatter(n_optimal, ub[0], label="optimal number of users", marker=marker)
+    ax.legend()
+    ax.grid()
+    ax.set_title("Empirical throughput (MVA) vs Number of users \n with theoretical bounds")
 
-ax.legend()
-ax.grid()
-ax.set_title("Throughput_title")
+    fig, ax= plt.subplots(figsize=(8, 6))
 
-fig, ax= plt.subplots(figsize=(8, 6))
+    ax.plot(users, R, label="Expected Response Time")
+    ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
 
-ax.plot(users, R, label="Expected Response Time")
-ax.plot([x[0] for x in lb[1]], [max(lb[0], x[1]) for x in lb[1]],label="lower bound", linestyle='dotted', color='red')
+    stem=ax.scatter(n_optimal, lb[0], label="optimal number of users", marker=marker)
 
-stem=ax.scatter(n_optimal, lb[0], label="optimal number of users", marker=marker)
+    ax.legend()
+    ax.grid()
+    ax.set_title("Empirical expected response time (MVA) vs Number of users \n with theoretical bounds")
 
-ax.legend()
-ax.grid()
-ax.set_title("ResponseTime_title")
-
-plt.show()
+    plt.show()
+    
+theoretical_plots_opt()
