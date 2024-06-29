@@ -253,7 +253,7 @@ def load_test_plots_with_theoretical_bounds():
 
 def MVA_plots_with_theoretical_bounds():
 
-    users, X, R = MVA_data_reader("theoretical/MVA.jmva")
+    users, X, R = MVA_data_reader("MVA/MVA.jmva")
     
     plots(users, X, R, "Theoretical throughput (MVA) vs Number of users \n with theoretical bounds", "Theoretical expected response time (MVA) vs Number of users \n with theoretical bounds")
 
