@@ -1,9 +1,7 @@
 % Template from https://www.overleaf.com/latex/templates/international-university-hcmiu-vnu-pre-thesis-and-thesis-latex-template/hkwcgswxgfth
 
-% Preamble
 \documentclass[12pt, twoside]{report}
 
-% Packages
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{csquotes}
@@ -21,13 +19,12 @@
 
 \usetikzlibrary{arrows,automata,positioning}
 
-% Graphics path
 \graphicspath{{images/}}
 
 \begin{document}
+
 	\pagenumbering{roman}
 
-	% Title Page
 	\begin{titlepage}
 
 		\renewcommand{\thesection}{\arabic{section}}
@@ -52,56 +49,46 @@
 		{\large Rev. 26/06/2024  }\\
 		
 		\vfill
-		
+
 	\end{titlepage}
 
-	% Table of Contents, List of Figures, List of Tables
-	\tableofcontents
-	\listoftables
-	\addcontentsline{toc}{chapter}{List of Tables}
-	\listoffigures
-	\addcontentsline{toc}{chapter}{List of Figures}
+\tableofcontents
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 
-	% Abstract
-	\chapter*{Abstract}
-	\addcontentsline{toc}{chapter}{Abstract}
-	\input{chapters/abstract}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{chapters/abstract}
 
-	% Body of the paper
-	\chapter{System implementation}
-	\pagenumbering{arabic}
-	\setcounter{page}{1}
-	\input{chapters/001}
+% Body of the paper
+\chapter{System implementation}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{chapters/001}
 
-	\chapter{Test case identification}
-	\input{chapters/002.tex}
+\chapter{Test case identification}
+\input{chapters/002.tex}
 
-	\chapter{Queueing network model}
-	\input{chapters/003.tex}
+\chapter{Queueing network model}
+\input{chapters/003.tex}
 
-	\begin{comment}
-	Capitolo 4: Queueing network theoretical analysis
-		- Service times measurements.
-		- Bottleneck identification.
-		- Mean Value Analysis.
-			- Throughput over # users. (+ graphic)
-			- Response time over # users. (+ graphic)
-		- Asymptitic bounds and optimal number of users.
-			- Bounds calculation.
-			- Throughput over # users with bounds. (+ graphic)
-			- Response time over # users with bounds. (+ graphic)
-			- Optimal number of users.
-	Capitolo 5: Experimental network analysis
-		- Illustrazione load test JMeter.
-		- Spiegazione configurazione del load test.
-		- Grafici throughput e response time arricchiti.
-	Capitolo 6: Results comparison
-		- Confronto analisi teorica e sperimentale.
-	Capitolo 7: Conclusioni
-		- Proposta di architettura scalabile.
-			- MongoDB caching.
-			- MongoDB Sharding e replica.
-			- Analisi prestazioni sistema proposto con MVA.
-	\end{comment}
+\chapter{Q.N. theoretical analysis}
+\input{chapters/004.tex}
+
+\begin{comment}
+Capitolo 5: Experimental network analysis
+	- Tabella con configurazione hw delle macchine.
+	- Illustrazione load test JMeter.
+	- Spiegazione configurazione del load test.
+	- Grafici throughput e response time arricchiti.
+Capitolo 6: Conclusioni
+	- Proposta di architettura scalabile.
+		- MongoDB caching.
+		- MongoDB Sharding e replica.
+		- Implementazione (nuovo disegno, e traffic equations) ...dispatcher ?
+		- Analisi prestazioni sistema proposto con MVA.
+\end{comment}
 
 \end{document}

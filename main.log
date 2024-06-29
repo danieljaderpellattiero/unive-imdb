@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.25)  28 JUN 2024 22:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.25)  29 JUN 2024 17:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -609,24 +609,24 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
  (C:\Users\Daniel\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count344
@@ -680,7 +680,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 27.
+Package hyperref Info: Link coloring ON on input line 24.
 (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -688,11 +688,11 @@ Package hyperref Info: Link coloring ON on input line 27.
  (C:\Users\Daniel\AppData\Local\Programs\MiKTeX\tex/latex/translations/dicts\translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 27.
-<images/unive-emblem.png, id=86, 152.9715pt x 153.2124pt>
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 24.
+<images/unive-emblem.png, id=134, 152.9715pt x 153.2124pt>
 File: images/unive-emblem.png Graphic file (type png)
 <use images/unive-emblem.png>
-Package pdftex.def Info: images/unive-emblem.png  used on input line 39.
+Package pdftex.def Info: images/unive-emblem.png  used on input line 36.
 (pdftex.def)             Requested size: 130.02637pt x 130.23112pt.
 
 
@@ -803,54 +803,190 @@ Chapter 3.
 ]
 
 [8]
-<images/mongo-idle.png, id=218, 1068.99374pt x 602.25pt>
-File: images/mongo-idle.png Graphic file (type png)
-<use images/mongo-idle.png>
-Package pdftex.def Info: images/mongo-idle.png  used on input line 133.
-(pdftex.def)             Requested size: 452.9679pt x 255.19472pt.
-<images/mongo-stress.png, id=219, 1068.99374pt x 602.25pt>
-File: images/mongo-stress.png Graphic file (type png)
-<use images/mongo-stress.png>
-Package pdftex.def Info: images/mongo-stress.png  used on input line 139.
+<images/003/mongo-idle.png, id=296, 1068.99374pt x 602.25pt>
+File: images/003/mongo-idle.png Graphic file (type png)
+<use images/003/mongo-idle.png>
+Package pdftex.def Info: images/003/mongo-idle.png  used on input line 155.
 (pdftex.def)             Requested size: 452.9679pt x 255.19472pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+<images/003/mongo-stress.png, id=297, 1068.99374pt x 602.25pt>
+File: images/003/mongo-stress.png Graphic file (type png)
+<use images/003/mongo-stress.png>
+Package pdftex.def Info: images/003/mongo-stress.png  used on input line 161.
+(pdftex.def)             Requested size: 452.9679pt x 255.19472pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 )
 
-[9
+[9]
+
+[10
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.81 
-      <./images/mongo-idle.png>] Excluding 'comment' comment.
-
-[10
+l.77 \chapter
+             {Q.N. theoretical analysis}
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.107 \end{document}
-                     <./images/mongo-stress.png>] (main.aux)
+l.77 \chapter
+             {Q.N. theoretical analysis} <./images/003/mongo-idle.png> <./images/003/mongo-stress.png>]
+Chapter 4.
+(chapters/004.tex
+
+[11
+
+]
+
+[12]
+<images/004/stations-utilization.png, id=319, 578.16pt x 433.62pt>
+File: images/004/stations-utilization.png Graphic file (type png)
+<use images/004/stations-utilization.png>
+Package pdftex.def Info: images/004/stations-utilization.png  used on input line 115.
+(pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
+
+
+[13
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.125 
+       <./images/004/stations-utilization.png>]
+
+[14]
+<images/004/JMVA/classes.png, id=334, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/classes.png Graphic file (type png)
+<use images/004/JMVA/classes.png>
+Package pdftex.def Info: images/004/JMVA/classes.png  used on input line 169.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+<images/004/JMVA/stations.png, id=335, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/stations.png Graphic file (type png)
+<use images/004/JMVA/stations.png>
+Package pdftex.def Info: images/004/JMVA/stations.png  used on input line 178.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+
+
+[15
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.182 \clearpage
+                
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.182 \clearpage
+                 <./images/004/JMVA/classes.png> <./images/004/JMVA/stations.png>]
+<images/004/JMVA/service_times.png, id=342, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/service_times.png Graphic file (type png)
+<use images/004/JMVA/service_times.png>
+Package pdftex.def Info: images/004/JMVA/service_times.png  used on input line 188.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+<images/004/JMVA/visits.png, id=343, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/visits.png Graphic file (type png)
+<use images/004/JMVA/visits.png>
+Package pdftex.def Info: images/004/JMVA/visits.png  used on input line 196.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+
+
+[16
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.200 \clearpage
+                
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.200 \clearpage
+                 <./images/004/JMVA/service_times.png> <./images/004/JMVA/visits.png>]
+<images/004/JMVA/reference_station.png, id=350, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/reference_station.png Graphic file (type png)
+<use images/004/JMVA/reference_station.png>
+Package pdftex.def Info: images/004/JMVA/reference_station.png  used on input line 206.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+<images/004/JMVA/what_if.png, id=351, 760.34062pt x 572.89032pt>
+File: images/004/JMVA/what_if.png Graphic file (type png)
+<use images/004/JMVA/what_if.png>
+Package pdftex.def Info: images/004/JMVA/what_if.png  used on input line 214.
+(pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
+<images/004/mva-x.png, id=352, 578.16pt x 433.62pt>
+File: images/004/mva-x.png Graphic file (type png)
+<use images/004/mva-x.png>
+Package pdftex.def Info: images/004/mva-x.png  used on input line 225.
+(pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/004/mva-r.png, id=353, 578.16pt x 433.62pt>
+File: images/004/mva-r.png Graphic file (type png)
+<use images/004/mva-r.png>
+Package pdftex.def Info: images/004/mva-r.png  used on input line 231.
+(pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[17
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.235 \clearpage
+                
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.235 \clearpage
+                 <./images/004/JMVA/reference_station.png> <./images/004/JMVA/what_if.png>]
+
+[18
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.235 \clearpage
+                 <./images/004/mva-x.png>]
+
+[19
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.9}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.235 \clearpage
+                 <./images/004/mva-r.png>]) Excluding 'comment' comment.
+
+[20
+
+] (main.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 16DF6D39C725A3BAF2E1FE0AE93C62EF;3200.
+(rerunfilecheck)             Checksum: 25162D92571B7F49B3A92B3CD73A7EE3;5193.
  ) 
 Here is how much of TeX's memory you used:
- 27533 strings out of 473919
- 578303 string characters out of 5726481
- 1940908 words of memory out of 5000000
- 49898 multiletter control sequences out of 15000+600000
+ 27682 strings out of 473919
+ 582153 string characters out of 5726481
+ 1941908 words of memory out of 5000000
+ 50007 multiletter control sequences out of 15000+600000
  566160 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,93p,427b,1072s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Daniel\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (15 pages, 2926294 bytes).
+ 84i,13n,93p,433b,1072s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Daniel\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on main.pdf (25 pages, 3279711 bytes).
 PDF statistics:
- 304 PDF objects out of 1000 (max. 8388607)
- 61 named destinations out of 1000 (max. 500000)
- 188 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 461 PDF objects out of 1000 (max. 8388607)
+ 98 named destinations out of 1000 (max. 500000)
+ 329 words of extra memory for PDF output out of 10000 (max. 10000000)
 

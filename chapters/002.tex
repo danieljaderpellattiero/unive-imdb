@@ -3,6 +3,8 @@
 This brief chapter aims to present the test case designed to perform the load test of the system.
 In order to illustrate the user behaviour modelled by the test, we define a trivial finite-state automata with reference to the endpoints implemented in the RESTful API.
 
+It should be noted that, although this aspect will be discussed in greater detail in the following chapters, the two endpoints that will be used in the load test result in two different classes of jobs, which must consequently be analysed individually.
+
 \begin{center}
 	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
 		\tikzstyle{every state}=[fill={rgb:black,1;white,10}]
@@ -10,11 +12,11 @@ In order to illustrate the user behaviour modelled by the test, we define a triv
 		\node[state] (1) [right of = 0] {$S_0$};
 		\node[state] (2) [below of = 1] {$S_1$};
 		\path[->]
-		(0) edge node {$p_{1}$} (1)
-		(1) edge [loop above] node {$p_{0.1}$} (1)
-		(1) edge [bend left] node {$p_{0.1}$} (0)
-		(1) edge node {$p_{0.8}$} (2)
-		(2) edge [bend left] node {$p_{1}$} (0);
+		(0) edge node {1} (1)
+		(1) edge [loop above] node {0.1} (1)
+		(1) edge [bend left] node {0.1} (0)
+		(1) edge node {0.8} (2)
+		(2) edge [bend left] node {1} (0);
 		;
 	\end{tikzpicture}
 \end{center}
@@ -22,10 +24,10 @@ In order to illustrate the user behaviour modelled by the test, we define a triv
 The above automata has to be interpreted in the following manner:
 
 \begin{itemize}
-	\item The user initiates a title search by name match, regardless of the customer language locale. (\verb|search/:title|)
+	\item The user initiates a title search by name match, regardless of the customer language locale. (\verb|/search/:title|)
 	\begin{itemize}
-		\item In $80\%$ of cases, the search continues with a precise request for the title information. (\verb|/title/:id| \textit{or} \verb|/episode/:id|)
-		\item In $20\%$ of cases, either the user terminates the search process pre-emptively, without finding the title, thus entering a dormant (thinking) state; or it continues the search by hitting the same endpoint though the use of pagination. (\verb|search/:title?page=n|)
+		\item In $80\%$ of cases, the search continues with a precise request for the title information. (\verb|/title/:id| \textit{or} \verb|/episode/:id| -- node $S_{1}$)
+		\item In $20\%$ of cases, either the user terminates the search process pre-emptively, without finding the title, thus entering a thinking state -- (node $T$) or it continues the search by hitting the same endpoint though the use of pagination. (\verb|/search/:title?page=n| -- node $S_{0}$)
 	\end{itemize}
-	\item Upon receipt of the searched title information, the user is satisfied and returns to a dormant (thinking) state before repeating a new search.
+	\item Upon receipt of the searched title information, the user is satisfied and returns to a thinking state before repeating a new search.
 \end{itemize}

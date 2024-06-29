@@ -1,4 +1,4 @@
-\section{Queueing network components}
+\section{Introduction}
 
 This chapter presents a comprehensive theoretical analysis of the implemented model.
 The following illustration depicts the system components involved in the load test in the context of queuing theory. 
@@ -43,10 +43,10 @@ For the purposes of this illustration, let Q\textsubscript{T} represent the thin
 	\draw[->]	(QT) to[out=0,in=180] node[above]	{(1,1)} (2.2,0);
 	\draw[->]	(5.71,0) to[out=90,in=180] node[above]	{(1,1)} (8.0,0.20);
 	\draw[->]	(5.71,0) to[out=-90,in=180] node[below]	{(2,2)} (8.0,-0.20);
-	\draw[->]	(11.51,0) to[out=45,in=150] node[above]	{(1,1)\textit{p}\textsubscript{0.1}} (2.2,0.45);
-	\draw[->]	(11.51,0) to[out=-45,in=-150] node[above]	{(1,2)\textit{p}\textsubscript{0.8}} (2.2,-0.45);
+	\draw[->]	(11.51,0) to[out=45,in=150] node[above]	{(1,1)} (2.2,0.45);
+	\draw[->]	(11.51,0) to[out=-45,in=-150] node[above]	{(1,2)} (2.2,-0.45);
 	\draw[->]	(10.760,-0.75) to[out=-90,in=-15] node[above]	{(2,1)} (0.75,-1.575);
-	\draw[->]	(10.760,0.75) to[out=90,in=15] node[above]	{(1,1)\textit{p}\textsubscript{0.1}} (0.75,1.575);
+	\draw[->]	(10.760,0.75) to[out=90,in=15] node[above]	{(1,1)} (0.75,1.575);
 \end{tikzpicture}
 
 It is possible to derive several characteristics of the system under consideration from the illustration above.
@@ -66,25 +66,47 @@ These equations will then be essential in producing the theoretical analysis of 
 The system's traffic equations are presented below.
 
 \[
-\begin{cases}
-\begin{aligned}
-e_{B1} &= e_{T1} + (0.1 \times e_{D1}) \\
-e_{B2} &= 0.8 \times e_{D1} \\
-e_{D1} &= e_{B1} \\
-e_{D2} &= e_{B2} \\
-e_{T1} &= e_{D2} + (0.1 \times e_{D1}) \\
-\end{aligned}
-\end{cases}
-\Rightarrow
-\begin{cases}
-\begin{aligned}
-% Insert your new system here, for example:
-e_{B1} &= \num[round-mode=places, round-precision=4]{1.11111111111111} \times e_{T1}  \\
-e_{B2} &= \num[round-mode=places, round-precision=4]{0.888888888888889} \times e_{T1}  \\
-e_{D1} &= \num[round-mode=places, round-precision=4]{1.11111111111111} \times e_{T1}  \\
-e_{D2} &= \num[round-mode=places, round-precision=4]{0.888888888888889} \times e_{T1}  \\
-\end{aligned}
-\end{cases}
+	\begin{array}{c}
+	\begin{bmatrix}
+	p_{T1B1} \\
+	p_{B1D1} \\
+	p_{B2D2} \\
+	p_{D1B1} \\
+	p_{D1B2} \\
+	p_{D1T1} \\
+	p_{D2T1}
+	\end{bmatrix}
+	=
+	\begin{pmatrix}
+	1.0 \\
+	1.0 \\
+	1.0 \\
+	0.1 \\
+	0.8 \\
+	0.1 \\
+	1.0
+	\end{pmatrix}
+	\end{array}
+	\quad : \quad
+	\begin{cases}
+	\begin{aligned}
+	e_{B1} &= e_{T1} + (p_{D1B1} \times e_{D1}) \\
+	e_{B2} &= p_{D1B2} \times e_{D1} \\
+	e_{D1} &= e_{B1} \\
+	e_{D2} &= e_{B2} \\
+	e_{T1} &= e_{D2} + (p_{D1T1} \times e_{D1}) \\
+	\end{aligned}
+	\end{cases}
+	\Rightarrow
+	\begin{cases}
+	\begin{aligned}
+	% Insert your new system here, for example:
+	e_{B1} &= \num[round-mode=places, round-precision=4]{1.11111111111111} \times e_{T1}  \\
+	e_{B2} &= \num[round-mode=places, round-precision=4]{0.888888888888889} \times e_{T1}  \\
+	e_{D1} &= \num[round-mode=places, round-precision=4]{1.11111111111111} \times e_{T1}  \\
+	e_{D2} &= \num[round-mode=places, round-precision=4]{0.888888888888889} \times e_{T1}  \\
+	\end{aligned}
+	\end{cases}
 \]
 
 The system of equations above demonstrates that our routing is irreducible, which implies that any queue can be accessed from any other queue within the network.
@@ -92,7 +114,7 @@ From an analytical standpoint, our system is under-determined, indicating the ex
 
 Moreover, it is essential to highlight that within this context, where the system under consideration is an interactive queueing network, it is imperative to impose an additional constraint on the previous system, specifically $e_{T1}=1$, given that this is the thinking station Q\textsubscript{T}.
 
-\section{Queueing systems analysis}
+\section{Queueing network components}
 
 This section will provide a brief overview of the components of our network, with reference to Kendall's notation.
 
@@ -130,13 +152,13 @@ The results obtained from the Linux command-line utility \verb|htop| are present
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{mongo-idle.png}
+    \includegraphics[width=\linewidth]{003/mongo-idle.png}
     \caption{MongoDB thread pool in idle state}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{mongo-stress.png}
+	\includegraphics[width=\linewidth]{003/mongo-stress.png}
 	\caption{MongoDB thread pool under load conditions}
 \end{figure}	
 

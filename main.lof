@@ -2,5 +2,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces MongoDB thread pool in idle state}}{9}{figure.3.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces MongoDB thread pool in idle state}}{10}{figure.3.1}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces MongoDB thread pool under load conditions}}{10}{figure.3.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Stations utilisation over the number of users}}{13}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces JMVA setup -- classes of jobs}}{15}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces JMVA setup -- stations}}{15}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces JMVA setup -- service times}}{16}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces JMVA setup -- relative visit ratios}}{16}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces JMVA setup -- reference station}}{17}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces JMVA setup -- emulation settings}}{17}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces MVA -- Throughput over the number of users}}{18}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces MVA -- Response time over the number of users}}{19}{figure.4.9}%
