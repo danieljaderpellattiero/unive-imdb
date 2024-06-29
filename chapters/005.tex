@@ -154,3 +154,27 @@ subprocess.Popen(f'jmeter -n -t {jmx_name} -l {results_path+"/results.csv"} -e -
 if __name__ == "__main__":
  test('filename')
 \end{lstlisting}
+
+\section{Load test empirical results}
+
+The graphs of throughput and expected response time, calculated from the load test performed with JMeter, are presented below.
+The graphs were generated following a parsing step of the statistics exported in JSON format from the benchmark software.
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{005/load-test-x.png}
+	\caption{JMeter Load test -- Throughput}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{005/load-test-r.png}
+	\caption{JMeter Load test -- Expected Response Time}
+\end{figure}
+
+The graphs demonstrate a satisfactory fit with respect to the analytically calculated asymptotes.
+Additionally, they illustrate the precision of the estimated optimal number of users that the system can handle, which was previously determined through analysis.
