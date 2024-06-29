@@ -174,7 +174,23 @@ def utilization_plot():
     stations=U[0].keys()
     
     for station in stations:
-        ax.plot(users, [u_station[station] for u_station in U], label="$\\rho_{"+station+"}$")
+        
+        if station=="DB1" or station=="DB2":
+            continue
+        
+        if station=="DA1":
+            l="$\\rho_{"+station+"}$, $\\rho_{"+"DB1"+"}$"
+        else:
+            if station=="DA2":
+                l="$\\rho_{"+station+"}$, $\\rho_{"+"DB2"+"}$"
+            else:
+                l="$\\rho_{"+station+"}$"
+                
+        #    line="-"
+        #else:
+        #    line=(0, (5, 5))
+            
+        ax.plot(users, [u_station[station] for u_station in U], label=l)
     
     ax.legend(fontsize=12)
     ax.grid()
