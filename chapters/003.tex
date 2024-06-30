@@ -4,50 +4,53 @@ This chapter presents a comprehensive theoretical analysis of the implemented mo
 The following illustration depicts the system components involved in the load test in the context of queuing theory. 
 
 For the purposes of this illustration, let Q\textsubscript{T} represent the thinking station, Q\textsubscript{B} represent the backend, and Q\textsubscript{D} represent the database.
+It is important to note that within the labels associated with the arcs, the first number indicates the class of the job leaving the station, while the second number indicates the class of the job at the destination station. 
 
-\begin{tikzpicture}
-	\tikzstyle{thinking_station} = [rectangle, draw, minimum height=4.2cm, minimum width=1.5cm, fill=gray!20, align=left]
-	\tikzstyle{circle_node} = [circle, draw, fill=white, minimum size=6mm, inner sep=0pt]
-	\tikzstyle{queue} = [circle, draw, minimum size=1cm, text centered, inner sep=0pt]
-
-	% Thinking station
-	\node (QT) [thinking_station] at (0,0) {};
-	\node at (0,1.68) {Q\textsubscript{T}};
-	% Users belonging to the closed loop
-	\node[circle_node] at (0, 1) {};
-	\node at (0, 0.5) {$\vdots$};
-	\node[circle_node] at (0, -0.2) {};
-	\node at (0, -0.7) {$\vdots$};
-	\node[circle_node] at (0, -1.4) {};
-
-	% Backend station
-	% Queue
-	\draw (2.2,0.75) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
-	\foreach \i in {1,...,4}
-	\draw (4.2cm-\i*10pt,0.75) -- +(0,-1.5cm);
-	% Service room
-	\draw (4.96,-0.00cm) circle [radius=0.75cm];
-	% Label service time
-	\node at (4.96,-0.00cm) {Q\textsubscript{B}};
-
-	% Database station
-	% Queue
-	\draw (8.0,0.75) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
-	\foreach \i in {1,...,4}
-	\draw (10cm-\i*10pt,0.75) -- +(0,-1.5cm);
-	% Service room
-	\draw (10.760,-0.00cm) circle [radius=0.75cm];
-	% Label service time
-	\node at (10.760,-0.00cm) {Q\textsubscript{D}};
-
-	\draw[->]	(QT) to[out=0,in=180] node[above]	{(1,1)} (2.2,0);
-	\draw[->]	(5.71,0) to[out=90,in=180] node[above]	{(1,1)} (8.0,0.20);
-	\draw[->]	(5.71,0) to[out=-90,in=180] node[below]	{(2,2)} (8.0,-0.20);
-	\draw[->]	(11.51,0) to[out=45,in=150] node[above]	{(1,1)} (2.2,0.45);
-	\draw[->]	(11.51,0) to[out=-45,in=-150] node[above]	{(1,2)} (2.2,-0.45);
-	\draw[->]	(10.760,-0.75) to[out=-90,in=-15] node[above]	{(2,1)} (0.75,-1.575);
-	\draw[->]	(10.760,0.75) to[out=90,in=15] node[above]	{(1,1)} (0.75,1.575);
-\end{tikzpicture}
+\begin{center}
+	\begin{tikzpicture}[scale=1.0, transform shape]
+		\tikzstyle{thinking_station} = [rectangle, draw, minimum height=4.2cm, minimum width=1.5cm, fill=gray!20, align=left]
+		\tikzstyle{circle_node} = [circle, draw, fill=white, minimum size=6mm, inner sep=0pt]
+		\tikzstyle{queue} = [circle, draw, minimum size=1cm, text centered, inner sep=0pt]
+	
+		% Thinking station
+		\node (QT) [thinking_station] at (0,0) {};
+		\node at (0,1.68) {Q\textsubscript{T}};
+		% Users belonging to the closed loop
+		\node[circle_node] at (0, 1) {};
+		\node at (0, 0.5) {$\vdots$};
+		\node[circle_node] at (0, -0.2) {};
+		\node at (0, -0.7) {$\vdots$};
+		\node[circle_node] at (0, -1.4) {};
+	
+		% Backend station
+		% Queue
+		\draw (2.2,0.75) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
+		\foreach \i in {1,...,4}
+		\draw (4.2cm-\i*10pt,0.75) -- +(0,-1.5cm);
+		% Service room
+		\draw (4.96,-0.00cm) circle [radius=0.75cm];
+		% Label service time
+		\node at (4.96,-0.00cm) {Q\textsubscript{B}};
+	
+		% Database station
+		% Queue
+		\draw (8.0,0.75) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
+		\foreach \i in {1,...,4}
+		\draw (10cm-\i*10pt,0.75) -- +(0,-1.5cm);
+		% Service room
+		\draw (10.760,-0.00cm) circle [radius=0.75cm];
+		% Label service time
+		\node at (10.760,-0.00cm) {Q\textsubscript{D}};
+	
+		\draw[->]	(QT) to[out=0,in=180] node[above]	{(1,1)} (2.2,0);
+		\draw[->]	(5.71,0) to[out=90,in=180] node[above]	{(1,1)} (8.0,0.20);
+		\draw[->]	(5.71,0) to[out=-90,in=180] node[below]	{(2,2)} (8.0,-0.20);
+		\draw[->]	(11.51,0) to[out=45,in=150] node[above]	{(1,1)} (2.2,0.45);
+		\draw[->]	(11.51,0) to[out=-45,in=-150] node[above]	{(1,2)} (2.2,-0.45);
+		\draw[->]	(10.760,-0.75) to[out=-90,in=-15] node[above]	{(2,1)} (0.75,-1.575);
+		\draw[->]	(10.760,0.75) to[out=90,in=15] node[above]	{(1,1)} (0.75,1.575);
+	\end{tikzpicture}
+\end{center}
 
 It is possible to derive several characteristics of the system under consideration from the illustration above.
 

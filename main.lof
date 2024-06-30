@@ -29,3 +29,8 @@
 \contentsline {figure}{\numberline {5.12}{\ignorespaces JMT -- Constant Timer}}{28}{figure.5.12}%
 \contentsline {figure}{\numberline {5.13}{\ignorespaces JMeter Load test -- Throughput}}{30}{figure.5.13}%
 \contentsline {figure}{\numberline {5.14}{\ignorespaces JMeter Load test -- Expected Response Time}}{31}{figure.5.14}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Stations utilisation over the number of users}}{34}{figure.6.1}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces MVA -- Throughput over the number of users}}{35}{figure.6.2}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces MVA -- Response time over the number of users}}{36}{figure.6.3}%
+\addvspace {10\p@ }

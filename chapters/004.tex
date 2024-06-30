@@ -84,8 +84,8 @@ These $\overline{V}_{i}$ are derived from the solutions of the traffic equations
 The data enables the calculation of the service demands ($\overline{D}_i$), which represent the quantity of service requested by a user from each station for each visit to the reference station.
 This is achieved through the application of the following formula:
 
-\label{eq:service-demands}
 \begin{equation}
+	\label{eq:service-demands}
 	\overline{D}_i = \overline{V}_i \times \mu^{-1}_i \quad \text{where} \quad i \in \{B1, D1, B2, D2\}
 \end{equation}
 
@@ -102,8 +102,8 @@ This is achieved through the application of the following formula:
 The results indicate that the database is the bottleneck station. 
 A further calculation of the utilisation of each station can be made using the Bottleneck Law:
 
-\label{eq:bottleneck-law}
 \begin{equation}
+	\label{eq:bottleneck-law}
 	\rho_i = X_1 \times \overline{D}_i \quad \text{where} \quad i \in \{B1, D1, B2, D2\}
 \end{equation}
 
@@ -126,15 +126,16 @@ Prior to conducting the previously announced analysis, a preliminary calculation
 
 This is done according to the following formulas:
 
-\label{eq:asymptotic-bounds-expected-response-time}
 \begin{equation}
+	\label{eq:asymptotic-bounds-expected-response-time}
 	\overline{R} \geq max\left(\overline{D},N\overline{D}_b-\overline{Z}\right)
 \end{equation}
 
-\label{eq:asymptotic-bounds-throughput}
 \begin{equation}
+	\label{eq:asymptotic-bounds-throughput}
 	X \leq min\left(\frac{N}{\overline{D}+\overline{Z}},\,\frac{1}{\overline{D}_b}\right) \quad \text{where}
 \end{equation}
+
 \[
 	\quad \overline{Z} \quad \text{exp. thinking time,} \quad \overline{D}_b \quad \text{bottleneck service demand,} \quad \overline{D} = \sum^{K}_{j=2}\overline{D}_{j}  \\
 \]
@@ -233,13 +234,13 @@ As can be observed in the graphs, the optimal number of users has already been d
 
 \clearpage
 
-\section{Optimal -- theoretical -- number of users}
+\section{Optimal -- theoretical -- number of customers}
 
 In conclusion to the theoretical analysis of the queuing network, we proceed with the estimation of the optimal number of users.
 This can be obtained from the intersection of the previously calculated asymptotes for throughput and expected response time and with the following formula:
 
-\label{eq:optimal-number-of-users}
 \begin{equation}
+	\label{eq:optimal-number-of-users}
 	N_{opt} = \frac{\overline{D} + \overline{Z}}{\overline{D}_b} = \num[round-mode=places, round-precision=5]{351.986511402232}
 \end{equation}
 

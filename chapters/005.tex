@@ -33,8 +33,8 @@ The file will be read cyclically by each thread and will also be shared among th
 
 \clearpage
 
-In this ``JSR223 PreProcessor'' module, the page number, which will subsequently be used to parameterize the API request ``\verb|/search/:title?page=n|'', is initialized to 1.
-Additionally, a variable responsible for probabilistic routing, which will take values between 1 and 10 inclusive, is also initialized.
+In this ``JSR223 PreProcessor'' module, the page number, which will subsequently be used to parameterize the API request ``\verb|/search/:title?page=n|'', is initialised to 1.
+Additionally, a variable responsible for probabilistic routing, which will take values between 1 and 10 inclusive, is also initialised.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{005/jmt-preproc-1.png}
@@ -146,10 +146,8 @@ for n_users in tqdm(range(50, 550, 50)):
 
 with open(jmx_name, 'w') as f:
  f.write(str(Bs_data))
-
-results_path = f'results_{n_users}'
-
-subprocess.Popen(f'jmeter -n -t {jmx_name} -l {results_path+"/results.csv"} -e -o {results_path}', shell=True, stdout=subprocess.DEVNULL).wait()
+ results_path = f'results_{n_users}'
+ subprocess.Popen(f'jmeter -n -t {jmx_name} -l {results_path+"/results.csv"} -e -o {results_path}', shell=True, stdout=subprocess.DEVNULL).wait()
 
 if __name__ == "__main__":
  test('filename')

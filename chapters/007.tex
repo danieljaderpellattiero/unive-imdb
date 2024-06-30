@@ -1,0 +1,13 @@
+With regard to the enhanced network proposal, it is acknowledged that it is a rather simplistic choice.
+However, in order to facilitate the theoretical analysis of the proposed system, a solution that is simple to implement but at the same time effective has been opted for.
+Although an additional and immediate improvement can already be introduced at the database level by allowing the storage engine to take advantage of caching, there are additional design choices that have the potential to substantially increase database throughput.
+
+An alternative approach is to opt for horizontal partitioning (\textit{sharding}), which also allows the system's fault tolerance to be increased.
+Another option is vertical scaling, which can be provided by MongoDB Atlas.
+
+The bottleneck has now been identified as the RESTful API, which allows for the implementation of solutions such as load balancers, for instance Nginx\footnote[1]{http://nginx.org/en/}.
+These can be employed to manage multiple concurrent replicas of the service.
+Alternatively, reverse proxies can be employed to manage traffic through caching mechanisms, thereby reducing the server strain.
+
+In light of the findings obtained from the theoretical and empirical analyses concluded in this report, along with the close correspondence between reality and theoretical models, we were able to gain a deep understanding of how the concepts learned in the course can be applied to the modelling of close queuing systems.
+Furthermore, we were able to gain a deeper awareness of the dynamics that arise with the presence of users interacting with our system, as well as insights into potential improvements to enhance its performance.
