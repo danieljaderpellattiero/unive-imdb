@@ -23,7 +23,7 @@ The thread lifetime (\textit{duration}) is 10 minutes, after which it will event
 	\caption{JMT -- Thread Group}
 \end{figure}
 
-In the ``csvQueryParams'' module, the location of the CSV file containing the query set of 10,000 films was specified.
+In the ``csvQueryParams'' module, the location of the CSV file containing the query set of 10,000 entries was specified.
 The file will be read cyclically by each thread and will also be shared among them, which will therefore start reading it from different rows.
 \begin{figure}[h]
 	\centering
@@ -153,7 +153,7 @@ if __name__ == "__main__":
  test('filename')
 \end{lstlisting}
 
-\section{Load test empirical results}
+\section{Experimental results}
 
 The graphs of throughput and expected response time, calculated from the load test performed with JMeter, are presented below.
 The graphs were generated following a parsing step of the statistics exported in JSON format from the benchmark software.

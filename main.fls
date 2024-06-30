@@ -1,6 +1,6 @@
-PWD d:\Download\report
+PWD c:\Users\Daniel\Desktop\unive-imdb
 INPUT C:\Users\Daniel\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT d:\Download\report\main.tex
+INPUT c:\Users\Daniel\Desktop\unive-imdb\main.tex
 OUTPUT main.log
 INPUT C:\Users\Daniel\AppData\Local\Programs\MiKTeX\tex\latex\base\report.cls
 INPUT C:\Users\Daniel\AppData\Local\Programs\MiKTeX\tex\latex\base\report.cls

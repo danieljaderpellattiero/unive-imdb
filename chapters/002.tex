@@ -1,4 +1,4 @@
-\section{High-level test case design}
+\section{High-level design}
 
 This brief chapter aims to present the test case designed to perform the load test of the system.
 In order to illustrate the user behaviour modelled by the test, we define a trivial finite-state automata with reference to the endpoints implemented in the RESTful API.
@@ -27,9 +27,9 @@ The above automata has to be interpreted in the following manner:
 	\item The user initiates a title search by name match, regardless of the customer language locale. (\verb|/search/:title| -- node $S_{0}$)
 	\begin{itemize}
 		\item In $80\%$ of cases, the search continues with a precise request for the title information. (\verb|/title/:id| \textit{or} \verb|/episode/:id| -- node $S_{1}$)
-		\item In $20\%$ of cases, either the user terminates the search process pre-emptively, without finding the title, thus entering a thinking state -- (node $T$) or it continues the search by hitting the same endpoint though the use of pagination. (\verb|/search/:title?page=n| -- node $S_{0}$)
+		\item In $20\%$ of cases, either the user terminates the search process pre-emptively, without finding the title, thus entering a thinking state (node $T$) or it continues the search by hitting the same endpoint though the use of pagination. (\verb|/search/:title?page=n| -- node $S_{0}$)
 	\end{itemize}
-	\item Upon receipt of the searched title information, the user is satisfied and returns to a thinking state before repeating a new search.
+	\item Upon receipt of the searched title information, the user is satisfied and returns to the thinking state before repeating a new search.
 \end{itemize}
 
 \clearpage

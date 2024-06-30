@@ -1,9 +1,8 @@
 To fulfil the requirements of the assignment, it is necessary to undertake a comprehensive theoretical analysis of the queueing network.
 
-In order to apply the theoretical notions learned during the course to the estimation of the degree of scalability of the system, the optimal number of users and the identification of the bottleneck of the system, it is first necessary to measure the service times for the queueing network components with regard to the two classes of jobs previously defined.
+In order to apply the theoretical notions learned during the course to the estimation of the degree of scalability, the optimal number of users and the identification of the system's bottleneck, it is first necessary to measure the service times for the queueing network components with regard to the two classes of jobs previously defined.
 
-Although the queries to the endpoint \verb|`/search/:title?page=n'| may vary depending on the parameterization of the URL, we assume that they belong to the same job class.
-This assumption will be subsequently confirmed by the empirical results.
+Although the queries to the endpoint ``\verb|/search/:title?page=n|'' may vary depending on the parameterization of the URL, we assume that they belong to the same job class.
 
 \section{Service times measurements}
 
@@ -13,11 +12,11 @@ Given that we are operating in a ``Processor Sharing'' regime, it is possible fo
 In light of these considerations, we employed JMeter, a load testing software that will be discussed in greater detail later on, to perform two tests (one for each class of jobs) with the objective of measuring the various service times of our stations.
 
 Both tests comprise a user (a thread) executing a request to the RESTful API at a constant interval of 1 second.
-In both cases, the user makes a total of 100 queries, a number determined by the size of the query set imposed by the task, which allows a good normal approximation.
+In both cases, the user makes a total of 100 queries, a number which allows a good, unbiased, normal approximation of the mean.
 
 Details on the tests carried out are provided in the following sections.
 
-\subsection{Test query set}
+\subsection{Query test set}
 
 A Python script was employed to perform a random sampling with reinsertion of 10,000 movie titles based on our MongoDB collections.
 
@@ -58,7 +57,7 @@ Following the execution of the two tests with JMeter, the service times of our s
 \mu^{-1}_{D2} = \num[round-mode=places, round-precision=5]{0.0014637500000000002} \, \text{s}
 \]
 
-It should be noted that, although MongoDB employs a scheduling discipline of the ``Processor Sharing'' type, it is not a single-server system analogous to the M/G/1/PS queues analysed during the course.
+It should be noted that, although MongoDB employs a scheduling discipline of the ``Processor Sharing'' type, it is not a single-server system analogous to the M/G/1/PS queue analysed during the course.
 However, since we must assume that we are dealing with a single server station, in order to be able to compute, for instance, the asymptotic bounds for the throughput and the expected response time (part of the theoretical analysis carried out in the following chapters), it is necessary to treat the database as if it were a single server, and therefore to calculate its service time in the following way:
 \[
 	\mu^{-1}_{Dx} = \frac{\overline{R}}{\text{number of CPUs}} \quad \text{where} \quad x \in \{1, 2\}
@@ -107,7 +106,7 @@ A further calculation of the utilisation of each station can be made using the B
 	\rho_i = X_1 \times \overline{D}_i \quad \text{where} \quad i \in \{B1, D1, B2, D2\}
 \end{equation}
 
-A graph is provided below, which illustrates the varying levels of station utilisation over the number of users.
+A graph is provided below, which illustrates the varying levels of stations utilisation over the number of users.
 
 \begin{figure}[h]
 	\centering
@@ -115,14 +114,14 @@ A graph is provided below, which illustrates the varying levels of station utili
 	\caption{Stations utilisation over the number of users}
 \end{figure}
 
-It can be concluded that the database is the component with the highest utilisation rate.
+It can be concluded that the database is the component with the highest utilisation rate with regard to the class 1 type jobs.
 
 \section{Asymptotic bounds}
 
 In the next section, we will perform a mean value analysis to compute the expected performance indices of our system.
 This will be done through Little's Law and the recursive procedure on which this technique is based, without the need to compute the normalization constant G\textsubscript{K} required by Gordon Newell's Theorem.
 
-Prior to conducting the previously announced analysis, a preliminary calculation is conducted using a Python script to determine the upper and lower bounds of response time ($\overline{R}$) and throughput ($X$) in relation to the number of customers in the network.
+Prior to conducting the previously announced analysis, a preliminary calculation is conducted using a Python script to determine the upper and lower bounds of the expected response time ($\overline{R}$) and throughput ($X$) in relation to the number of customers in the network.
 
 This is done according to the following formulas:
 
@@ -229,7 +228,7 @@ As can be observed in the graphs, the optimal number of users has already been d
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{004/mva-r.png}
-	\caption{MVA -- Response time over the number of users}
+	\caption{MVA -- Expected response time over the number of users}
 \end{figure}
 
 \clearpage

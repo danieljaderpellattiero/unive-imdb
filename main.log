@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.25)  30 JUN 2024 05:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.25)  30 JUN 2024 18:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**d:/Download/report/main.tex
-(d:/Download/report/main.tex
+**c:/Users/Daniel/Desktop/unive-imdb/main.tex
+(c:/Users/Daniel/Desktop/unive-imdb/main.tex
 LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
 (C:\Users\Daniel\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -907,7 +907,7 @@ Chapter 4.
 <images/004/stations-utilization.png, id=460, 578.16pt x 433.62pt>
 File: images/004/stations-utilization.png Graphic file (type png)
 <use images/004/stations-utilization.png>
-Package pdftex.def Info: images/004/stations-utilization.png  used on input line 114.
+Package pdftex.def Info: images/004/stations-utilization.png  used on input line 113.
 (pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
 
 
@@ -915,19 +915,19 @@ Package pdftex.def Info: images/004/stations-utilization.png  used on input line
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.124 
+l.123 
        <./images/004/stations-utilization.png>]
 
 [15]
 <images/004/JMVA/classes.png, id=474, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/classes.png Graphic file (type png)
 <use images/004/JMVA/classes.png>
-Package pdftex.def Info: images/004/JMVA/classes.png  used on input line 169.
+Package pdftex.def Info: images/004/JMVA/classes.png  used on input line 168.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 <images/004/JMVA/stations.png, id=475, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/stations.png Graphic file (type png)
 <use images/004/JMVA/stations.png>
-Package pdftex.def Info: images/004/JMVA/stations.png  used on input line 178.
+Package pdftex.def Info: images/004/JMVA/stations.png  used on input line 177.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 
 
@@ -937,22 +937,22 @@ Package pdftex.def Info: images/004/JMVA/stations.png  used on input line 178.
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.182 \clearpage
+l.181 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.182 \clearpage
+l.181 \clearpage
                  <./images/004/JMVA/classes.png> <./images/004/JMVA/stations.png>]
 <images/004/JMVA/service_times.png, id=482, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/service_times.png Graphic file (type png)
 <use images/004/JMVA/service_times.png>
-Package pdftex.def Info: images/004/JMVA/service_times.png  used on input line 188.
+Package pdftex.def Info: images/004/JMVA/service_times.png  used on input line 187.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 <images/004/JMVA/visits.png, id=483, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/visits.png Graphic file (type png)
 <use images/004/JMVA/visits.png>
-Package pdftex.def Info: images/004/JMVA/visits.png  used on input line 196.
+Package pdftex.def Info: images/004/JMVA/visits.png  used on input line 195.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 
 
@@ -962,27 +962,27 @@ Package pdftex.def Info: images/004/JMVA/visits.png  used on input line 196.
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.200 \clearpage
+l.199 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.200 \clearpage
+l.199 \clearpage
                  <./images/004/JMVA/service_times.png> <./images/004/JMVA/visits.png>]
 <images/004/JMVA/reference_station.png, id=490, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/reference_station.png Graphic file (type png)
 <use images/004/JMVA/reference_station.png>
-Package pdftex.def Info: images/004/JMVA/reference_station.png  used on input line 206.
+Package pdftex.def Info: images/004/JMVA/reference_station.png  used on input line 205.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 <images/004/JMVA/what_if.png, id=491, 760.34062pt x 572.89032pt>
 File: images/004/JMVA/what_if.png Graphic file (type png)
 <use images/004/JMVA/what_if.png>
-Package pdftex.def Info: images/004/JMVA/what_if.png  used on input line 214.
+Package pdftex.def Info: images/004/JMVA/what_if.png  used on input line 213.
 (pdftex.def)             Requested size: 304.13086pt x 229.15207pt.
 <images/004/mva-x.png, id=492, 578.16pt x 433.62pt>
 File: images/004/mva-x.png Graphic file (type png)
 <use images/004/mva-x.png>
-Package pdftex.def Info: images/004/mva-x.png  used on input line 225.
+Package pdftex.def Info: images/004/mva-x.png  used on input line 224.
 (pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
 
 
@@ -991,7 +991,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <images/004/mva-r.png, id=493, 578.16pt x 433.62pt>
 File: images/004/mva-r.png Graphic file (type png)
 <use images/004/mva-r.png>
-Package pdftex.def Info: images/004/mva-r.png  used on input line 231.
+Package pdftex.def Info: images/004/mva-r.png  used on input line 230.
 (pdftex.def)             Requested size: 452.9679pt x 339.72418pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1004,26 +1004,26 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.235 \clearpage
+l.234 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.235 \clearpage
+l.234 \clearpage
                  <./images/004/JMVA/reference_station.png> <./images/004/JMVA/what_if.png>]
 
 [19
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.235 \clearpage
+l.234 \clearpage
                  <./images/004/mva-x.png>]
 
 [20
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.235 \clearpage
+l.234 \clearpage
                  <./images/004/mva-r.png>])
 
 [21
@@ -1281,18 +1281,18 @@ LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FCF8994F90F924DD9A46F3E6B8B7037A;8487.
+(rerunfilecheck)             Checksum: D5657E065563C975A124FD77504040F4;8390.
  ) 
 Here is how much of TeX's memory you used:
  30000 strings out of 473919
- 616826 string characters out of 5726481
+ 617178 string characters out of 5726481
  1985908 words of memory out of 5000000
  52207 multiletter control sequences out of 15000+600000
  566328 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,93p,461b,1348s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,14n,93p,477b,1348s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Daniel\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Daniel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (44 pages, 4102782 bytes).
+Output written on main.pdf (44 pages, 4102700 bytes).
 PDF statistics:
  765 PDF objects out of 1000 (max. 8388607)
  178 named destinations out of 1000 (max. 500000)

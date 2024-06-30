@@ -13,7 +13,7 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces JMVA setup -- reference station}}{18}{figure.4.6}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces JMVA setup -- emulation settings}}{18}{figure.4.7}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces MVA -- Throughput over the number of users}}{19}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces MVA -- Response time over the number of users}}{20}{figure.4.9}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces MVA -- Expected response time over the number of users}}{20}{figure.4.9}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces JMT -- User Defined Variables}}{22}{figure.5.1}%
 \contentsline {figure}{\numberline {5.2}{\ignorespaces JMT -- Thread Group}}{23}{figure.5.2}%
@@ -32,5 +32,5 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Stations utilisation over the number of users}}{34}{figure.6.1}%
 \contentsline {figure}{\numberline {6.2}{\ignorespaces MVA -- Throughput over the number of users}}{35}{figure.6.2}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces MVA -- Response time over the number of users}}{36}{figure.6.3}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces MVA -- Expected response time over the number of users}}{36}{figure.6.3}%
 \addvspace {10\p@ }
